@@ -1,10 +1,10 @@
 """Player module"""
 
 
-from animate import Animate
+from elements.animate import Animate
 
 
-class Playeyr(Animate):
+class Player(Animate):
     """Class to initialize the player with their own name and description"""
     def __init__(self, name, description):
         super().__init__(name, description)
