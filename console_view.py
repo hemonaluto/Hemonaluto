@@ -1,6 +1,6 @@
 """console view module"""
 from functools import partial
-from constants import DOWN, EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, NORTHEAST, NORTHWEST, QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, UP, WEST
+from texts import DOWN, EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, NORTHEAST, NORTHWEST, QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, UP, WEST
 
 
 class ConsoleView:
@@ -18,16 +18,19 @@ class ConsoleView:
 
     def string_to_method(self, user_input):
         """Runtime polymorphic method to map the possible user input to a corresponding method"""
-        split_user_input = user_input.split()
+        split_user_input = user_input.lower().split()
         if len(split_user_input) < 2:
             split_user_input.append("")
         describe = self.dungeon_master.describe
         move = self.dungeon_master.move_player
+        unlock = self.dungeon_master.unlock
+        take = self.dungeon_master.take
+        rest_input_joined = " ".join(split_user_input[1:])
         move_dictionary = {
-            "examine": partial(describe, split_user_input[1]),
-            "look": partial(describe, split_user_input[1]),
-            "l": partial(describe, split_user_input[1]),
-            "brief": partial(describe, split_user_input[1]),
+            "examine": partial(describe, rest_input_joined),
+            "look": partial(describe, rest_input_joined),
+            "l": partial(describe, rest_input_joined),
+            "brief": partial(describe, rest_input_joined),
             "north": partial(move, NORTH),
             "n": partial(move, NORTH),
             "east": partial(move, EAST),
@@ -56,7 +59,13 @@ class ConsoleView:
             "quit": self.toggle_quit,
             "q": self.toggle_quit,
             "exit": self.toggle_quit,
-            "go": move_dictionary.get(split_user_input[1], None)
+            "go": move_dictionary.get(rest_input_joined, None),
+            "open": partial(unlock, rest_input_joined),
+            "unlock": partial(unlock, rest_input_joined),
+            "get": partial(take, rest_input_joined),
+            "take": partial(take, rest_input_joined),
+            "take all": take,
+            "pick": partial(take, rest_input_joined),
         }
         """
         "enter": enter,
@@ -103,10 +112,10 @@ class ConsoleView:
         "cut": cut,
         "listen": listen,
         """
-        move_action = move_dictionary.get(split_user_input[0].lower(), None)
+        move_action = move_dictionary.get(split_user_input[0], None)
         if move_action is not None:
             return move_action()
-        general_action = general_dictionary.get(split_user_input[0].lower(), None)
+        general_action = general_dictionary.get(split_user_input[0], None)
         if general_action is not None:
             return general_action()
 
