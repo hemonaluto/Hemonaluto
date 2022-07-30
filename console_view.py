@@ -24,8 +24,6 @@ class ConsoleView:
         describe = self.dungeon_master.describe
         move = self.dungeon_master.move_player
         move_dictionary = {
-            "quit": self.toggle_quit,
-            "q": self.toggle_quit,
             "examine": partial(describe, split_user_input[1]),
             "look": partial(describe, split_user_input[1]),
             "l": partial(describe, split_user_input[1]),
@@ -55,6 +53,9 @@ class ConsoleView:
             #"in": get_in,
         }
         general_dictionary = {
+            "quit": self.toggle_quit,
+            "q": self.toggle_quit,
+            "exit": self.toggle_quit,
             "go": move_dictionary.get(split_user_input[1], None)
         }
         """

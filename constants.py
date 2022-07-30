@@ -4,7 +4,7 @@ INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and
         "\n\nType any command to start exploring your new environment."
 
 # quit message
-QUIT_MESSAGE = "She will miss you."
+QUIT_MESSAGE = "It will miss you."
 
 # indicator for the user to recognize it's their turn to type something
 INPUT_INDICATOR = "\n>"
@@ -27,6 +27,9 @@ SOUTHWEST = "southwest"
 UP = "up"
 DOWN = "down"
 INVALID_DIRECTION = "You can't go there."
+
+# door
+LOCKED_DOOR = "There is a locked door blocking the path."
 
 # player
 PLAYER_NAME = "Player"

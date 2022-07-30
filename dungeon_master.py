@@ -1,11 +1,12 @@
 """world module"""
 
 
+from elements.door import Door
 from elements.location import Location
 from elements.player import Player
 from elements.thing import Thing
 from constants import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION,\
-    BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, GENERIC_LOCATAION_NAME, INVALID_DIRECTION,\
+    BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, GENERIC_LOCATAION_NAME, INVALID_DIRECTION, LOCKED_DOOR,\
     PLAYER_DESCRIPTION, PLAYER_NAME, WEST
 
 
@@ -25,15 +26,24 @@ class DungeonMaster:
         # things in bedroom
         self.player = Player(PLAYER_NAME, PLAYER_DESCRIPTION)
         bed = Thing(BED_NAME, BED_DESCRIPTION)
+        bed_dining_door = Door("Door", "A mundane wooden door.")
+        bed_dining_door.connects.append(dining_room)
+        bed_dining_door.locked = True
 
         # bedroom exits
         bedroom.exits[WEST] = dining_room
         # bedroom contents
         self.set_player_location(bedroom)
         bedroom.contents.append(bed)
+        bedroom.contents.append(bed_dining_door)
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
+        for element in self.player_location.contents:
+            if isinstance(element, Door)\
+            and self.player_location.exits[direction] in element.connects\
+            and element.locked:
+                return LOCKED_DOOR
         if direction in self.player_location.exits:
             self.player_location.contents.remove(self.player)
             self.set_player_location(self.player_location.exits[direction])
