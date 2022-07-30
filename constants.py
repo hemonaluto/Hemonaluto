@@ -4,7 +4,7 @@ INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and
         "\n\nType any command to start exploring your new environment."
 
 # quit message
-QUIT_MESSAGE = "\nShe will miss you."
+QUIT_MESSAGE = "She will miss you."
 
 # indicator for the user to recognize it's their turn to type something
 INPUT_INDICATOR = "\n>"
@@ -20,6 +20,12 @@ NORTH = "north"
 EAST = "east"
 SOUTH = "south"
 WEST = "west"
+NORTHEAST = "northeast"
+NORTHWEST = "northwest"
+SOUTHEAST = "southeast"
+SOUTHWEST = "southwest"
+UP = "up"
+DOWN = "down"
 INVALID_DIRECTION = "You can't go there."
 
 # player
@@ -35,8 +41,8 @@ GENERIC_LOCATAION_NAME = "location"
 
 # bedroom
 BEDROOM_NAME = "Bedroom"
-BEDROOM_DESCRIPTION = "A room designed for human-like beings to rest."
+BEDROOM_DESCRIPTION = "A room designed for humans to rest."
 
 # dining room
 DINING_ROOM_NAME = "Dining Room"
-DINING_ROOM_DESCRIPTION = "A room designed for human-like beings to eat."
+DINING_ROOM_DESCRIPTION = "A room designed for humans to eat."

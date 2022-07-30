@@ -1,6 +1,6 @@
 """console view module"""
 from functools import partial
-from constants import EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, QUIT_MESSAGE, SOUTH, WEST
+from constants import DOWN, EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, NORTHEAST, NORTHWEST, QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, UP, WEST
 
 
 class ConsoleView:
@@ -21,14 +21,93 @@ class ConsoleView:
         split_user_input = user_input.split()
         if len(split_user_input) < 2:
             split_user_input.append("")
-        return {
+        describe = self.dungeon_master.describe
+        move = self.dungeon_master.move_player
+        move_dictionary = {
             "quit": self.toggle_quit,
-            "examine": partial(self.dungeon_master.describe, split_user_input[1]),
-            "north": partial(self.dungeon_master.move_player, NORTH),
-            "east": partial(self.dungeon_master.move_player, EAST),
-            "south": partial(self.dungeon_master.move_player, SOUTH),
-            "west": partial(self.dungeon_master.move_player, WEST),
-        }.get(split_user_input[0].lower(), None)()
+            "q": self.toggle_quit,
+            "examine": partial(describe, split_user_input[1]),
+            "look": partial(describe, split_user_input[1]),
+            "l": partial(describe, split_user_input[1]),
+            "brief": partial(describe, split_user_input[1]),
+            "north": partial(move, NORTH),
+            "n": partial(move, NORTH),
+            "east": partial(move, EAST),
+            "e": partial(move, EAST),
+            "south": partial(move, SOUTH),
+            "s": partial(move, SOUTH),
+            "west": partial(move, WEST),
+            "w": partial(move, WEST),
+            "northeast": partial(move, NORTHEAST),
+            "ne": partial(move, NORTHEAST),
+            "northwest": partial(move, NORTHWEST),
+            "nw": partial(move, NORTHWEST),
+            "southeast": partial(move, SOUTHEAST),
+            "se": partial(move, SOUTHEAST),
+            "southwest": partial(move, SOUTHWEST),
+            "sw": partial(move, SOUTHWEST),
+            "up": partial(move, UP),
+            "u": partial(move, UP),
+            "climb": partial(move, UP),
+            "down": partial(move, DOWN),
+            "d": partial(move, DOWN),
+            #"out": get_out,
+            #"in": get_in,
+        }
+        general_dictionary = {
+            "go": move_dictionary.get(split_user_input[1], None)
+        }
+        """
+        "enter": enter,
+        "jump": jump,
+        "hi": greet,
+        "hello": greet,
+        "save": save,
+        "restore": restore,
+        "restart": restart,
+        "verbose": verbose,
+        "score": score,
+        "diagnostic": health,
+        "health": health,
+        "fuck": swear,
+        "shit": swear,
+        "damn": swear,
+        "": nothing,
+        "hemonaluto": hemonaluto,
+        "get": get,
+        "take": get,
+        "take all": get,
+        "pick": get,
+        "throw": throw,
+        "open": closent,
+        "close": close,
+        "read": decipher,
+        "drop": drop,
+        "put": put,
+        "turn": turn,
+        "turn on": turn_on,
+        "turn off": turn_off,
+        "move": move_element,
+        "attack": attack,
+        "kill": attack,
+        "inventory": inventory,
+        "i": inventory,
+        "eat": eat,
+        "shout": shout,
+        "tie": tie,
+        "break": destroy,
+        "pray": pray,
+        "drink": drink,
+        "smell": smell,
+        "cut": cut,
+        "listen": listen,
+        """
+        move_action = move_dictionary.get(split_user_input[0].lower(), None)
+        if move_action is not None:
+            return move_action()
+        general_action = general_dictionary.get(split_user_input[0].lower(), None)
+        if general_action is not None:
+            return general_action()
 
     def start_view(self):
         """Start the process of displaying messages to the cosole"""
