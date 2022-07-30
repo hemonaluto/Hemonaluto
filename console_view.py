@@ -1,6 +1,6 @@
 """console view module"""
 from functools import partial
-from constants import INPUT_INDICATOR, INTRODUCTION, QUIT_MESSAGE
+from constants import EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, QUIT_MESSAGE, SOUTH, WEST
 
 
 class ConsoleView:
@@ -22,9 +22,13 @@ class ConsoleView:
         if len(split_user_input) < 2:
             split_user_input.append("")
         return {
-            "quit":  self.toggle_quit,
-            "examine":  partial(self.dungeon_master.describe, split_user_input[1])
-        }.get(split_user_input[0])()
+            "quit": self.toggle_quit,
+            "examine": partial(self.dungeon_master.describe, split_user_input[1]),
+            "north": partial(self.dungeon_master.move_player, NORTH),
+            "east": partial(self.dungeon_master.move_player, EAST),
+            "south": partial(self.dungeon_master.move_player, SOUTH),
+            "west": partial(self.dungeon_master.move_player, WEST),
+        }.get(split_user_input[0].lower(), None)()
 
     def start_view(self):
         """Start the process of displaying messages to the cosole"""

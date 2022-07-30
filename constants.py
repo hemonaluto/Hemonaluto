@@ -20,6 +20,7 @@ NORTH = "north"
 EAST = "east"
 SOUTH = "south"
 WEST = "west"
+INVALID_DIRECTION = "You can't go there."
 
 # player
 PLAYER_NAME = "Player"
@@ -38,4 +39,4 @@ BEDROOM_DESCRIPTION = "A room designed for human-like beings to rest."
 
 # dining room
 DINING_ROOM_NAME = "Dining Room"
-DINING_ROOM_DESCRIPTION = "A room designed for human-linke beings to eat."
+DINING_ROOM_DESCRIPTION = "A room designed for human-like beings to eat."

@@ -5,7 +5,7 @@ from elements.location import Location
 from elements.player import Player
 from elements.thing import Thing
 from constants import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION,\
-    BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, GENERIC_LOCATAION_NAME,\
+    BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, GENERIC_LOCATAION_NAME, INVALID_DIRECTION,\
     PLAYER_DESCRIPTION, PLAYER_NAME, WEST
 
 
@@ -29,10 +29,19 @@ class DungeonMaster:
         # bedroom exits
         bedroom.exits[WEST] = dining_room
         # bedroom contents
-        self.update_player_location(bedroom)
+        self.set_player_location(bedroom)
         bedroom.contents.append(bed)
 
-    def update_player_location(self, location):
+    def move_player(self, direction):
+        """Move the player from one location to the next, which lies in the given direction"""
+        if direction in self.player_location.exits:
+            self.player_location.contents.remove(self.player)
+            self.set_player_location(self.player_location.exits[direction])
+            return self.player_location.description
+        else:
+            return INVALID_DIRECTION
+
+    def set_player_location(self, location):
         """Update the players location to a new one"""
         location.contents.append(self.player)
         self.player_location = location
