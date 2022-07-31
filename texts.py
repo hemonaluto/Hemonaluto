@@ -108,5 +108,8 @@ inappropriate, it is really violent. I better warn my school about that."
 # jump response
 JUMP_RESPONSE = "You jump up and down."
 
-# saved game response
+# saved game message
 SAVED_GAME_MESSAGE = "Saved the game!"
+
+# loaded save message
+LOADED_SAVE_MESSAGE = "Loaded last save!"

@@ -32,6 +32,7 @@ class ConsoleView:
         swear = self.dungeon_master.swear_response
         jump = self.dungeon_master.jump_response
         save = self.dungeon_master.save
+        load = self.dungeon_master.load
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -82,11 +83,12 @@ class ConsoleView:
             "damn": swear,
             "fuck": swear,
             "jump": jump,
-            "save": save
+            "save": save,
+            "load": load,
+            "restore": load,
         }
         """
         ToDo:
-        "save": save,
         "restore": restore,
         "restart": restart,
         "verbose": verbose,

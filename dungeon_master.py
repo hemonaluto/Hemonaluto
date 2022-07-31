@@ -10,7 +10,7 @@ from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_D
     BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
     BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
     DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, EAST, ELEMENT_NOT_FOUND, GREETINGS, JUMP_RESPONSE,\
-    KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE, SWEAR_RESPONSE,\
+    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE, SWEAR_RESPONSE,\
     door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION, LOCKED_DOOR,\
     PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, element_in_container
 
@@ -20,7 +20,7 @@ class DungeonMaster:
     def __init__(self):
         self.player_location = None
         self.player = None
-        self.all_name_rooms = []
+        self.all_name_locations = []
 
     def generate_world(self):
         """Generates the game world"""
@@ -55,14 +55,13 @@ class DungeonMaster:
         dining_room.contents.append(bedroom_door)
         bedroom_door.connects.append(bedroom.name)
         # add all rooms to all_name_rooms list
-        self.all_name_rooms.append((bedroom.name, bedroom))
-        self.all_name_rooms.append((dining_room.name, dining_room))
-
+        self.all_name_locations.append((bedroom.name, bedroom))
+        self.all_name_locations.append((dining_room.name, dining_room))
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
         if direction in self.player_location.exits:
-            all_name_rooms_dict =  dict(self.all_name_rooms)
+            all_name_rooms_dict =  dict(self.all_name_locations)
             next_room = all_name_rooms_dict[self.player_location.exits[direction]]
             for element in self.player_location.contents:
                 if isinstance(element, Door)\
@@ -130,7 +129,6 @@ class DungeonMaster:
                     description = description + "\n" + element_container[0].description
         return description
 
-
     def get_element_container(self, element_name, container):
         """Get an element in the container
         by its name and the corresponding container.
@@ -194,18 +192,32 @@ class DungeonMaster:
     class ElementEncoder(json.JSONEncoder):
         """json encoder for elements"""
         def default(self, o):
+            # ToDo: Make it add object type infront of every dictionary
             return o.__dict__
-
-    def all_rooms_to_json(self):
-        """Converts rooms into json objects"""
-        element_dictionaries = []
-        for room in self.all_name_rooms:
-            element_dictionaries.append(room[1].__dict__)
-        return json.dumps(element_dictionaries, indent=4, cls=self.ElementEncoder)
 
     def save(self):
         """Saves the game"""
-        json_string = self.all_rooms_to_json()
+        locations = []
+        for location in self.all_name_locations:
+            locations.append(location[1])
         with open("save.json", "w", encoding="UTF-8") as savefile:
-            savefile.write(json_string)
+            json.dump(locations, savefile, indent=4, cls=self.ElementEncoder)
         return SAVED_GAME_MESSAGE
+
+    def json_to_rooms(self, json_string):
+        """Loads a json string and stores the room information in the all_name_rooms list"""
+        rooms = json.load(json_string)
+        for room in rooms:
+            self.all_name_locations.append((room.name, room))
+
+    def load(self):
+        """Loads the save file"""
+        with open("save.json", "r", encoding="UTF-8") as savefile:
+            location_dictionaries = json.load(savefile)
+            for location_dictionary in location_dictionaries:
+                location = Location(**location_dictionary)
+                self.all_name_locations.append((location.name, location))
+                for element in location.contents:
+                    if isinstance(element, Player):
+                        self.player_location = location_dictionary
+        return LOADED_SAVE_MESSAGE
