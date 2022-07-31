@@ -96,9 +96,24 @@ class DungeonMaster:
 
     def describe_location(self):
         """Describes the location where the player is"""
-        description = self.player_location.name + "\n" + LOCATION_PREFIX +\
-        self.player_location.description.lower() + LOCATION_SUFFIX
-        visible_elements = self.get_all_visible_elements(self.player_location)
+        return self.describe_container(self.player_location, (LOCATION_PREFIX, LOCATION_SUFFIX))
+
+    def describe_element(self, element_name):
+        """Get description of a single element"""
+        element_container = self.get_element_container(element_name, self.player_location)
+        if element_container:
+            return self.describe_container(element_container[0])
+        else:
+            return ELEMENT_NOT_FOUND
+
+    def describe_container(self, top_container, prefix_suffix=None):
+        """Descsribe any container and its contents and all the contents contents etc."""
+        if prefix_suffix:
+            description = top_container.name + "\n" + prefix_suffix[0] +\
+            top_container.description.lower() + prefix_suffix[1]
+        else:
+            description = top_container.name + "\n" + top_container.description.lower()
+        visible_elements = self.get_all_visible_elements(top_container)
         for element_container in visible_elements:
             if element_container[1] is not self.player_location:
                 description = description + "\n" +\
@@ -108,9 +123,6 @@ class DungeonMaster:
                     description = description + "\n" + element_container[0].description
         return description
 
-    def describe_element(self, element_name):
-        """Get description of a single element."""
-        return self.get_element_container(element_name, self.player_location)[0].description
 
     def get_element_container(self, element_name, container):
         """Get an element in the container
