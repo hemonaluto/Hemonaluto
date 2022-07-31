@@ -1,5 +1,6 @@
 """dungeon master module"""
 import random
+import json
 from elements.container import Container
 from elements.door import Door
 from elements.location import Location
@@ -19,7 +20,7 @@ class DungeonMaster:
     def __init__(self):
         self.player_location = None
         self.player = None
-        self.all_rooms = []
+        self.all_name_rooms = []
 
     def generate_world(self):
         """Generates the game world"""
@@ -31,7 +32,7 @@ class DungeonMaster:
         self.player = Player(PLAYER_NAME, PLAYER_DESCRIPTION)
         bed = Thing(BED_NAME, BED_DESCRIPTION)
         bedroom_door = Door(BEDROOM_DOOR_NAME, BEDROOM_DOOR_DESCRIPTION)
-        bedroom_door.connects.append(dining_room)
+        bedroom_door.connects.append(dining_room.name)
         bedroom_door.locked = True
         bedroom_key = Thing(BEDROOM_KEY_NAME, BEDROOM_KEY_DESCRIPTION)
         bedroom_door.key = bedroom_key
@@ -41,7 +42,7 @@ class DungeonMaster:
         bedroom_hook.contents.append(bedroom_key)
         bedroom_rug = Thing(BEDROOM_RUG_NAME, BEDROOM_RUG_DESCRIPTION)
         # bedroom exits
-        bedroom.exits[WEST] = dining_room
+        bedroom.exits[WEST] = dining_room.name
         # bedroom contents
         self.set_player_location(bedroom)
         bedroom.contents.append(bed)
@@ -49,22 +50,23 @@ class DungeonMaster:
         bedroom.contents.append(bedroom_hook)
         bedroom.contents.append(bedroom_rug)
         # dining room exits
-        dining_room.exits[EAST] = bedroom
+        dining_room.exits[EAST] = bedroom.name
         # dining room contents
         dining_room.contents.append(bedroom_door)
-        bedroom_door.connects.append(bedroom)
-        # add all rooms to all_rooms list
-        self.all_rooms.append(bedroom)
-        self.all_rooms.append(dining_room)
+        bedroom_door.connects.append(bedroom.name)
+        # add all rooms to all_name_rooms list
+        self.all_name_rooms.append((bedroom.name, bedroom))
+        self.all_name_rooms.append((dining_room.name, dining_room))
 
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
         if direction in self.player_location.exits:
-            next_room = self.player_location.exits[direction]
+            all_name_rooms_dict =  dict(self.all_name_rooms)
+            next_room = all_name_rooms_dict[self.player_location.exits[direction]]
             for element in self.player_location.contents:
                 if isinstance(element, Door)\
-                and next_room in element.connects\
+                and next_room.name in element.connects\
                 and element.locked:
                     return LOCKED_DOOR
             self.player_location.contents.remove(self.player)
@@ -152,9 +154,8 @@ class DungeonMaster:
                     self.get_all_elements_container(element, only_visible)
             if not only_visible:
                 elements_container.append((element, container))
-                if isinstance(element, Container):
-                    elements_container = elements_container +\
-                    self.get_all_elements_container(element, only_visible)
+                elements_container = elements_container +\
+                self.get_all_elements_container(element, only_visible)
         return elements_container
 
     def is_peekable_container(self, element):
@@ -175,7 +176,7 @@ class DungeonMaster:
         """Returns the invenotry of the player as a string listing all things"""
         description = ""
         for element in self.player.contents:
-            description = description + element.name + "\n"
+            description = description + element.name
         return description
 
     def greet(self):
@@ -190,25 +191,21 @@ class DungeonMaster:
         """Responds to the player jumping"""
         return JUMP_RESPONSE
 
+    class ElementEncoder(json.JSONEncoder):
+        """json encoder for elements"""
+        def default(self, o):
+            return o.__dict__
+
     def all_rooms_to_json(self):
         """Converts rooms into json objects"""
-        json_string = ""
-        for room in self.all_rooms:
-            json_string = json_string + self.room_to_json(room)
-        return json_string
-
-    def room_to_json(self, room):
-        """Convert room into json object"""
-        json_string = ""
-        json_string = json_string + room.to_json() + "\n"
-        all_elements = self.get_all_elements_container(room, False)
-        for element in all_elements:
-            json_string = json_string + element[0].to_json() + "\n"
-        return json_string
+        element_dictionaries = []
+        for room in self.all_name_rooms:
+            element_dictionaries.append(room[1].__dict__)
+        return json.dumps(element_dictionaries, indent=4, cls=self.ElementEncoder)
 
     def save(self):
         """Saves the game"""
         json_string = self.all_rooms_to_json()
-        with open("save.txt", "w", encoding="UTF-8") as savefile:
+        with open("save.json", "w", encoding="UTF-8") as savefile:
             savefile.write(json_string)
         return SAVED_GAME_MESSAGE
