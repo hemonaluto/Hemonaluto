@@ -90,3 +90,23 @@ BEDROOM_DESCRIPTION = "A room designed for humans to rest."
 # dining room
 DINING_ROOM_NAME = "Dining Room"
 DINING_ROOM_DESCRIPTION = "A room designed for humans to eat."
+
+# greetings
+GREETINGS = ["Hi.", "Hello.", "Greetings"]
+
+# swear response
+SWEAR_RESPONSE = "No. More. Saying. Cuss words! It. Is. Not. Good. I\'m putting a video on YouTube \
+about no more saying cuss words. No more saying cuss words guys! It's inappropriate and violent! \
+If you say a cuss word then you're like, going to jail, and you're like, and when you go to jail, \
+i- ba- when you go to jail, if you say, if you say a cuss word you go to jail and if you go to \
+jail cause you said a cuss word, then... You're only gonna eat BROCCOLI and OTHER VEGETABLES \
+for your WHOLE LIFE. You don't want to eat vegetables. Sometimes people like eating sweets but, \
+I eat broccoli. So, I'm okay with broccoli but I do not want to go to jail. You can not go to jail. \
+And saying cuss words is ILLEGAL. They are now gonna make a law about that. It is illegal, it is \
+inappropriate, it is really violent. I better warn my school about that."
+
+# jump response
+JUMP_RESPONSE = "You jump up and down."
+
+# saved game response
+SAVED_GAME_MESSAGE = "Saved the game!"

@@ -1,0 +1,9 @@
+{"name": "Bedroom", "description": "A room designed for humans to rest.", "visible": true}
+{"name": "Player", "description": "A slim person with fiery blue eyes and pitch-black hair.", "visible": true}
+{"name": "bed", "description": "A comfy wooden red bed.", "visible": true}
+{"name": "door", "description": "A mundane wooden door.", "visible": true}
+{"name": "hook", "description": "A blunt wooden hook attached to the wall.", "visible": true}
+{"name": "crude key", "description": "A key with a cursive letter B inscribed on it.", "visible": true}
+{"name": "rug", "description": "A large soft red rug.", "visible": true}
+{"name": "Dining Room", "description": "A room designed for humans to eat.", "visible": true}
+{"name": "door", "description": "A mundane wooden door.", "visible": true}

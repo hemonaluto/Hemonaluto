@@ -1,6 +1,4 @@
 """Location module"""
-
-
 from elements.container import Container
 from elements.element import Element
 

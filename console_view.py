@@ -1,6 +1,7 @@
 """console view module"""
 from functools import partial
-from texts import DOWN, EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, NORTHEAST, NORTHWEST, QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, UP, WEST
+from texts import DOWN, EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, NORTHEAST, NORTHWEST,\
+QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, UP, WEST
 
 
 class ConsoleView:
@@ -21,12 +22,16 @@ class ConsoleView:
         split_user_input = user_input.lower().split()
         if len(split_user_input) < 2:
             split_user_input.append("")
+        rest_input_joined = " ".join(split_user_input[1:])
         describe = self.dungeon_master.describe
         move = self.dungeon_master.move_player
         unlock = self.dungeon_master.unlock
         take = self.dungeon_master.take
         inventory = self.dungeon_master.get_player_inventory
-        rest_input_joined = " ".join(split_user_input[1:])
+        greet = self.dungeon_master.greet
+        swear = self.dungeon_master.swear_response
+        jump = self.dungeon_master.jump_response
+        save = self.dungeon_master.save
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -53,9 +58,10 @@ class ConsoleView:
             "climb": partial(move, UP),
             "down": partial(move, DOWN),
             "d": partial(move, DOWN),
-            # Future features:
+            # ToDo:
             #"out": get_out,
             #"in": get_in,
+            #"enter": get_in,
         }
         general_dictionary = {
             "quit": self.toggle_quit,
@@ -70,14 +76,16 @@ class ConsoleView:
             "take all": take,
             "inventory": inventory,
             "i": inventory,
+            "hi": greet,
+            "hello": greet,
+            "shit": swear,
+            "damn": swear,
+            "fuck": swear,
+            "jump": jump,
+            "save": save
         }
         """
-        Future features:
-
-        "enter": enter,
-        "jump": jump,
-        "hi": greet,
-        "hello": greet,
+        ToDo:
         "save": save,
         "restore": restore,
         "restart": restart,
@@ -85,9 +93,6 @@ class ConsoleView:
         "score": score,
         "diagnostic": health,
         "health": health,
-        "fuck": swear,
-        "shit": swear,
-        "damn": swear,
         "": nothing,
         "hemonaluto": hemonaluto,
         "get": get,

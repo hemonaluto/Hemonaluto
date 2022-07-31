@@ -1,6 +1,4 @@
 """Thing module"""
-
-
 from elements.element import Element
 
 

@@ -1,6 +1,4 @@
 """Player module"""
-
-
 from elements.animate import Animate
 from elements.element import Element
 

@@ -1,6 +1,4 @@
 """main module"""
-
-
 from console_view import ConsoleView
 from dungeon_master import DungeonMaster
 

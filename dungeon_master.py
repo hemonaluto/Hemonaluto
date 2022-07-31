@@ -1,6 +1,5 @@
-"""world module"""
-
-
+"""dungeon master module"""
+import random
 from elements.container import Container
 from elements.door import Door
 from elements.location import Location
@@ -8,17 +7,19 @@ from elements.player import Player
 from elements.thing import Thing
 from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
     BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-    BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, EAST, ELEMENT_NOT_FOUND,\
-    KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX,\
+    BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
+    DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, EAST, ELEMENT_NOT_FOUND, GREETINGS, JUMP_RESPONSE,\
+    KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE, SWEAR_RESPONSE,\
     door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION, LOCKED_DOOR,\
     PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, element_in_container
 
 
 class DungeonMaster:
-    """world class"""
+    """dungeon master class"""
     def __init__(self):
         self.player_location = None
         self.player = None
+        self.all_rooms = []
 
     def generate_world(self):
         """Generates the game world"""
@@ -52,6 +53,10 @@ class DungeonMaster:
         # dining room contents
         dining_room.contents.append(bedroom_door)
         bedroom_door.connects.append(bedroom)
+        # add all rooms to all_rooms list
+        self.all_rooms.append(bedroom)
+        self.all_rooms.append(dining_room)
+
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
@@ -113,7 +118,7 @@ class DungeonMaster:
             top_container.description.lower() + prefix_suffix[1]
         else:
             description = top_container.name + "\n" + top_container.description.lower()
-        visible_elements = self.get_all_visible_elements(top_container)
+        visible_elements = self.get_all_elements_container(top_container, True)
         for element_container in visible_elements:
             if element_container[1] is not self.player_location:
                 description = description + "\n" +\
@@ -128,23 +133,29 @@ class DungeonMaster:
         """Get an element in the container
         by its name and the corresponding container.
         If it's not found it returns None"""
-        for element_container in self.get_all_visible_elements(container):
+        for element_container in self.get_all_elements_container(container, True):
             element = element_container[0]
             if element.name.lower() == element_name:
                 return (element, element_container[1])
         return None
 
-    def get_all_visible_elements(self, container):
+    def get_all_elements_container(self, container, only_visible):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""
-        visible_elements_container = []
+        elements_container = []
         for element in container.contents:
-            if element.visible:
-                visible_elements_container.append((element, container))
-            if self.is_peekable_container(element):
-                visible_elements_container = visible_elements_container +\
-                self.get_all_visible_elements(element)
-        return visible_elements_container
+            if only_visible:
+                if element.visible:
+                    elements_container.append((element, container))
+                if self.is_peekable_container(element):
+                    elements_container = elements_container +\
+                    self.get_all_elements_container(element, only_visible)
+            if not only_visible:
+                elements_container.append((element, container))
+                if isinstance(element, Container):
+                    elements_container = elements_container +\
+                    self.get_all_elements_container(element, only_visible)
+        return elements_container
 
     def is_peekable_container(self, element):
         """Check if element is a container and if it is open or transparent"""
@@ -166,3 +177,38 @@ class DungeonMaster:
         for element in self.player.contents:
             description = description + element.name + "\n"
         return description
+
+    def greet(self):
+        """Returns the greeting"""
+        return random.choice(GREETINGS)
+
+    def swear_response(self):
+        """Responds to swearing by a player"""
+        return SWEAR_RESPONSE
+
+    def jump_response(self):
+        """Responds to the player jumping"""
+        return JUMP_RESPONSE
+
+    def all_rooms_to_json(self):
+        """Converts rooms into json objects"""
+        json_string = ""
+        for room in self.all_rooms:
+            json_string = json_string + self.room_to_json(room)
+        return json_string
+
+    def room_to_json(self, room):
+        """Convert room into json object"""
+        json_string = ""
+        json_string = json_string + room.to_json() + "\n"
+        all_elements = self.get_all_elements_container(room, False)
+        for element in all_elements:
+            json_string = json_string + element[0].to_json() + "\n"
+        return json_string
+
+    def save(self):
+        """Saves the game"""
+        json_string = self.all_rooms_to_json()
+        with open("save.txt", "w", encoding="UTF-8") as savefile:
+            savefile.write(json_string)
+        return SAVED_GAME_MESSAGE

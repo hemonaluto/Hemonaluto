@@ -1,6 +1,4 @@
 """Door module"""
-
-
 from elements.element import Element
 
 
