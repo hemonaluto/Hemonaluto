@@ -8,10 +8,10 @@ from elements.player import Player
 from elements.thing import Thing
 from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
     BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-    BEDROOM_KEY_NAME, BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, ELEMENT_NOT_FOUND,\
+    BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, EAST, ELEMENT_NOT_FOUND,\
     KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX,\
     door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION, LOCKED_DOOR,\
-    PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, thing_in_container
+    PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, element_in_container
 
 
 class DungeonMaster:
@@ -38,6 +38,7 @@ class DungeonMaster:
         bedroom_hook.peekable = True
         bedroom_hook.fixed = True
         bedroom_hook.contents.append(bedroom_key)
+        bedroom_rug = Thing(BEDROOM_RUG_NAME, BEDROOM_RUG_DESCRIPTION)
         # bedroom exits
         bedroom.exits[WEST] = dining_room
         # bedroom contents
@@ -45,6 +46,12 @@ class DungeonMaster:
         bedroom.contents.append(bed)
         bedroom.contents.append(bedroom_door)
         bedroom.contents.append(bedroom_hook)
+        bedroom.contents.append(bedroom_rug)
+        # dining room exits
+        dining_room.exits[EAST] = bedroom
+        # dining room contents
+        dining_room.contents.append(bedroom_door)
+        bedroom_door.connects.append(bedroom)
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
@@ -95,9 +102,10 @@ class DungeonMaster:
         for element_container in visible_elements:
             if element_container[1] is not self.player_location:
                 description = description + "\n" +\
-                thing_in_container(element_container[0].name, element_container[1].name)
+                element_in_container(element_container[0].name, element_container[1].name)
             else:
-                description = description + "\n" + element_container[0].description
+                if not isinstance(element_container[0], Player):
+                    description = description + "\n" + element_container[0].description
         return description
 
     def describe_element(self, element_name):

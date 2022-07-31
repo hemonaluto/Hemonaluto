@@ -63,8 +63,12 @@ BEDROOM_KEY_DESCRIPTION = "A key with a cursive letter B inscribed on it."
 BEDROOM_HOOK_NAME = "hook"
 BEDROOM_HOOK_DESCRIPTION = "A blunt wooden hook attached to the wall."
 
+# bedroom rug
+BEDROOM_RUG_NAME = "rug"
+BEDROOM_RUG_DESCRIPTION = "A large soft red rug."
+
 # thing in container
-def thing_in_container(things_as_string, container):
+def element_in_container(things_as_string, container):
     """Returns a description for a thing within a container"""
     return f"There is a {things_as_string} in the {container}."
 

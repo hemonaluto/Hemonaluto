@@ -12,4 +12,4 @@ class Player(Animate, Element):
         Element.__init__(self, name, description)
         self.name = name
         self.description = description
-        self.visible = False
+        self.visible = True

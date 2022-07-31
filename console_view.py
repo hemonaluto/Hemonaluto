@@ -53,6 +53,7 @@ class ConsoleView:
             "climb": partial(move, UP),
             "down": partial(move, DOWN),
             "d": partial(move, DOWN),
+            # Future features:
             #"out": get_out,
             #"in": get_in,
         }
@@ -65,12 +66,14 @@ class ConsoleView:
             "unlock": partial(unlock, rest_input_joined),
             "get": partial(take, rest_input_joined),
             "take": partial(take, rest_input_joined),
+            "pick": partial(take, " ".join(split_user_input[2:])),
             "take all": take,
-            "pick": partial(take, rest_input_joined),
             "inventory": inventory,
             "i": inventory,
         }
         """
+        Future features:
+
         "enter": enter,
         "jump": jump,
         "hi": greet,
