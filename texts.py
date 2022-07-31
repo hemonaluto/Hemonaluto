@@ -32,7 +32,7 @@ INVALID_DIRECTION = "You can't go there."
 LOCKED_DOOR = "There is a locked door blocking the path."
 def door_unlocked(door_name):
     """Returns the message for when the player unlocks a specific door."""
-    return f"You have unlocked {door_name}."
+    return f"You have unlocked the {door_name}."
 def door_not_locked(door_name):
     """Returns the message for when the player tries to unlock a\
     specific door that already is unlocked."""
@@ -69,7 +69,12 @@ def thing_in_container(things_as_string, container):
     return f"There is a {things_as_string} in the {container}."
 
 # element not found
-ELEMENT_NOT_FOUND = "You couldn't find such a thing."
+ELEMENT_NOT_FOUND = "You couldn't find such a thing"
+
+# picked up element
+def picked_up_element(element_name):
+    """Returns the information that the player picked up a specific element"""
+    return f"You picked up the {element_name}"
 
 # generic location
 GENERIC_LOCATAION_NAME = "location"

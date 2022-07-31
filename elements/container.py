@@ -14,5 +14,5 @@ class Container(Thing, Element):
         self.open = False
         self.locked = False
         self.key = None
-        self.transparent = False
+        self.peekable = False
         self.enterable = False

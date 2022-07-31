@@ -8,9 +8,10 @@ from elements.player import Player
 from elements.thing import Thing
 from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
     BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-    BEDROOM_KEY_NAME, BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, ELEMENT_NOT_FOUND, KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX,\
+    BEDROOM_KEY_NAME, BEDROOM_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, ELEMENT_NOT_FOUND,\
+    KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX,\
     door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION, LOCKED_DOOR,\
-    PLAYER_DESCRIPTION, PLAYER_NAME, WEST, thing_in_container
+    PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, thing_in_container
 
 
 class DungeonMaster:
@@ -34,7 +35,7 @@ class DungeonMaster:
         bedroom_key = Thing(BEDROOM_KEY_NAME, BEDROOM_KEY_DESCRIPTION)
         bedroom_door.key = bedroom_key
         bedroom_hook = Container(BEDROOM_HOOK_NAME, BEDROOM_HOOK_DESCRIPTION)
-        bedroom_hook.transparent = True
+        bedroom_hook.peekable = True
         bedroom_hook.fixed = True
         bedroom_hook.contents.append(bedroom_key)
         # bedroom exits
@@ -47,13 +48,13 @@ class DungeonMaster:
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
-        next_room = self.player_location.exits[direction]
-        for element in self.player_location.contents:
-            if isinstance(element, Door)\
-            and next_room in element.connects\
-            and element.locked:
-                return LOCKED_DOOR
         if direction in self.player_location.exits:
+            next_room = self.player_location.exits[direction]
+            for element in self.player_location.contents:
+                if isinstance(element, Door)\
+                and next_room in element.connects\
+                and element.locked:
+                    return LOCKED_DOOR
             self.player_location.contents.remove(self.player)
             self.set_player_location(next_room)
             return self.player_location.description
@@ -61,18 +62,15 @@ class DungeonMaster:
             return INVALID_DIRECTION
 
     def unlock(self, door_name):
-        """Unlock and or open doors"""
-        for element in self.player_location.contents:
-            if element.name.lower() is door_name:
-                door = element
-                if not door.locked:
-                    return door_not_locked(door_name)
-                if door.key in self.player.inventory:
-                    door.locked = False
-                    return door_unlocked(door_name)
-                else:
-                    return KEY_MISSING
-
+        """Unlocks and opens a door"""
+        door = self.get_element_container(door_name, self.player_location)[0]
+        if not door.locked:
+            return door_not_locked(door_name)
+        if door.key in self.player.contents:
+            door.locked = False
+            return door_unlocked(door_name)
+        else:
+            return KEY_MISSING
 
     def set_player_location(self, location):
         """Update the players location to a new one"""
@@ -82,65 +80,69 @@ class DungeonMaster:
     def describe(self, element_name):
         """Returns a desription of any kind of in-game element at the location of the player"""
         element_name = element_name.lower()
-        description = None
         if element_name == self.player_location.name or\
             element_name == GENERIC_LOCATAION_NAME or\
             element_name == "":
-            description = self.player_location.name + "\n" + LOCATION_PREFIX +\
-            self.player_location.description.lower() + LOCATION_SUFFIX
-            for element in self.player_location.contents:
-                if not isinstance(element, Player):
-                    description = description + "\n" + element.description
-                description = self.if_peekable_extend_description(element, description)
+            return self.describe_location()
         else:
-            for element in self.player_location.contents:
-                if element.name.lower() == element_name:
-                    description = element.description
-                    description = self.if_peekable_extend_description(element, description)
-                if self.is_peekable_container(element):
-                    for thing in element.contents:
-                        if thing.name.lower() == element_name:
-                            description = thing.description
+            return self.describe_element(element_name)
+
+    def describe_location(self):
+        """Describes the location where the player is"""
+        description = self.player_location.name + "\n" + LOCATION_PREFIX +\
+        self.player_location.description.lower() + LOCATION_SUFFIX
+        visible_elements = self.get_all_visible_elements(self.player_location)
+        for element_container in visible_elements:
+            if element_container[1] is not self.player_location:
+                description = description + "\n" +\
+                thing_in_container(element_container[0].name, element_container[1].name)
+            else:
+                description = description + "\n" + element_container[0].description
         return description
-   
-    def get_element_by_name_or_none(self, element_name):
-        """Get an element in the players location by its name. If it's not found it returns None"""
-        for element in self.player_location.contents:
+
+    def describe_element(self, element_name):
+        """Get description of a single element."""
+        return self.get_element_container(element_name, self.player_location)[0].description
+
+    def get_element_container(self, element_name, container):
+        """Get an element in the container
+        by its name and the corresponding container.
+        If it's not found it returns None"""
+        for element_container in self.get_all_visible_elements(container):
+            element = element_container[0]
             if element.name.lower() == element_name:
-                return element
-            if self.is_peekable_container(element):
-                for thing in element.contents:
-                    if thing.name.lower() == element_name:
-                        return element
+                return (element, element_container[1])
         return None
 
-    def if_peekable_extend_description(self, element, description):
-        """If an element is peekable return the description for it"""
-        if self.is_peekable_container(element):
-            return description + "\n" +\
-            thing_in_container(self.things_as_string(element.contents), element.name)
-        else:
-            return description
+    def get_all_visible_elements(self, container):
+        """Recursive method to get all elements in the container
+        and their corresponding container. If there is nothing it returns None"""
+        visible_elements_container = []
+        for element in container.contents:
+            if element.visible:
+                visible_elements_container.append((element, container))
+            if self.is_peekable_container(element):
+                visible_elements_container = visible_elements_container +\
+                self.get_all_visible_elements(element)
+        return visible_elements_container
 
     def is_peekable_container(self, element):
         """Check if element is a container and if it is open or transparent"""
-        return isinstance(element, Container) and element.transparent or\
+        return isinstance(element, Container) and element.peekable or\
         isinstance(element, Container) and element.open
-
-    def things_as_string(self, things):
-        """Convert a list of things into a grammatically correct human readable list"""
-        if len(things) > 1:
-            things_as_string_missing_last = ','.join(things[:-1])
-            things_as_string = things_as_string_missing_last + " and a " + things[-1]
-            return things_as_string
-        if len(things) == 1:
-            return things[0].name
-        return "nothing"
 
     def take(self, element_name):
         """Take an element and put it into the players inventory"""
-        element = self.get_element_by_name_or_none(element_name)
-        if not element:
+        element_container = self.get_element_container(element_name, self.player_location)
+        if not element_container:
             return ELEMENT_NOT_FOUND
-        self.player_location.contents.remove(element)
-        self.player.inventory.append(element)
+        element_container[1].contents.remove(element_container[0])
+        self.player.contents.append(element_container[0])
+        return picked_up_element(element_container[0].name)
+
+    def get_player_inventory(self):
+        """Returns the invenotry of the player as a string listing all things"""
+        description = ""
+        for element in self.player.contents:
+            description = description + element.name + "\n"
+        return description

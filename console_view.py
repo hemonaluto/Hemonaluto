@@ -25,6 +25,7 @@ class ConsoleView:
         move = self.dungeon_master.move_player
         unlock = self.dungeon_master.unlock
         take = self.dungeon_master.take
+        inventory = self.dungeon_master.get_player_inventory
         rest_input_joined = " ".join(split_user_input[1:])
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
@@ -66,6 +67,8 @@ class ConsoleView:
             "take": partial(take, rest_input_joined),
             "take all": take,
             "pick": partial(take, rest_input_joined),
+            "inventory": inventory,
+            "i": inventory,
         }
         """
         "enter": enter,
@@ -100,8 +103,6 @@ class ConsoleView:
         "move": move_element,
         "attack": attack,
         "kill": attack,
-        "inventory": inventory,
-        "i": inventory,
         "eat": eat,
         "shout": shout,
         "tie": tie,
