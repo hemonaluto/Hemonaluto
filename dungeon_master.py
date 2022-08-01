@@ -3,7 +3,7 @@ from functools import partial
 import random
 import json
 from elements.animate import Animate
-from elements.container import Container
+from elements.chest import Chest
 from elements.door import Door
 from elements.location import Location
 from elements.player import Player
@@ -38,9 +38,7 @@ class DungeonMaster:
         bedroom_door.locked = True
         bedroom_key = Thing(BEDROOM_KEY_NAME, BEDROOM_KEY_DESCRIPTION)
         bedroom_door.key = bedroom_key.name
-        bedroom_hook = Container(BEDROOM_HOOK_NAME, BEDROOM_HOOK_DESCRIPTION)
-        bedroom_hook.peekable = True
-        bedroom_hook.fixed = True
+        bedroom_hook = Thing(BEDROOM_HOOK_NAME, BEDROOM_HOOK_DESCRIPTION)
         bedroom_hook.contents.append(bedroom_key)
         bedroom_rug = Thing(BEDROOM_RUG_NAME, BEDROOM_RUG_DESCRIPTION)
         # bedroom exits
@@ -72,7 +70,7 @@ class DungeonMaster:
                     return LOCKED_DOOR
             self.player_location.contents.remove(self.player)
             self.set_player_location(next_room)
-            return self.player_location.description
+            return self.player_location.name
         else:
             return INVALID_DIRECTION
 
@@ -81,7 +79,7 @@ class DungeonMaster:
         door = self.get_element_container(door_name, self.player_location)[0]
         if not door.locked:
             return door_not_locked(door_name)
-        if any(element.name == door.key.name for element in self.player.contents):
+        if any(element.name == door.key for element in self.player.contents):
             door.locked = False
             return door_unlocked(door_name)
         else:
@@ -120,15 +118,16 @@ class DungeonMaster:
             description = top_container.name + "\n" + prefix_suffix[0] +\
             top_container.description.lower() + prefix_suffix[1]
         else:
-            description = top_container.name + "\n" + top_container.description.lower()
+            description = top_container.description
         visible_elements = self.get_all_elements_container(top_container, True)
         for element_container in visible_elements:
-            if element_container[1] is not self.player_location:
-                description = description + "\n" +\
-                element_in_container(element_container[0].name, element_container[1].name)
-            else:
-                if not isinstance(element_container[0], Player):
-                    description = description + "\n" + element_container[0].description
+            if element_container[1] is not self.player:
+                if element_container[1] is not self.player_location:
+                    description = description + "\n" +\
+                    element_in_container(element_container[0].name, element_container[1].name)
+                else:
+                    if not isinstance(element_container[0], Player):
+                        description = description + "\n" + element_container[0].description
         return description
 
     def get_element_container(self, element_name, container):
@@ -149,7 +148,10 @@ class DungeonMaster:
             if only_visible:
                 if element.visible:
                     elements_container.append((element, container))
-                if self.is_peekable_container(element):
+                if isinstance(element, Chest) and not element.peekable or\
+                isinstance(element, Chest) and not element.open:
+                    pass
+                else:
                     elements_container = elements_container +\
                     self.get_all_elements_container(element, only_visible)
             if not only_visible:
@@ -157,11 +159,6 @@ class DungeonMaster:
                 elements_container = elements_container +\
                 self.get_all_elements_container(element, only_visible)
         return elements_container
-
-    def is_peekable_container(self, element):
-        """Check if element is a container and if it is open or transparent"""
-        return isinstance(element, Container) and element.peekable or\
-        isinstance(element, Container) and element.open
 
     def take(self, element_name):
         """Take an element and put it into the players inventory"""
@@ -234,8 +231,8 @@ class DungeonMaster:
             class_name = element_dictionary["class_name"]
             if class_name == "Animate":
                 element = Animate(**element_dictionary)
-            if class_name == "Container":
-                element = Container(**element_dictionary)
+            if class_name == "Chest":
+                element = Chest(**element_dictionary)
             if class_name == "Door":
                 element = Door(**element_dictionary)
             if class_name == "Location":
