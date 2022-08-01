@@ -1,6 +1,8 @@
 """dungeon master module"""
+from functools import partial
 import random
 import json
+from elements.animate import Animate
 from elements.container import Container
 from elements.door import Door
 from elements.location import Location
@@ -35,7 +37,7 @@ class DungeonMaster:
         bedroom_door.connects.append(dining_room.name)
         bedroom_door.locked = True
         bedroom_key = Thing(BEDROOM_KEY_NAME, BEDROOM_KEY_DESCRIPTION)
-        bedroom_door.key = bedroom_key
+        bedroom_door.key = bedroom_key.name
         bedroom_hook = Container(BEDROOM_HOOK_NAME, BEDROOM_HOOK_DESCRIPTION)
         bedroom_hook.peekable = True
         bedroom_hook.fixed = True
@@ -79,7 +81,7 @@ class DungeonMaster:
         door = self.get_element_container(door_name, self.player_location)[0]
         if not door.locked:
             return door_not_locked(door_name)
-        if door.key in self.player.contents:
+        if any(element.name == door.key.name for element in self.player.contents):
             door.locked = False
             return door_unlocked(door_name)
         else:
@@ -192,7 +194,6 @@ class DungeonMaster:
     class ElementEncoder(json.JSONEncoder):
         """json encoder for elements"""
         def default(self, o):
-            # ToDo: Make it add object type infront of every dictionary
             return o.__dict__
 
     def save(self):
@@ -214,10 +215,36 @@ class DungeonMaster:
         """Loads the save file"""
         with open("save.json", "r", encoding="UTF-8") as savefile:
             location_dictionaries = json.load(savefile)
+            self.all_name_locations.clear()
             for location_dictionary in location_dictionaries:
+                contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)
+                location.contents = self.dictionary_to_elements(contents_dictionary)
                 self.all_name_locations.append((location.name, location))
                 for element in location.contents:
                     if isinstance(element, Player):
-                        self.player_location = location_dictionary
+                        self.player = element
+                        self.player_location = location
         return LOADED_SAVE_MESSAGE
+
+    def dictionary_to_elements(self, contents_dictionary_list):
+        """Converts dictionary to elements"""
+        converted_contents = []
+        for element_dictionary in contents_dictionary_list:
+            class_name = element_dictionary["class_name"]
+            if class_name == "Animate":
+                element = Animate(**element_dictionary)
+            if class_name == "Container":
+                element = Container(**element_dictionary)
+            if class_name == "Door":
+                element = Door(**element_dictionary)
+            if class_name == "Location":
+                element = Location(**element_dictionary)
+            if class_name == "Player":
+                element = Player(**element_dictionary)
+            if class_name == "Thing":
+                element = Thing(**element_dictionary)
+            if len(element_dictionary["contents"]) > 0:
+                element.contents = self.dictionary_to_elements(element_dictionary["contents"])
+            converted_contents.append(element)
+        return converted_contents

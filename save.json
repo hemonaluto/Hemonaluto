@@ -8,7 +8,20 @@
                 "name": "Player",
                 "description": "A slim person with fiery blue eyes and pitch-black hair.",
                 "visible": true,
-                "contents": [],
+                "contents": [
+                    {
+                        "name": "crude key",
+                        "description": "A key with a cursive letter B inscribed on it.",
+                        "visible": true,
+                        "contents": [],
+                        "class_name": "Thing",
+                        "fixed": false,
+                        "moved": false,
+                        "wearable": false,
+                        "concealed": false
+                    }
+                ],
+                "class_name": "Player",
                 "clothes": []
             },
             {
@@ -16,6 +29,7 @@
                 "description": "A comfy wooden red bed.",
                 "visible": true,
                 "contents": [],
+                "class_name": "Thing",
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
@@ -26,19 +40,11 @@
                 "description": "A mundane wooden door.",
                 "visible": true,
                 "contents": [],
+                "class_name": "Door",
                 "open": false,
                 "lockable": false,
                 "locked": true,
-                "key": {
-                    "name": "crude key",
-                    "description": "A key with a cursive letter B inscribed on it.",
-                    "visible": true,
-                    "contents": [],
-                    "fixed": false,
-                    "moved": false,
-                    "wearable": false,
-                    "concealed": false
-                },
+                "key": "crude key",
                 "connects": [
                     "Dining Room",
                     "Bedroom"
@@ -48,18 +54,8 @@
                 "name": "hook",
                 "description": "A blunt wooden hook attached to the wall.",
                 "visible": true,
-                "contents": [
-                    {
-                        "name": "crude key",
-                        "description": "A key with a cursive letter B inscribed on it.",
-                        "visible": true,
-                        "contents": [],
-                        "fixed": false,
-                        "moved": false,
-                        "wearable": false,
-                        "concealed": false
-                    }
-                ],
+                "contents": [],
+                "class_name": "Container",
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
@@ -75,12 +71,14 @@
                 "description": "A large soft red rug.",
                 "visible": true,
                 "contents": [],
+                "class_name": "Thing",
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
                 "concealed": false
             }
         ],
+        "class_name": "Location",
         "visited": false,
         "exits": {
             "west": "Dining Room"
@@ -97,25 +95,18 @@
                 "description": "A mundane wooden door.",
                 "visible": true,
                 "contents": [],
+                "class_name": "Door",
                 "open": false,
                 "lockable": false,
                 "locked": true,
-                "key": {
-                    "name": "crude key",
-                    "description": "A key with a cursive letter B inscribed on it.",
-                    "visible": true,
-                    "contents": [],
-                    "fixed": false,
-                    "moved": false,
-                    "wearable": false,
-                    "concealed": false
-                },
+                "key": "crude key",
                 "connects": [
                     "Dining Room",
                     "Bedroom"
                 ]
             }
         ],
+        "class_name": "Location",
         "visited": false,
         "exits": {
             "east": "Bedroom"

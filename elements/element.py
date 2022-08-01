@@ -8,4 +8,4 @@ class Element:
         self.description = description
         self.visible = True
         self.contents = []
-        #self.class_name = __class__
+        self.class_name = type(self).__name__
