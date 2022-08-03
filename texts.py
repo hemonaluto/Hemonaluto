@@ -113,3 +113,9 @@ SAVED_GAME_MESSAGE = "Saved the game!"
 
 # loaded save message
 LOADED_SAVE_MESSAGE = "Loaded last save!"
+
+# failed save message
+FAILED_SAVE_MESSAGE = "Failed to load last save."
+
+# scenario loaded message
+SCENARIO_LOADED = "Loaded scenario."

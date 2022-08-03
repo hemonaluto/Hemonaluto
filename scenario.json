@@ -1,0 +1,111 @@
+[
+    {
+        "name": "Bedroom",
+        "description": "A room designed for humans to rest.",
+        "visible": true,
+        "contents": [
+            {
+                "name": "Player",
+                "description": "A slim person with fiery blue eyes and pitch-black hair.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Player",
+                "clothes": []
+            },
+            {
+                "name": "bed",
+                "description": "A comfy wooden red bed.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Thing",
+                "fixed": false,
+                "moved": false,
+                "wearable": false,
+                "concealed": false
+            },
+            {
+                "name": "door",
+                "description": "A mundane wooden door.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Door",
+                "open": false,
+                "lockable": false,
+                "locked": true,
+                "key": "crude key",
+                "connects": [
+                    "Dining Room",
+                    "Bedroom"
+                ]
+            },
+            {
+                "name": "hook",
+                "description": "A blunt wooden hook attached to the wall.",
+                "visible": true,
+                "contents": [
+                    {
+                        "name": "crude key",
+                        "description": "A key with a cursive letter B inscribed on it.",
+                        "visible": true,
+                        "contents": [],
+                        "class_name": "Thing",
+                        "fixed": false,
+                        "moved": false,
+                        "wearable": false,
+                        "concealed": false
+                    }
+                ],
+                "class_name": "Thing",
+                "fixed": false,
+                "moved": false,
+                "wearable": false,
+                "concealed": false
+            },
+            {
+                "name": "rug",
+                "description": "A large soft red rug.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Thing",
+                "fixed": false,
+                "moved": false,
+                "wearable": false,
+                "concealed": false
+            }
+        ],
+        "class_name": "Location",
+        "visited": false,
+        "exits": {
+            "west": "Dining Room"
+        },
+        "has_light": false
+    },
+    {
+        "name": "Dining Room",
+        "description": "A room designed for humans to eat.",
+        "visible": true,
+        "contents": [
+            {
+                "name": "door",
+                "description": "A mundane wooden door.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Door",
+                "open": false,
+                "lockable": false,
+                "locked": true,
+                "key": "crude key",
+                "connects": [
+                    "Dining Room",
+                    "Bedroom"
+                ]
+            }
+        ],
+        "class_name": "Location",
+        "visited": false,
+        "exits": {
+            "east": "Bedroom"
+        },
+        "has_light": false
+    }
+]

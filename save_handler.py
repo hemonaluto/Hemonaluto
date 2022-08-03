@@ -17,20 +17,20 @@ class SaveHandler():
         def default(self, o):
             return o.__dict__
 
-    def save(self, all_name_locations):
+    def save(self, all_name_locations, filename):
         """Saves the game"""
         locations = []
         for location in all_name_locations:
             locations.append(location[1])
-        with open("save.json", "w", encoding="UTF-8") as savefile:
+        with open(filename, "w", encoding="UTF-8") as savefile:
             json.dump(locations, savefile, indent=4, cls=self.ElementEncoder)
         return True
 
-    def load(self, all_name_locations):
+    def load(self, filename):
         """Loads the save file"""
-        with open("save.json", "r", encoding="UTF-8") as savefile:
+        all_name_locations = []
+        with open(filename, "r", encoding="UTF-8") as savefile:
             location_dictionaries = json.load(savefile)
-            all_name_locations.clear()
             for location_dictionary in location_dictionaries:
                 contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)

@@ -33,6 +33,7 @@ class ConsoleView:
         jump = self.dungeon_master.jump_response
         save = self.dungeon_master.save
         load = self.dungeon_master.load
+        restart = self.dungeon_master.load_scenario
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -86,10 +87,10 @@ class ConsoleView:
             "save": save,
             "load": load,
             "restore": load,
+            "restart": restart
         }
         """
         ToDo:
-        "restore": restore,
         "restart": restart,
         "verbose": verbose,
         "score": score,

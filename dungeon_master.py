@@ -2,17 +2,12 @@
 import random
 from elements.chest import Chest
 from elements.door import Door
-from elements.location import Location
 from elements.player import Player
-from elements.thing import Thing
 from save_handler import SaveHandler
-from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
-    BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-    BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
-    DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, EAST, ELEMENT_NOT_FOUND, GREETINGS, JUMP_RESPONSE,\
-    KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE,\
-    SWEAR_RESPONSE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION,\
-    LOCKED_DOOR, PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, element_in_container
+from texts import ELEMENT_NOT_FOUND, FAILED_SAVE_MESSAGE, GREETINGS, JUMP_RESPONSE,\
+    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE,\
+    SCENARIO_LOADED, SWEAR_RESPONSE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    INVALID_DIRECTION, LOCKED_DOOR, picked_up_element, element_in_container
 
 
 class DungeonMaster:
@@ -22,39 +17,12 @@ class DungeonMaster:
         self.all_name_locations = []
         self.save_handler = SaveHandler()
 
-    def generate_world(self):
-        """Generates the game world"""
-        # bedroom
-        bedroom = Location(BEDROOM_NAME, BEDROOM_DESCRIPTION)
-        # dining room
-        dining_room = Location(DINING_ROOM_NAME, DINING_ROOM_DESCRIPTION)
-        # things in bedroom
-        player = Player(PLAYER_NAME, PLAYER_DESCRIPTION)
-        bed = Thing(BED_NAME, BED_DESCRIPTION)
-        bedroom_door = Door(BEDROOM_DOOR_NAME, BEDROOM_DOOR_DESCRIPTION)
-        bedroom_door.connects.append(dining_room.name)
-        bedroom_door.locked = True
-        bedroom_key = Thing(BEDROOM_KEY_NAME, BEDROOM_KEY_DESCRIPTION)
-        bedroom_door.key = bedroom_key.name
-        bedroom_hook = Thing(BEDROOM_HOOK_NAME, BEDROOM_HOOK_DESCRIPTION)
-        bedroom_hook.contents.append(bedroom_key)
-        bedroom_rug = Thing(BEDROOM_RUG_NAME, BEDROOM_RUG_DESCRIPTION)
-        # bedroom exits
-        bedroom.exits[WEST] = dining_room.name
-        # bedroom contents
-        self.set_player_location(player, bedroom)
-        bedroom.contents.append(bed)
-        bedroom.contents.append(bedroom_door)
-        bedroom.contents.append(bedroom_hook)
-        bedroom.contents.append(bedroom_rug)
-        # dining room exits
-        dining_room.exits[EAST] = bedroom.name
-        # dining room contents
-        dining_room.contents.append(bedroom_door)
-        bedroom_door.connects.append(bedroom.name)
-        # add all rooms to all_name_rooms list
-        self.all_name_locations.append((bedroom.name, bedroom))
-        self.all_name_locations.append((dining_room.name, dining_room))
+    def load_scenario(self):
+        """Loads the original scenario"""
+        load_data = self.save_handler.load("scenario.json")
+        self.all_name_locations = load_data[0]
+        self.player_location = load_data[1]
+        return SCENARIO_LOADED
 
     def get_player(self):
         """Get the player object from the current location"""
@@ -100,8 +68,7 @@ class DungeonMaster:
             element_name == GENERIC_LOCATAION_NAME or\
             element_name == "":
             return self.describe_location()
-        else:
-            return self.describe_element(element_name)
+        return self.describe_element(element_name)
 
     def describe_location(self):
         """Describes the location where the player is"""
@@ -193,11 +160,13 @@ class DungeonMaster:
 
     def save(self):
         """Saves the game state to file"""
-        if self.save_handler.save(self.all_name_locations):
+        if self.save_handler.save(self.all_name_locations, "save.json"):
             return SAVED_GAME_MESSAGE
+        return FAILED_SAVE_MESSAGE
 
     def load(self):
         """Loads the game state from file"""
-        load_data = self.save_handler.load(self.all_name_locations)
+        load_data = self.save_handler.load("save.json")
         self.all_name_locations = load_data[0]
         self.player_location = load_data[1]
+        return LOADED_SAVE_MESSAGE
