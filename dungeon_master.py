@@ -1,28 +1,26 @@
 """dungeon master module"""
-from functools import partial
 import random
-import json
-from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
 from elements.location import Location
 from elements.player import Player
 from elements.thing import Thing
+from save_handler import SaveHandler
 from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
     BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
     BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
     DINING_ROOM_DESCRIPTION, DINING_ROOM_NAME, EAST, ELEMENT_NOT_FOUND, GREETINGS, JUMP_RESPONSE,\
-    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE, SWEAR_RESPONSE,\
-    door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION, LOCKED_DOOR,\
-    PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, element_in_container
+    KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE,\
+    SWEAR_RESPONSE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME, INVALID_DIRECTION,\
+    LOCKED_DOOR, PLAYER_DESCRIPTION, PLAYER_NAME, WEST, picked_up_element, element_in_container
 
 
 class DungeonMaster:
     """dungeon master class"""
     def __init__(self):
         self.player_location = None
-        self.player = None
         self.all_name_locations = []
+        self.save_handler = SaveHandler()
 
     def generate_world(self):
         """Generates the game world"""
@@ -31,7 +29,7 @@ class DungeonMaster:
         # dining room
         dining_room = Location(DINING_ROOM_NAME, DINING_ROOM_DESCRIPTION)
         # things in bedroom
-        self.player = Player(PLAYER_NAME, PLAYER_DESCRIPTION)
+        player = Player(PLAYER_NAME, PLAYER_DESCRIPTION)
         bed = Thing(BED_NAME, BED_DESCRIPTION)
         bedroom_door = Door(BEDROOM_DOOR_NAME, BEDROOM_DOOR_DESCRIPTION)
         bedroom_door.connects.append(dining_room.name)
@@ -44,7 +42,7 @@ class DungeonMaster:
         # bedroom exits
         bedroom.exits[WEST] = dining_room.name
         # bedroom contents
-        self.set_player_location(bedroom)
+        self.set_player_location(player, bedroom)
         bedroom.contents.append(bed)
         bedroom.contents.append(bedroom_door)
         bedroom.contents.append(bedroom_hook)
@@ -58,6 +56,10 @@ class DungeonMaster:
         self.all_name_locations.append((bedroom.name, bedroom))
         self.all_name_locations.append((dining_room.name, dining_room))
 
+    def get_player(self):
+        """Get the player object from the current location"""
+        return self.get_element_container("Player", self.player_location)[0]
+
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
         if direction in self.player_location.exits:
@@ -68,8 +70,9 @@ class DungeonMaster:
                 and next_room.name in element.connects\
                 and element.locked:
                     return LOCKED_DOOR
-            self.player_location.contents.remove(self.player)
-            self.set_player_location(next_room)
+            player = self.get_player()
+            self.player_location.contents.remove(player)
+            self.set_player_location(player, next_room)
             return self.player_location.name
         else:
             return INVALID_DIRECTION
@@ -79,15 +82,15 @@ class DungeonMaster:
         door = self.get_element_container(door_name, self.player_location)[0]
         if not door.locked:
             return door_not_locked(door_name)
-        if any(element.name == door.key for element in self.player.contents):
+        if any(element.name == door.key for element in self.get_player().contents):
             door.locked = False
             return door_unlocked(door_name)
         else:
             return KEY_MISSING
 
-    def set_player_location(self, location):
+    def set_player_location(self, player, location):
         """Update the players location to a new one"""
-        location.contents.append(self.player)
+        location.contents.append(player)
         self.player_location = location
 
     def describe(self, element_name):
@@ -121,7 +124,7 @@ class DungeonMaster:
             description = top_container.description
         visible_elements = self.get_all_elements_container(top_container, True)
         for element_container in visible_elements:
-            if element_container[1] is not self.player:
+            if element_container[1] is not self.get_player():
                 if element_container[1] is not self.player_location:
                     description = description + "\n" +\
                     element_in_container(element_container[0].name, element_container[1].name)
@@ -136,7 +139,7 @@ class DungeonMaster:
         If it's not found it returns None"""
         for element_container in self.get_all_elements_container(container, True):
             element = element_container[0]
-            if element.name.lower() == element_name:
+            if element.name.lower() == element_name.lower():
                 return (element, element_container[1])
         return None
 
@@ -166,13 +169,13 @@ class DungeonMaster:
         if not element_container:
             return ELEMENT_NOT_FOUND
         element_container[1].contents.remove(element_container[0])
-        self.player.contents.append(element_container[0])
+        self.get_player().contents.append(element_container[0])
         return picked_up_element(element_container[0].name)
 
     def get_player_inventory(self):
         """Returns the invenotry of the player as a string listing all things"""
         description = ""
-        for element in self.player.contents:
+        for element in self.get_player().contents:
             description = description + element.name
         return description
 
@@ -188,60 +191,13 @@ class DungeonMaster:
         """Responds to the player jumping"""
         return JUMP_RESPONSE
 
-    class ElementEncoder(json.JSONEncoder):
-        """json encoder for elements"""
-        def default(self, o):
-            return o.__dict__
-
     def save(self):
-        """Saves the game"""
-        locations = []
-        for location in self.all_name_locations:
-            locations.append(location[1])
-        with open("save.json", "w", encoding="UTF-8") as savefile:
-            json.dump(locations, savefile, indent=4, cls=self.ElementEncoder)
-        return SAVED_GAME_MESSAGE
-
-    def json_to_rooms(self, json_string):
-        """Loads a json string and stores the room information in the all_name_rooms list"""
-        rooms = json.load(json_string)
-        for room in rooms:
-            self.all_name_locations.append((room.name, room))
+        """Saves the game state to file"""
+        if self.save_handler.save(self.all_name_locations):
+            return SAVED_GAME_MESSAGE
 
     def load(self):
-        """Loads the save file"""
-        with open("save.json", "r", encoding="UTF-8") as savefile:
-            location_dictionaries = json.load(savefile)
-            self.all_name_locations.clear()
-            for location_dictionary in location_dictionaries:
-                contents_dictionary = location_dictionary["contents"]
-                location = Location(**location_dictionary)
-                location.contents = self.dictionary_to_elements(contents_dictionary)
-                self.all_name_locations.append((location.name, location))
-                for element in location.contents:
-                    if isinstance(element, Player):
-                        self.player = element
-                        self.player_location = location
-        return LOADED_SAVE_MESSAGE
-
-    def dictionary_to_elements(self, contents_dictionary_list):
-        """Converts dictionary to elements"""
-        converted_contents = []
-        for element_dictionary in contents_dictionary_list:
-            class_name = element_dictionary["class_name"]
-            if class_name == "Animate":
-                element = Animate(**element_dictionary)
-            if class_name == "Chest":
-                element = Chest(**element_dictionary)
-            if class_name == "Door":
-                element = Door(**element_dictionary)
-            if class_name == "Location":
-                element = Location(**element_dictionary)
-            if class_name == "Player":
-                element = Player(**element_dictionary)
-            if class_name == "Thing":
-                element = Thing(**element_dictionary)
-            if len(element_dictionary["contents"]) > 0:
-                element.contents = self.dictionary_to_elements(element_dictionary["contents"])
-            converted_contents.append(element)
-        return converted_contents
+        """Loads the game state from file"""
+        load_data = self.save_handler.load(self.all_name_locations)
+        self.all_name_locations = load_data[0]
+        self.player_location = load_data[1]
