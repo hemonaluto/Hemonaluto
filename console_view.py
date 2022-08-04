@@ -33,9 +33,11 @@ class ConsoleView:
         jump = self.dungeon_master.jump_response
         save = self.dungeon_master.save
         load = self.dungeon_master.load
-        restart = self.dungeon_master.load_scenario
+        restart = self.dungeon_master.load
         score = self.dungeon_master.get_score
         health = self.dungeon_master.get_health
+        nothing = self.dungeon_master.nothing_response
+        hemonaluto = self.dungeon_master.hemonaluto_response
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -77,7 +79,6 @@ class ConsoleView:
             "get": partial(take, rest_input_joined),
             "take": partial(take, rest_input_joined),
             "pick": partial(take, " ".join(split_user_input[2:])),
-            "take all": take,
             "inventory": inventory,
             "i": inventory,
             "hi": greet,
@@ -87,21 +88,17 @@ class ConsoleView:
             "fuck": swear,
             "jump": jump,
             "save": save,
-            "load": load,
+            "load": partial(take, "save.json"),
             "restore": load,
-            "restart": restart,
+            "restart": partial(take, "scenario.json"),
             "score": score,
             "diagnostic": health,
-            "health": health
+            "health": health,
+            "": nothing,
+            "hemonaluto": hemonaluto,
         }
         """
         ToDo:
-        "": nothing,
-        "hemonaluto": hemonaluto,
-        "get": get,
-        "take": get,
-        "take all": get,
-        "pick": get,
         "throw": throw,
         "open": closent,
         "close": close,

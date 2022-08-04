@@ -21,12 +21,14 @@ dining_room = Location(DINING_ROOM_NAME, DINING_ROOM_DESCRIPTION)
 player = Player(PLAYER_NAME, PLAYER_DESCRIPTION, 100)
 # things in bedroom
 bed = Thing(BED_NAME, BED_DESCRIPTION)
+bed.fixed = True
 bedroom_door = Door(BEDROOM_DOOR_NAME, BEDROOM_DOOR_DESCRIPTION)
 bedroom_door.connects.append(dining_room.name)
 bedroom_door.locked = True
 bedroom_key = Thing(BEDROOM_KEY_NAME, BEDROOM_KEY_DESCRIPTION)
 bedroom_door.key = bedroom_key.name
 bedroom_hook = Thing(BEDROOM_HOOK_NAME, BEDROOM_HOOK_DESCRIPTION)
+bedroom_hook.fixed = True
 bedroom_hook.contents.append(bedroom_key)
 bedroom_rug = Thing(BEDROOM_RUG_NAME, BEDROOM_RUG_DESCRIPTION)
 # bedroom exits

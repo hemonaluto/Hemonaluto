@@ -8,6 +8,41 @@
                 "name": "Player",
                 "description": "A slim person with fiery blue eyes and pitch-black hair.",
                 "visible": true,
+                "contents": [],
+                "class_name": "Player",
+                "clothes": [],
+                "health": 100
+            },
+            {
+                "name": "bed",
+                "description": "A comfy wooden red bed.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Thing",
+                "fixed": true,
+                "moved": false,
+                "wearable": false,
+                "concealed": false
+            },
+            {
+                "name": "door",
+                "description": "A mundane wooden door.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Door",
+                "open": false,
+                "lockable": true,
+                "locked": true,
+                "key": "crude key",
+                "connects": [
+                    "Dining Room",
+                    "Bedroom"
+                ]
+            },
+            {
+                "name": "hook",
+                "description": "A blunt wooden hook attached to the wall.",
+                "visible": true,
                 "contents": [
                     {
                         "name": "crude key",
@@ -21,50 +56,11 @@
                         "concealed": false
                     }
                 ],
-                "class_name": "Player",
-                "clothes": []
-            },
-            {
-                "name": "bed",
-                "description": "A comfy wooden red bed.",
-                "visible": true,
-                "contents": [],
                 "class_name": "Thing",
-                "fixed": false,
-                "moved": false,
-                "wearable": false,
-                "concealed": false
-            },
-            {
-                "name": "door",
-                "description": "A mundane wooden door.",
-                "visible": true,
-                "contents": [],
-                "class_name": "Door",
-                "open": false,
-                "lockable": false,
-                "locked": true,
-                "key": "crude key",
-                "connects": [
-                    "Dining Room",
-                    "Bedroom"
-                ]
-            },
-            {
-                "name": "hook",
-                "description": "A blunt wooden hook attached to the wall.",
-                "visible": true,
-                "contents": [],
-                "class_name": "Container",
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "concealed": false,
-                "open": false,
-                "locked": false,
-                "key": null,
-                "peekable": true,
-                "enterable": false
+                "concealed": false
             },
             {
                 "name": "rug",
@@ -80,9 +76,7 @@
         ],
         "class_name": "Location",
         "visited": false,
-        "exits": {
-            "west": "Dining Room"
-        },
+        "exits": {},
         "has_light": false
     },
     {
@@ -97,7 +91,7 @@
                 "contents": [],
                 "class_name": "Door",
                 "open": false,
-                "lockable": false,
+                "lockable": true,
                 "locked": true,
                 "key": "crude key",
                 "connects": [
@@ -108,9 +102,7 @@
         ],
         "class_name": "Location",
         "visited": false,
-        "exits": {
-            "east": "Bedroom"
-        },
+        "exits": {},
         "has_light": false
     }
 ]

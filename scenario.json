@@ -19,7 +19,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Thing",
-                "fixed": false,
+                "fixed": true,
                 "moved": false,
                 "wearable": false,
                 "concealed": false
@@ -57,7 +57,7 @@
                     }
                 ],
                 "class_name": "Thing",
-                "fixed": false,
+                "fixed": true,
                 "moved": false,
                 "wearable": false,
                 "concealed": false

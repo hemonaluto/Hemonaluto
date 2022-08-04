@@ -3,6 +3,7 @@ import json
 from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
+from elements.element import Element
 from elements.location import Location
 from elements.player import Player
 from elements.thing import Thing
@@ -35,6 +36,7 @@ class SaveHandler():
             for location_dictionary in location_dictionaries:
                 contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)
+                location.exits = location_dictionary["exits"]
                 location.contents = self.dictionary_to_elements(contents_dictionary)
                 all_name_locations.append((location.name, location))
                 for element in location.contents:
@@ -47,18 +49,23 @@ class SaveHandler():
         converted_contents = []
         for element_dictionary in contents_dictionary_list:
             class_name = element_dictionary["class_name"]
+            if class_name == "Player":
+                element = Player(**element_dictionary)
             if class_name == "Animate":
                 element = Animate(**element_dictionary)
             if class_name == "Chest":
                 element = Chest(**element_dictionary)
             if class_name == "Door":
                 element = Door(**element_dictionary)
+                element.connects = element_dictionary["connects"]
             if class_name == "Location":
                 element = Location(**element_dictionary)
-            if class_name == "Player":
-                element = Player(**element_dictionary)
+                element.exits = element_dictionary["exits"]
             if class_name == "Thing":
                 element = Thing(**element_dictionary)
+                element.fixed = element_dictionary["fixed"]
+            if class_name == "Element":
+                element = Element(**element_dictionary)
             if len(element_dictionary["contents"]) > 0:
                 element.contents = self.dictionary_to_elements(element_dictionary["contents"])
             converted_contents.append(element)

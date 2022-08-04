@@ -3,10 +3,11 @@ import random
 from elements.chest import Chest
 from elements.door import Door
 from elements.player import Player
+from elements.thing import Thing
 from save_handler import SaveHandler
-from texts import ELEMENT_NOT_FOUND, FAILED_SAVE_MESSAGE, GREETINGS, JUMP_RESPONSE,\
-    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, SAVED_GAME_MESSAGE,\
-    SCENARIO_LOADED, SWEAR_RESPONSE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+from texts import ELEMENT_NOT_FOUND, FAILED_SAVE_MESSAGE, GREETINGS, INTRODUCTION, JUMP_RESPONSE,\
+    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOTHING_RESPONSES,\
+    SAVED_GAME_MESSAGE, SWEAR_RESPONSE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, picked_up_element, element_in_container
 
 
@@ -18,17 +19,10 @@ class DungeonMaster:
         self.save_handler = SaveHandler()
         self.player_score = 0
 
-    def load_scenario(self):
-        """Loads the original scenario"""
-        load_data = self.save_handler.load("scenario.json")
-        self.all_name_locations = load_data[0]
-        self.player_location = load_data[1]
-        return SCENARIO_LOADED
-
     def get_player(self):
         """Get the player object from the current location"""
         return self.get_element_container("Player", self.player_location)[0]
-   
+
     def get_score(self):
         """Get the current score"""
         return self.player_score
@@ -51,8 +45,7 @@ class DungeonMaster:
             self.player_location.contents.remove(player)
             self.set_player_location(player, next_room)
             return self.player_location.name
-        else:
-            return INVALID_DIRECTION
+        return INVALID_DIRECTION
 
     def unlock(self, door_name):
         """Unlocks and opens a door"""
@@ -73,9 +66,7 @@ class DungeonMaster:
     def describe(self, element_name):
         """Returns a desription of any kind of in-game element at the location of the player"""
         element_name = element_name.lower()
-        if element_name == self.player_location.name or\
-            element_name == GENERIC_LOCATAION_NAME or\
-            element_name == "":
+        if element_name in (self.player_location.name, GENERIC_LOCATAION_NAME, ''):
             return self.describe_location()
         return self.describe_element(element_name)
 
@@ -117,14 +108,20 @@ class DungeonMaster:
             element = element_container[0]
             if element.name.lower() == element_name.lower():
                 return (element, element_container[1])
-        return None
 
-    def get_all_elements_container(self, container, only_visible):
+    def get_all_elements_container(self, container, only_visible=False, only_takeable=False):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""
         elements_container = []
-        for element in container.contents:
-            if only_visible:
+        if only_takeable:
+            for element in container.contents:
+                if isinstance(element, Thing) and element.visible and not element.fixed:
+                    elements_container.append((element, container))
+                elements_container = elements_container +\
+                self.get_all_elements_container(element, only_visible, only_takeable)
+            return elements_container
+        if only_visible:
+            for element in container.contents:
                 if element.visible:
                     elements_container.append((element, container))
                 if isinstance(element, Chest) and not element.peekable or\
@@ -133,14 +130,26 @@ class DungeonMaster:
                 else:
                     elements_container = elements_container +\
                     self.get_all_elements_container(element, only_visible)
-            if not only_visible:
+            return elements_container
+        if not only_visible:
+            for element in container.contents:
                 elements_container.append((element, container))
                 elements_container = elements_container +\
                 self.get_all_elements_container(element, only_visible)
-        return elements_container
+            return elements_container
+        return None
 
     def take(self, element_name):
-        """Take an element and put it into the players inventory"""
+        """Take all elements or a single element and put it into the players inventory"""
+        if element_name == "all":
+            all_takeable = self.get_all_elements_container(self.player_location, only_takeable=True)
+            response = ""
+            for element_container in all_takeable:
+                if not isinstance(element_container[0], Player) and not element_container[0].fixed:
+                    element_container[1].contents.remove(element_container[0])
+                    self.get_player().contents.append(element_container[0])
+                    response = response + picked_up_element(element_container[0].name) + "\n"
+            return response
         element_container = self.get_element_container(element_name, self.player_location)
         if not element_container:
             return ELEMENT_NOT_FOUND
@@ -152,7 +161,7 @@ class DungeonMaster:
         """Returns the invenotry of the player as a string listing all things"""
         description = ""
         for element in self.get_player().contents:
-            description = description + element.name
+            description = description + element.name + "\n"
         return description
 
     def greet(self):
@@ -173,9 +182,17 @@ class DungeonMaster:
             return SAVED_GAME_MESSAGE
         return FAILED_SAVE_MESSAGE
 
-    def load(self):
+    def load(self, filename):
         """Loads the game state from file"""
-        load_data = self.save_handler.load("save.json")
+        load_data = self.save_handler.load(filename)
         self.all_name_locations = load_data[0]
         self.player_location = load_data[1]
         return LOADED_SAVE_MESSAGE
+
+    def nothing_response(self):
+        """Responds to the player saying nothing"""
+        return random.choice(NOTHING_RESPONSES)
+
+    def hemonaluto_response(self):
+        """Responds to the player saying the games name"""
+        return INTRODUCTION

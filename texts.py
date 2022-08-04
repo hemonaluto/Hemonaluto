@@ -4,7 +4,7 @@ INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and
         "\n\nType any command to start exploring your new environment."
 
 # quit message
-QUIT_MESSAGE = "It will miss you."
+QUIT_MESSAGE = "They will miss you."
 
 # indicator for the user to recognize it's their turn to type something
 INPUT_INDICATOR = "\n>"
@@ -119,3 +119,8 @@ FAILED_SAVE_MESSAGE = "Failed to load last save."
 
 # scenario loaded message
 SCENARIO_LOADED = "Loaded scenario."
+
+# nothing response
+NOTHING_RESPONSES = ["What do sea monsters eat for dinner?\n\nFish and ships.",\
+"Why did the necromancer kill his depressed allies?\n\nHe wanted to raise their spirits.",\
+"Why do dwarven bards sound better by candlelight?\n\nYou can shove the wax in your ears."]

@@ -6,7 +6,7 @@ from dungeon_master import DungeonMaster
 def main():
     """main method that starts the program"""
     dungeon_master = DungeonMaster()
-    dungeon_master.load_scenario()
+    dungeon_master.load("scenario.json")
     view = ConsoleView(dungeon_master)
     view.start_view()
 
