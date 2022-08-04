@@ -10,7 +10,8 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Player",
-                "clothes": []
+                "clothes": [],
+                "health": 100
             },
             {
                 "name": "bed",

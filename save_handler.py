@@ -29,6 +29,7 @@ class SaveHandler():
     def load(self, filename):
         """Loads the save file"""
         all_name_locations = []
+        player_location = None
         with open(filename, "r", encoding="UTF-8") as savefile:
             location_dictionaries = json.load(savefile)
             for location_dictionary in location_dictionaries:
@@ -38,7 +39,8 @@ class SaveHandler():
                 all_name_locations.append((location.name, location))
                 for element in location.contents:
                     if isinstance(element, Player):
-                        return (all_name_locations, location)
+                        player_location = location
+            return (all_name_locations, player_location)
 
     def dictionary_to_elements(self, contents_dictionary_list):
         """Converts dictionary to elements"""

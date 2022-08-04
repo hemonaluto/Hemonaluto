@@ -16,6 +16,7 @@ class DungeonMaster:
         self.player_location = None
         self.all_name_locations = []
         self.save_handler = SaveHandler()
+        self.player_score = 0
 
     def load_scenario(self):
         """Loads the original scenario"""
@@ -27,6 +28,14 @@ class DungeonMaster:
     def get_player(self):
         """Get the player object from the current location"""
         return self.get_element_container("Player", self.player_location)[0]
+   
+    def get_score(self):
+        """Get the current score"""
+        return self.player_score
+
+    def get_health(self):
+        """Get the current health"""
+        return self.get_player().health
 
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
@@ -51,10 +60,10 @@ class DungeonMaster:
         if not door.locked:
             return door_not_locked(door_name)
         if any(element.name == door.key for element in self.get_player().contents):
+            self.player_score = self.player_score + 1
             door.locked = False
             return door_unlocked(door_name)
-        else:
-            return KEY_MISSING
+        return KEY_MISSING
 
     def set_player_location(self, player, location):
         """Update the players location to a new one"""

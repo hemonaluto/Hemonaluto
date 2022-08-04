@@ -34,6 +34,8 @@ class ConsoleView:
         save = self.dungeon_master.save
         load = self.dungeon_master.load
         restart = self.dungeon_master.load_scenario
+        score = self.dungeon_master.get_score
+        health = self.dungeon_master.get_health
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -87,15 +89,13 @@ class ConsoleView:
             "save": save,
             "load": load,
             "restore": load,
-            "restart": restart
+            "restart": restart,
+            "score": score,
+            "diagnostic": health,
+            "health": health
         }
         """
         ToDo:
-        "restart": restart,
-        "verbose": verbose,
-        "score": score,
-        "diagnostic": health,
-        "health": health,
         "": nothing,
         "hemonaluto": hemonaluto,
         "get": get,

@@ -17,8 +17,9 @@ all_name_locations = []
 bedroom = Location(BEDROOM_NAME, BEDROOM_DESCRIPTION)
 # dining room
 dining_room = Location(DINING_ROOM_NAME, DINING_ROOM_DESCRIPTION)
+# player
+player = Player(PLAYER_NAME, PLAYER_DESCRIPTION, 100)
 # things in bedroom
-player = Player(PLAYER_NAME, PLAYER_DESCRIPTION)
 bed = Thing(BED_NAME, BED_DESCRIPTION)
 bedroom_door = Door(BEDROOM_DOOR_NAME, BEDROOM_DOOR_DESCRIPTION)
 bedroom_door.connects.append(dining_room.name)
