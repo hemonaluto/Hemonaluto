@@ -7,8 +7,8 @@ from elements.thing import Thing
 from save_handler import SaveHandler
 from texts import FAILED_SAVE_MESSAGE,\
     KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX,\
-    SAVED_GAME_MESSAGE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, picked_up_element, element_in_container
+    SAVED_GAME_MESSAGE, THREW_AT_NOTHING, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element, element_in_container
 
 
 class DungeonMaster:
@@ -180,14 +180,19 @@ class DungeonMaster:
     def throw(self, instructions):
         """Throws an item"""
         if "at" in instructions:
-            object_subject = instructions.split(" at ")
-            object = self.get_element_container(object_subject[0], self.player_location)[0]
-            if object is None:
-                return element_not_found(object.name)
-            subject = self.get_element_container(object_subject[1], self.player_location)[0]
-            if subject is None:
-                return element_not_found(subject.name)
-            if isinstance(object_subject[1], Animate):
-                self.get_player().contents.remove()
-                object_subject[1].health = object_subject[1].health - object_subject[0].damage * 1.5
-                self.player_location.contents.append(object)
+            thing_target = instructions.split(" at ")
+            thing = self.get_element_container(thing_target[0], self.player_location)[0]
+            if thing is None:
+                return element_not_found(thing.name)
+            target = self.get_element_container(thing_target[1], self.player_location)[0]
+            if target is None:
+                return element_not_found(target.name)
+            if isinstance(target, Animate):
+                self.get_player().contents.remove(thing)
+                target.health = target.health - thing.damage * 1.5
+                self.player_location.contents.append(thing)
+                return hit_target(target.name)
+        thing = self.get_element_container(instructions, self.player_location)
+        self.get_player().contents.remove(thing[0])
+        self.player_location.contents.append(thing[0])
+        return THREW_AT_NOTHING

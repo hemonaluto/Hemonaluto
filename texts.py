@@ -126,3 +126,10 @@ SCENARIO_LOADED = "Loaded scenario."
 NOTHING_RESPONSES = ["What do sea monsters eat for dinner?\n\nFish and ships.",\
 "Why did the necromancer kill his depressed allies?\n\nHe wanted to raise their spirits.",\
 "Why do dwarven bards sound better by candlelight?\n\nYou can shove the wax in your ears."]
+
+# hit target response
+def hit_target(target_name):
+    """Returns hit target message"""
+    return f"Your projectile hit {target_name}."
+
+THREW_AT_NOTHING = "You threw it on the ground."
