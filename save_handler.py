@@ -36,6 +36,7 @@ class SaveHandler():
             for location_dictionary in location_dictionaries:
                 contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)
+                # ToDo: Find out why it doesn't do this automatically:
                 location.exits = location_dictionary["exits"]
                 location.contents = self.dictionary_to_elements(contents_dictionary)
                 all_name_locations.append((location.name, location))

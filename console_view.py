@@ -1,7 +1,8 @@
 """console view module"""
 from functools import partial
-from texts import DOWN, EAST, INPUT_INDICATOR, INTRODUCTION, NORTH, NORTHEAST, NORTHWEST,\
-QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, UP, WEST
+import random
+from texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE, NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES,\
+QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, SWEAR_RESPONSE, UP, WEST
 
 
 class ConsoleView:
@@ -28,16 +29,11 @@ class ConsoleView:
         unlock = self.dungeon_master.unlock
         take = self.dungeon_master.take
         inventory = self.dungeon_master.get_player_inventory
-        greet = self.dungeon_master.greet
-        swear = self.dungeon_master.swear_response
-        jump = self.dungeon_master.jump_response
         save = self.dungeon_master.save
         load = self.dungeon_master.load
-        restart = self.dungeon_master.load
         score = self.dungeon_master.get_score
         health = self.dungeon_master.get_health
-        nothing = self.dungeon_master.nothing_response
-        hemonaluto = self.dungeon_master.hemonaluto_response
+        throw = self.dungeon_master.throw
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -64,10 +60,6 @@ class ConsoleView:
             "climb": partial(move, UP),
             "down": partial(move, DOWN),
             "d": partial(move, DOWN),
-            # ToDo:
-            #"out": get_out,
-            #"in": get_in,
-            #"enter": get_in,
         }
         general_dictionary = {
             "quit": self.toggle_quit,
@@ -81,21 +73,22 @@ class ConsoleView:
             "pick": partial(take, " ".join(split_user_input[2:])),
             "inventory": inventory,
             "i": inventory,
-            "hi": greet,
-            "hello": greet,
-            "shit": swear,
-            "damn": swear,
-            "fuck": swear,
-            "jump": jump,
+            "hi": partial(random.choice, GREETINGS),
+            "hello": partial(random.choice, GREETINGS),
+            "shit": SWEAR_RESPONSE,
+            "damn": SWEAR_RESPONSE,
+            "fuck": SWEAR_RESPONSE,
+            "jump": JUMP_RESPONSE,
             "save": save,
-            "load": partial(take, "save.json"),
+            "load": partial(load, "save.json"),
             "restore": load,
-            "restart": partial(take, "scenario.json"),
+            "restart": partial(load, "scenario.json"),
             "score": score,
             "diagnostic": health,
             "health": health,
-            "": nothing,
-            "hemonaluto": hemonaluto,
+            "": partial(random.choice, NOTHING_RESPONSES),
+            "hemonaluto": INTRODUCTION,
+            "throw": partial(throw, rest_input_joined)
         }
         """
         ToDo:

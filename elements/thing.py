@@ -12,3 +12,4 @@ class Thing(Element):
         self.moved = False
         self.wearable = False
         self.concealed = False
+        self.damage = 1

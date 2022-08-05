@@ -73,7 +73,9 @@ def element_in_container(things_as_string, container):
     return f"There is a {things_as_string} in the {container}."
 
 # element not found
-ELEMENT_NOT_FOUND = "You couldn't find such a thing"
+def element_not_found(element_name):
+    """Returns element not found message"""
+    return f"You couldn't find such {element_name}"
 
 # picked up element
 def picked_up_element(element_name):

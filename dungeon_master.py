@@ -1,14 +1,14 @@
 """dungeon master module"""
-import random
+from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
 from elements.player import Player
 from elements.thing import Thing
 from save_handler import SaveHandler
-from texts import ELEMENT_NOT_FOUND, FAILED_SAVE_MESSAGE, GREETINGS, INTRODUCTION, JUMP_RESPONSE,\
-    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOTHING_RESPONSES,\
-    SAVED_GAME_MESSAGE, SWEAR_RESPONSE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, picked_up_element, element_in_container
+from texts import FAILED_SAVE_MESSAGE,\
+    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX,\
+    SAVED_GAME_MESSAGE, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, picked_up_element, element_in_container
 
 
 class DungeonMaster:
@@ -80,7 +80,7 @@ class DungeonMaster:
         if element_container:
             return self.describe_container(element_container[0])
         else:
-            return ELEMENT_NOT_FOUND
+            return element_not_found(element_name)
 
     def describe_container(self, top_container, prefix_suffix=None):
         """Descsribe any container and its contents and all the contents contents etc."""
@@ -152,7 +152,7 @@ class DungeonMaster:
             return response
         element_container = self.get_element_container(element_name, self.player_location)
         if not element_container:
-            return ELEMENT_NOT_FOUND
+            return element_not_found(element_name)
         element_container[1].contents.remove(element_container[0])
         self.get_player().contents.append(element_container[0])
         return picked_up_element(element_container[0].name)
@@ -163,18 +163,6 @@ class DungeonMaster:
         for element in self.get_player().contents:
             description = description + element.name + "\n"
         return description
-
-    def greet(self):
-        """Returns the greeting"""
-        return random.choice(GREETINGS)
-
-    def swear_response(self):
-        """Responds to swearing by a player"""
-        return SWEAR_RESPONSE
-
-    def jump_response(self):
-        """Responds to the player jumping"""
-        return JUMP_RESPONSE
 
     def save(self):
         """Saves the game state to file"""
@@ -189,10 +177,17 @@ class DungeonMaster:
         self.player_location = load_data[1]
         return LOADED_SAVE_MESSAGE
 
-    def nothing_response(self):
-        """Responds to the player saying nothing"""
-        return random.choice(NOTHING_RESPONSES)
-
-    def hemonaluto_response(self):
-        """Responds to the player saying the games name"""
-        return INTRODUCTION
+    def throw(self, instructions):
+        """Throws an item"""
+        if "at" in instructions:
+            object_subject = instructions.split(" at ")
+            object = self.get_element_container(object_subject[0], self.player_location)[0]
+            if object is None:
+                return element_not_found(object.name)
+            subject = self.get_element_container(object_subject[1], self.player_location)[0]
+            if subject is None:
+                return element_not_found(subject.name)
+            if isinstance(object_subject[1], Animate):
+                self.get_player().contents.remove()
+                object_subject[1].health = object_subject[1].health - object_subject[0].damage * 1.5
+                self.player_location.contents.append(object)
