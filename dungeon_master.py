@@ -5,8 +5,8 @@ from elements.door import Door
 from elements.player import Player
 from elements.thing import Thing
 from save_handler import SaveHandler
-from texts import FAILED_SAVE_MESSAGE,\
-    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX,\
+from texts import CLOSED, FAILED_SAVE_MESSAGE,\
+    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOT_OPENABLE,\
     SAVED_GAME_MESSAGE, THREW_AT_NOTHING, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element, element_in_container
 
@@ -37,10 +37,10 @@ class DungeonMaster:
             all_name_rooms_dict =  dict(self.all_name_locations)
             next_room = all_name_rooms_dict[self.player_location.exits[direction]]
             for element in self.player_location.contents:
-                if isinstance(element, Door)\
-                and next_room.name in element.connects\
-                and element.locked:
-                    return LOCKED_DOOR
+                if isinstance(element, Door):
+                    if next_room.name in element.connects and element.locked:
+                        return LOCKED_DOOR
+                    element.open = True
             player = self.get_player()
             self.player_location.contents.remove(player)
             self.set_player_location(player, next_room)
@@ -196,3 +196,11 @@ class DungeonMaster:
         self.get_player().contents.remove(thing[0])
         self.player_location.contents.append(thing[0])
         return THREW_AT_NOTHING
+
+    def close(self, element_name):
+        """Closes a door or chest element"""
+        element_container = self.get_element_container(element_name, self.player_location)
+        if isinstance(element_container[0], (Chest, Door)):
+            element_container[0].open = False
+            return CLOSED
+        return NOT_OPENABLE

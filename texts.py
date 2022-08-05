@@ -132,4 +132,11 @@ def hit_target(target_name):
     """Returns hit target message"""
     return f"Your projectile hit {target_name}."
 
+# threw thing at nothing specific response
 THREW_AT_NOTHING = "You threw it on the ground."
+
+# closed door or chest response
+CLOSED = "Closed it."
+
+# tries to close something unopenable response
+NOT_OPENABLE = "You can't close that."

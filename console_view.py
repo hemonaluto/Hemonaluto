@@ -34,6 +34,7 @@ class ConsoleView:
         score = self.dungeon_master.get_score
         health = self.dungeon_master.get_health
         throw = self.dungeon_master.throw
+        close = self.dungeon_master.close
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -88,12 +89,11 @@ class ConsoleView:
             "health": health,
             "": partial(random.choice, NOTHING_RESPONSES),
             "hemonaluto": INTRODUCTION,
-            "throw": partial(throw, rest_input_joined)
+            "throw": partial(throw, rest_input_joined),
+            "close": partial(close, rest_input_joined)
         }
         """
         ToDo:
-        "throw": throw,
-        "open": closent,
         "close": close,
         "read": decipher,
         "drop": drop,
