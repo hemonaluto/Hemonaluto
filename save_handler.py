@@ -65,6 +65,7 @@ class SaveHandler():
             if class_name == "Thing":
                 element = Thing(**element_dictionary)
                 element.fixed = element_dictionary["fixed"]
+                element.text = element_dictionary["text"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
             if len(element_dictionary["contents"]) > 0:

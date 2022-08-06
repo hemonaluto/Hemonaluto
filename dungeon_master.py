@@ -6,7 +6,7 @@ from elements.player import Player
 from elements.thing import Thing
 from save_handler import SaveHandler
 from texts import CLOSED, FAILED_SAVE_MESSAGE,\
-    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOT_OPENABLE,\
+    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE,\
     SAVED_GAME_MESSAGE, THREW_AT_NOTHING, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element, element_in_container
 
@@ -204,3 +204,10 @@ class DungeonMaster:
             element_container[0].open = False
             return CLOSED
         return NOT_OPENABLE
+
+    def read(self, element_name):
+        """Read an elements text"""
+        element_container = self.get_element_container(element_name, self.player_location)
+        if isinstance(element_container[0], Thing) and element_container[0].text:
+            return element_container[0].text
+        return NOT_READABLE

@@ -13,3 +13,4 @@ class Thing(Element):
         self.wearable = False
         self.concealed = False
         self.damage = 1
+        self.text = None

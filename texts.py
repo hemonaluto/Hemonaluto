@@ -140,3 +140,6 @@ CLOSED = "Closed it."
 
 # tries to close something unopenable response
 NOT_OPENABLE = "You can't close that."
+
+# tries to read something unreadable response
+NOT_READABLE = "You can't read that."
