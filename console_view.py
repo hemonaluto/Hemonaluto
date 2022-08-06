@@ -99,7 +99,6 @@ class ConsoleView:
         }
         """
         ToDo:
-        "put": put,
         "turn": turn,
         "turn on": turn_on,
         "turn off": turn_off,

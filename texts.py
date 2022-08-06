@@ -146,3 +146,21 @@ NOT_READABLE = "You can't read that."
 
 # tries to throw something unthrowable
 NOT_THROWABLE = "You can't throw that."
+
+# tries to turn on something that is already on
+ALREADY_ON = "That's already turned on."
+
+# tries to turn off something that is already off
+ALREADY_OFF = "That's already turned off."
+
+# turned on an activator
+TURNED_ON = "Turned on."
+
+# turned off an activator
+TURNED_OFF = "Turned off."
+
+# tries to do an impossible action
+ACTION_NOT_POSSIBLE = "You can't do that."
+
+# action failed
+ACTION_FAILED = "Action failed."

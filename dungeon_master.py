@@ -1,13 +1,15 @@
 """dungeon master module"""
+from elements.activator import Activator
 from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
 from elements.player import Player
 from elements.thing import Thing
+from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import CLOSED, FAILED_SAVE_MESSAGE,\
+from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, CLOSED, FAILED_SAVE_MESSAGE,\
     KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE,\
-    SAVED_GAME_MESSAGE, THREW_AT_NOTHING, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    SAVED_GAME_MESSAGE, THREW_AT_NOTHING, TURNED_OFF, TURNED_ON, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element, element_in_container
 
 
@@ -214,7 +216,7 @@ class DungeonMaster:
 
     def put(self, instructions):
         """Put element into the contents of another element"""
-        if "in" in instructions or "on" in instructions:
+        if " in " in instructions or " on " in instructions:
             thing_target = instructions.split(" in ")
             thing_target = instructions.split(" on ")
             thing_container = self.get_element_container(thing_target[0], self.get_player())
@@ -225,4 +227,48 @@ class DungeonMaster:
                 return element_not_found(thing_target[1])
             thing_container[1].contents.remove(thing_container[0])
             target_container[0].contents.append(thing_container[0])
-            
+
+    def activate(self, instructions, expected_activator_type: ActivatorType):
+        """Activate an activator"""
+        if "on" in instructions:
+            activator = self.get_element_container(instructions.replace("on").strip(),\
+            self.player_location)[0]
+            if not self.turn_on(activator):
+                return ALREADY_ON
+            return TURNED_ON
+        if "off" in instructions:
+            activator = self.get_element_container(instructions.replace("off").strip(),\
+            self.player_location)[0]
+            if not self.turn_off(activator):
+                return ALREADY_OFF
+            return TURNED_OFF
+        activator = self.get_element_container(instructions, self.player_location)[0]
+        if not activator:
+            return element_not_found(instructions)
+        if not expected_activator_type is activator.type:
+            return ACTION_NOT_POSSIBLE
+        if activator.is_on:
+            self.turn_off(activator)
+            return TURNED_ON
+        if not activator.is_on:
+            self.turn_on(activator)
+            return TURNED_ON
+        return ACTION_FAILED
+
+    def turn_on(self, activator: Activator):
+        """Turns an activator on"""
+        if activator.is_on:
+            return False
+        turn_on_method = getattr(self, activator.turn_on_method_name)
+        turn_on_method()
+        activator.is_on = True
+        return True
+
+    def turn_off(self, activator: Activator):
+        """Turns an activator off"""
+        if not activator.is_on:
+            return False
+        turn_off_method = getattr(self, activator.turn_off_method_name)
+        turn_off_method()
+        activator.is_on = False
+        return True
