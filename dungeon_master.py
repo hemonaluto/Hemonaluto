@@ -11,8 +11,8 @@ from save_handler import SaveHandler
 from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, CLOSED,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
     LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, THREW_AT_NOTHING,\
-    TURNED_OFF, TURNED_ON, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element,\
+    TURNED_OFF, TURNED_ON, WEAPON_NOT_SPECIFIED, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, element_not_in_inventory, hit_target, picked_up_element,\
     element_in_container, reveal_element
 
 
@@ -285,3 +285,18 @@ class DungeonMaster:
         revealed_element = self.get_element_container(element_container[0].reveals, self.player_location, only_visible=False)[0]
         revealed_element.visible = True
         return reveal_element(element_name, revealed_element.description.lower())
+
+    def attack(self, instructions):
+        """Throws an item"""
+        if "with" in instructions:
+            target_thing = instructions.split(" with ")
+            thing_container = self.get_element_container(target_thing[1], self.get_player())
+            if thing_container is None:
+                return element_not_in_inventory(target_thing[1])
+            target_container = self.get_element_container(target_thing[0], self.player_location)
+            if target_container is None:
+                return element_not_found(target_thing[0])
+            if isinstance(target_container[0], Animate):
+                target_container[0].health = target_container[0].health - thing_container[0].damage
+                return hit_target(target_container[0].name)
+        return WEAPON_NOT_SPECIFIED

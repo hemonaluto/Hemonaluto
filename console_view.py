@@ -40,6 +40,7 @@ class ConsoleView:
         put = self.dungeon_master.put
         activate = self.dungeon_master.activate
         move_element = self.dungeon_master.move_element
+        attack = self.dungeon_master.attack
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -103,13 +104,12 @@ class ConsoleView:
             "turn": partial(activate, rest_input_joined, ActivatorType.TURN),
             "push": partial(move_element, rest_input_joined),
             "pull": partial(move_element, rest_input_joined),
-            "move": partial(move_element, rest_input_joined)
+            "move": partial(move_element, rest_input_joined),
+            "attack": partial(attack, rest_input_joined),
+            "kill": partial(attack, rest_input_joined)
         }
         """
         ToDo:
-        "move": move_element,
-        "attack": attack,
-        "kill": attack,
         "eat": eat,
         "shout": shout,
         "tie": tie,

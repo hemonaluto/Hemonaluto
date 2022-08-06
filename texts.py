@@ -75,7 +75,12 @@ def element_in_container(things_as_string, container):
 # element not found
 def element_not_found(element_name):
     """Returns element not found message"""
-    return f"You couldn't find such {element_name}"
+    return f"You couldn't find the {element_name}."
+
+# element not in inventory
+def element_not_in_inventory(element_name):
+    """Returns element not in inventory message"""
+    return f"You don't have the {element_name} in your inventory."
 
 # picked up element
 def picked_up_element(element_name):
@@ -130,7 +135,7 @@ NOTHING_RESPONSES = ["What do sea monsters eat for dinner?\n\nFish and ships.",\
 # hit target response
 def hit_target(target_name):
     """Returns hit target message"""
-    return f"Your projectile hit {target_name}."
+    return f"Your weapon hit the {target_name}."
 
 # threw thing at nothing specific response
 THREW_AT_NOTHING = "You threw it on the ground."
@@ -180,3 +185,6 @@ BEDROOM_PILE_OF_DUST_DESCRIPTION = "A large pile of dust."
 def reveal_element(moved_item, revealed_item):
     """Revealing element message"""
     return f"You move the {moved_item} and reveal {revealed_item}"
+
+# attacks without specifying weapon
+WEAPON_NOT_SPECIFIED = "You didn't specify a weapon."
