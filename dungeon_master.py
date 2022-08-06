@@ -181,20 +181,20 @@ class DungeonMaster:
         """Throws an item"""
         if "at" in instructions:
             thing_target = instructions.split(" at ")
-            thing = self.get_element_container(thing_target[0], self.player_location)[0]
-            if thing is None:
-                return element_not_found(thing.name)
-            target = self.get_element_container(thing_target[1], self.player_location)[0]
-            if target is None:
-                return element_not_found(target.name)
-            if isinstance(target, Animate):
-                self.get_player().contents.remove(thing)
-                target.health = target.health - thing.damage * 1.5
-                self.player_location.contents.append(thing)
-                return hit_target(target.name)
-        thing = self.get_element_container(instructions, self.player_location)
-        self.get_player().contents.remove(thing[0])
-        self.player_location.contents.append(thing[0])
+            thing_container = self.get_element_container(thing_target[0], self.get_player())[0]
+            if thing_container is None:
+                return element_not_found(thing_container.name)
+            target_container = self.get_element_container(thing_target[1], self.player_location)[0]
+            if target_container is None:
+                return element_not_found(target_container.name)
+            if isinstance(target_container, Animate):
+                self.get_player().contents.remove(thing_container)
+                target_container.health = target_container.health - thing_container.damage * 1.5
+                self.player_location.contents.append(thing_container)
+                return hit_target(target_container.name)
+        thing_container = self.get_element_container(instructions, self.player_location)
+        self.get_player().contents.remove(thing_container[0])
+        self.player_location.contents.append(thing_container[0])
         return THREW_AT_NOTHING
 
     def close(self, element_name):
@@ -211,3 +211,18 @@ class DungeonMaster:
         if isinstance(element_container[0], Thing) and element_container[0].text:
             return element_container[0].text
         return NOT_READABLE
+
+    def put(self, instructions):
+        """Put element into the contents of another element"""
+        if "in" in instructions or "on" in instructions:
+            thing_target = instructions.split(" in ")
+            thing_target = instructions.split(" on ")
+            thing_container = self.get_element_container(thing_target[0], self.get_player())
+            if thing_container is None:
+                return element_not_found(thing_target[0])
+            target_container = self.get_element_container(thing_target[1], self.player_location)
+            if target_container is None:
+                return element_not_found(thing_target[1])
+            thing_container[1].contents.remove(thing_container[0])
+            target_container[0].contents.append(thing_container[0])
+            

@@ -143,3 +143,6 @@ NOT_OPENABLE = "You can't close that."
 
 # tries to read something unreadable response
 NOT_READABLE = "You can't read that."
+
+# tries to throw something unthrowable
+NOT_THROWABLE = "You can't throw that."

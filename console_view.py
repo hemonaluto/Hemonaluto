@@ -36,6 +36,7 @@ class ConsoleView:
         throw = self.dungeon_master.throw
         close = self.dungeon_master.close
         read = self.dungeon_master.read
+        put = self.dungeon_master.put
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -92,11 +93,12 @@ class ConsoleView:
             "hemonaluto": INTRODUCTION,
             "throw": partial(throw, rest_input_joined),
             "close": partial(close, rest_input_joined),
-            "read": partial(read, rest_input_joined)
+            "read": partial(read, rest_input_joined),
+            "drop": partial(throw, rest_input_joined),
+            "put": partial(put, rest_input_joined)
         }
         """
         ToDo:
-        "drop": drop,
         "put": put,
         "turn": turn,
         "turn on": turn_on,
