@@ -22,7 +22,7 @@
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "concealed": false
+                "visible": false
             },
             {
                 "name": "door",
@@ -53,14 +53,14 @@
                         "fixed": false,
                         "moved": false,
                         "wearable": false,
-                        "concealed": false
+                        "visible": false
                     }
                 ],
                 "class_name": "Thing",
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "concealed": false
+                "visible": false
             },
             {
                 "name": "rug",
@@ -71,7 +71,7 @@
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
-                "concealed": false
+                "visible": false
             }
         ],
         "class_name": "Location",

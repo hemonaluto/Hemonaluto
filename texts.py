@@ -171,3 +171,12 @@ BEDROOM_BUTTON_DESCRIPTION = "A big decorated wooden button attached to the wall
 
 # tries activator that does nothing
 NOTHING_HAPPENS = "Nothing happens."
+
+# pile of dust
+BEDROOM_PILE_OF_DUST_NAME = "pile of dust"
+BEDROOM_PILE_OF_DUST_DESCRIPTION = "A large pile of dust."
+
+# reveal element
+def reveal_element(moved_item, revealed_item):
+    """Revealing element message"""
+    return f"You move the {moved_item} and reveal {revealed_item}"

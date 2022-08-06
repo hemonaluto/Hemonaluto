@@ -9,7 +9,7 @@ class Activator(Element):
         super().__init__(name, description, **kwargs)
         self.name = name
         self.description = description
-        self.type = ActivatorType.PUSH
+        self.type = ActivatorType.PRESS
         self.is_on = False
         self.turn_on_method_name = None
         self.turn_off_method_name = None

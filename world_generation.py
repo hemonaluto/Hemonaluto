@@ -10,7 +10,7 @@ from save_handler import SaveHandler
 from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BUTTON_DESCRIPTION, BEDROOM_BUTTON_NAME,\
 BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
 BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME, DINING_ROOM_DESCRIPTION,\
+BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION, BEDROOM_PILE_OF_DUST_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME, DINING_ROOM_DESCRIPTION,\
 DINING_ROOM_NAME, EAST, PLAYER_DESCRIPTION, PLAYER_NAME, WEST
 
 
@@ -38,10 +38,14 @@ bedroom_button = Activator(BEDROOM_BUTTON_NAME, BEDROOM_BUTTON_DESCRIPTION)
 bedroom_button.type = "push"
 bedroom_button.turn_on_method_name = "bedroom_button_on"
 bedroom_button.turn_off_method_name = "bedroom_button_off"
+bedroom_pile_of_dust = Thing(BEDROOM_PILE_OF_DUST_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION)
+bedroom_pile_of_dust.visible = False
+bedroom_rug.reveals = bedroom_pile_of_dust.name
 # bedroom exits
 bedroom.exits[WEST] = dining_room.name
 # bedroom contents
-bedroom.contents.extend([player, bed, bedroom_door, bedroom_hook, bedroom_rug, bedroom_button])
+bedroom.contents.extend([player, bed, bedroom_door, bedroom_hook,\
+bedroom_rug, bedroom_button, bedroom_pile_of_dust])
 # dining room exits
 dining_room.exits[EAST] = bedroom.name
 # dining room contents

@@ -22,9 +22,9 @@
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "concealed": false,
                 "damage": 1,
-                "text": null
+                "text": null,
+                "reveals": null
             },
             {
                 "name": "door",
@@ -55,18 +55,18 @@
                         "fixed": false,
                         "moved": false,
                         "wearable": false,
-                        "concealed": false,
                         "damage": 1,
-                        "text": "B"
+                        "text": "B",
+                        "reveals": null
                     }
                 ],
                 "class_name": "Thing",
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "concealed": false,
                 "damage": 1,
-                "text": null
+                "text": null,
+                "reveals": null
             },
             {
                 "name": "rug",
@@ -77,9 +77,9 @@
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
-                "concealed": false,
                 "damage": 1,
-                "text": null
+                "text": null,
+                "reveals": "pile of dust"
             },
             {
                 "name": "button",
@@ -91,6 +91,19 @@
                 "is_on": false,
                 "turn_on_method_name": "bedroom_button_on",
                 "turn_off_method_name": "bedroom_button_off"
+            },
+            {
+                "name": "pile of dust",
+                "description": "A large pile of dust.",
+                "visible": false,
+                "contents": [],
+                "class_name": "Thing",
+                "fixed": false,
+                "moved": false,
+                "wearable": false,
+                "damage": 1,
+                "text": null,
+                "reveals": null
             }
         ],
         "class_name": "Location",

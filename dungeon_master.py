@@ -13,7 +13,7 @@ from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, C
     LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, THREW_AT_NOTHING,\
     TURNED_OFF, TURNED_ON, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element,\
-    element_in_container
+    element_in_container, reveal_element
 
 
 class DungeonMaster:
@@ -94,7 +94,7 @@ class DungeonMaster:
             top_container.description.lower() + prefix_suffix[1]
         else:
             description = top_container.description
-        visible_elements = self.get_all_elements_container(top_container, True)
+        visible_elements = self.get_all_elements_container(top_container, only_visible=True)
         for element_container in visible_elements:
             if element_container[1] is not self.get_player():
                 if element_container[1] is not self.player_location:
@@ -105,11 +105,11 @@ class DungeonMaster:
                         description = description + "\n" + element_container[0].description
         return description
 
-    def get_element_container(self, element_name, container):
+    def get_element_container(self, element_name, container, only_visible = True):
         """Get an element in the container
         by its name and the corresponding container.
         If it's not found it returns None"""
-        for element_container in self.get_all_elements_container(container, True):
+        for element_container in self.get_all_elements_container(container, only_visible):
             element = element_container[0]
             if element.name.lower() == element_name.lower():
                 return (element, element_container[1])
@@ -277,3 +277,11 @@ class DungeonMaster:
         if turn_off_method:
             return turn_off_method()
         return NOTHING_HAPPENS
+
+    def move_element(self, element_name):
+        """Moves element"""
+        element_container = self.get_element_container(element_name, self.player_location)
+        element_container[0].moved = True
+        revealed_element = self.get_element_container(element_container[0].reveals, self.player_location, only_visible=False)[0]
+        revealed_element.visible = True
+        return reveal_element(element_name, revealed_element.description.lower())

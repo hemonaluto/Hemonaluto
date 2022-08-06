@@ -4,4 +4,4 @@
 class ActivatorType():
     """Activator type enum"""
     TURN = "turn"
-    PUSH = "push"
+    PRESS = "press"

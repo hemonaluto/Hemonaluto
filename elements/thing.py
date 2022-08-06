@@ -11,6 +11,6 @@ class Thing(Element):
         self.fixed = False
         self.moved = False
         self.wearable = False
-        self.concealed = False
         self.damage = 1
         self.text = None
+        self.reveals = None

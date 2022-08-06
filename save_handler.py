@@ -67,6 +67,8 @@ class SaveHandler():
                 element = Thing(**element_dictionary)
                 element.fixed = element_dictionary["fixed"]
                 element.text = element_dictionary["text"]
+                element.visible = element_dictionary["visible"]
+                element.reveals = element_dictionary["reveals"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
             if class_name == "Activator":
