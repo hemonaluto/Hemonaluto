@@ -1,6 +1,7 @@
 """console view module"""
 from functools import partial
 import random
+from enums.activator_type import ActivatorType
 from texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE, NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES,\
 QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, SWEAR_RESPONSE, UP, WEST
 
@@ -37,6 +38,7 @@ class ConsoleView:
         close = self.dungeon_master.close
         read = self.dungeon_master.read
         put = self.dungeon_master.put
+        activate = self.dungeon_master.activate
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -95,13 +97,12 @@ class ConsoleView:
             "close": partial(close, rest_input_joined),
             "read": partial(read, rest_input_joined),
             "drop": partial(throw, rest_input_joined),
-            "put": partial(put, rest_input_joined)
+            "put": partial(put, rest_input_joined),
+            "push": partial(activate, rest_input_joined, ActivatorType.PUSH),
+            "turn": partial(activate, rest_input_joined, ActivatorType.TURN)
         }
         """
         ToDo:
-        "turn": turn,
-        "turn on": turn_on,
-        "turn off": turn_off,
         "move": move_element,
         "attack": attack,
         "kill": attack,

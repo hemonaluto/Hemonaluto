@@ -80,6 +80,17 @@
                 "concealed": false,
                 "damage": 1,
                 "text": null
+            },
+            {
+                "name": "button",
+                "description": "A big decorated wooden button attached to the wall next to the bed.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Activator",
+                "type": "push",
+                "is_on": false,
+                "turn_on_method_name": "bedroom_button_on",
+                "turn_off_method_name": "bedroom_button_off"
             }
         ],
         "class_name": "Location",

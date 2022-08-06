@@ -1,5 +1,6 @@
 """save handler module"""
 import json
+from elements.activator import Activator
 from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
@@ -9,7 +10,7 @@ from elements.player import Player
 from elements.thing import Thing
 
 class SaveHandler():
-    """Class to initialize any kind of place, e.g. a room, with its own name and description"""
+    """Class to save and load the game state"""
     def __init__(self):
         pass
 
@@ -68,6 +69,10 @@ class SaveHandler():
                 element.text = element_dictionary["text"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
+            if class_name == "Activator":
+                element = Activator(**element_dictionary)
+                element.turn_on_method_name = element_dictionary["turn_on_method_name"]
+                element.turn_off_method_name = element_dictionary["turn_off_method_name"]
             if len(element_dictionary["contents"]) > 0:
                 element.contents = self.dictionary_to_elements(element_dictionary["contents"])
             converted_contents.append(element)

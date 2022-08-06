@@ -164,3 +164,10 @@ ACTION_NOT_POSSIBLE = "You can't do that."
 
 # action failed
 ACTION_FAILED = "Action failed."
+
+# bedroom button
+BEDROOM_BUTTON_NAME = "button"
+BEDROOM_BUTTON_DESCRIPTION = "A big decorated wooden button attached to the wall next to the bed."
+
+# tries activator that does nothing
+NOTHING_HAPPENS = "Nothing happens."

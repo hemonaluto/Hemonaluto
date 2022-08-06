@@ -1,8 +1,7 @@
 """activator types module"""
-from enum import Enum
 
 
-class ActivatorType(Enum):
+class ActivatorType():
     """Activator type enum"""
     TURN = "turn"
     PUSH = "push"

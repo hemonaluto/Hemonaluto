@@ -1,4 +1,5 @@
 """dungeon master module"""
+from activator_handler import ActivatorHandler
 from elements.activator import Activator
 from elements.animate import Animate
 from elements.chest import Chest
@@ -7,10 +8,12 @@ from elements.player import Player
 from elements.thing import Thing
 from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, CLOSED, FAILED_SAVE_MESSAGE,\
-    KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX, LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE,\
-    SAVED_GAME_MESSAGE, THREW_AT_NOTHING, TURNED_OFF, TURNED_ON, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element, element_in_container
+from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, CLOSED,\
+    FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
+    LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, THREW_AT_NOTHING,\
+    TURNED_OFF, TURNED_ON, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, hit_target, picked_up_element,\
+    element_in_container
 
 
 class DungeonMaster:
@@ -230,16 +233,18 @@ class DungeonMaster:
 
     def activate(self, instructions, expected_activator_type: ActivatorType):
         """Activate an activator"""
-        if "on" in instructions:
-            activator = self.get_element_container(instructions.replace("on").strip(),\
-            self.player_location)[0]
-            if not self.turn_on(activator):
+        activator_handler = ActivatorHandler()
+        split_input = instructions.split()
+        if "on" in instructions.split():
+            split_input.remove("on")
+            activator = self.get_element_container(split_input[0], self.player_location)[0]
+            if not self.turn_on(activator, activator_handler):
                 return ALREADY_ON
             return TURNED_ON
-        if "off" in instructions:
-            activator = self.get_element_container(instructions.replace("off").strip(),\
-            self.player_location)[0]
-            if not self.turn_off(activator):
+        if "off" in instructions.split():
+            split_input.remove("off")
+            activator = self.get_element_container(split_input[0], self.player_location)[0]
+            if not self.turn_off(activator, activator_handler):
                 return ALREADY_OFF
             return TURNED_OFF
         activator = self.get_element_container(instructions, self.player_location)[0]
@@ -247,28 +252,28 @@ class DungeonMaster:
             return element_not_found(instructions)
         if not expected_activator_type is activator.type:
             return ACTION_NOT_POSSIBLE
-        if activator.is_on:
-            self.turn_off(activator)
-            return TURNED_ON
-        if not activator.is_on:
-            self.turn_on(activator)
-            return TURNED_ON
+        if activator.is_on is True:
+            return self.turn_off(activator, activator_handler)
+        if activator.is_on is False:
+            return self.turn_on(activator, activator_handler)  
         return ACTION_FAILED
 
-    def turn_on(self, activator: Activator):
+    def turn_on(self, activator: Activator, activator_handler: ActivatorHandler):
         """Turns an activator on"""
         if activator.is_on:
-            return False
-        turn_on_method = getattr(self, activator.turn_on_method_name)
-        turn_on_method()
+            return ALREADY_ON
+        turn_on_method = getattr(activator_handler, activator.turn_on_method_name)
         activator.is_on = True
-        return True
+        if turn_on_method:
+            return turn_on_method()
+        return NOTHING_HAPPENS
 
-    def turn_off(self, activator: Activator):
+    def turn_off(self, activator: Activator, activator_handler: ActivatorHandler):
         """Turns an activator off"""
         if not activator.is_on:
-            return False
-        turn_off_method = getattr(self, activator.turn_off_method_name)
-        turn_off_method()
+            return ALREADY_OFF
+        turn_off_method = getattr(activator_handler, activator.turn_off_method_name)
         activator.is_on = False
-        return True
+        if turn_off_method:
+            return turn_off_method()
+        return NOTHING_HAPPENS
