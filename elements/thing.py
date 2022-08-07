@@ -14,3 +14,4 @@ class Thing(Element):
         self.text = None
         self.reveals = None
         self.when_broken_do = None
+        self.enterable = False

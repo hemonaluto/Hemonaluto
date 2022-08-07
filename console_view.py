@@ -44,6 +44,10 @@ class ConsoleView:
         eat = self.dungeon_master.eat
         tie = self.dungeon_master.tie
         untie = self.dungeon_master.untie
+        listen = self.dungeon_master.listen
+        smell = self.dungeon_master.smell
+        hide = self.dungeon_master.hide
+        appear = self.dungeon_master.appear
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -117,17 +121,14 @@ class ConsoleView:
             "attach": partial(tie, rest_input_joined),
             "untie": partial(untie, rest_input_joined),
             "destroy": partial(attack, rest_input_joined),
-            "break": partial(attack, rest_input_joined)
+            "break": partial(attack, rest_input_joined),
+            "cut": partial(attack, rest_input_joined),
+            "listen": listen,
+            "smell": smell,
+            "hide": partial(hide, rest_input_joined),
+            "leave": appear,
+            "appear": appear
         }
-        """
-        ToDo:
-        "break": destroy, if item dmg higher than
-        "pray": pray,
-        "drink": drink,
-        "smell": smell,
-        "cut": cut,
-        "listen": listen,
-        """
         move_action = move_dictionary.get(split_user_input[0], None)
         if move_action is not None:
             return move_action()

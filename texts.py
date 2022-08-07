@@ -201,6 +201,7 @@ DINING_ROOM_PLATE_DESCRIPTION = "A ceramic plate."
 DINING_ROOM_FOOD_NAME = "breakfast"
 DINING_ROOM_FOOD_DESCRIPTION = "A hearty breakfasat."
 DINING_ROOM_FOOD_TASTE = "amazing"
+DINING_ROOM_FOOD_SMELL = "A pleasent smell resembling eggs and bacon."
 
 # eating food message
 def eat_food(food_name, taste):
@@ -274,3 +275,40 @@ def door_leads_to(directions):
     for direction in directions:
         description += f"\n    The door leads to the {direction}."
     return description
+
+# hears nothing message
+SILENCE = "You hear nothing specific."
+
+# smells nothing message
+NO_SMELLS = "You smell nothing specific."
+
+# noises description
+def noises_description(noises):
+    """Describes noises"""
+    description = "You hear:"
+    for noise in noises:
+        description += f"\n    {noise}"
+    return description
+
+# smell description
+def smell_description(smells):
+    """Describes smells"""
+    description = "You smell:"
+    for smell in smells:
+        description += f"\n    {smell}"
+    return description
+
+# dining room fireplace
+DINING_ROOM_FIREPLACE_NAME = "fireplace"
+DINING_ROOM_FIREPLACE_DESCRIPTION = "A lit fireplace."
+DINING_ROOM_FIREPLACE_SOUND = "The crackle of a fire."
+
+# hiding
+def entering_thing(thing):
+    """Entering thing message"""
+    return f"Hiding in {thing}"
+NOT_ENTERABLE = "You can't enter that."
+SPECIFIY_HIDING_PLACE = "Hidingplace not specified."
+CANT_SEE_LOCATION_FROM_HIDING = "You can't see anything from your hididng spot."
+APPEARING = "You leave your hiding place."
+NOT_HIDING = "You're not hiding in the first place."

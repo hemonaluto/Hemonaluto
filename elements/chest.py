@@ -12,4 +12,3 @@ class Chest(Thing, Element):
         self.locked = False
         self.key = None
         self.peekable = False
-        self.enterable = False

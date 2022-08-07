@@ -1,4 +1,5 @@
 """dungeon master module"""
+import re
 from activator_handler import ActivatorHandler
 from elements.activator import Activator
 from elements.animate import Animate
@@ -10,12 +11,12 @@ from elements.thing import Thing
 from elements.tool import Tool
 from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, ALREADY_UNTIED, CANT_BREAK, CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DOWN,\
+from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING, CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DOWN,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
-    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING,\
+    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE, NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, SILENCE, SPECIFIY_HIDING_PLACE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING,\
     TURNED_OFF, TURNED_ON, UNTIE, WEAPON_NOT_SPECIFIED, door_leads_to, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory, hit_target, picked_up_element,\
-    element_in_container, reveal_element, tie_rope_to_target
+    INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory, entering_thing, hit_target, noises_description, picked_up_element,\
+    element_in_container, reveal_element, smell_description, tie_rope_to_target
 
 
 class DungeonMaster:
@@ -89,7 +90,9 @@ class DungeonMaster:
 
     def describe_location(self):
         """Describes the location where the player is"""
-        return self.describe_container(self.player_location, (LOCATION_PREFIX, LOCATION_SUFFIX))
+        if not self.get_player().hiding:
+            return self.describe_container(self.player_location, (LOCATION_PREFIX, LOCATION_SUFFIX))
+        return CANT_SEE_LOCATION_FROM_HIDING
 
     def describe_element(self, element_name):
         """Get description of a single element"""
@@ -128,7 +131,6 @@ class DungeonMaster:
             if direction_location[1] in door_container[0].connects:
                 directions.append(direction_location[0])
         return directions
-
 
     def get_element_container(self, compare_element_name, container, only_visible = True):
         """Get an element in the container
@@ -341,7 +343,9 @@ class DungeonMaster:
                     return CANT_BREAK
                 break_method = getattr(self.activator_handler, target_container[0].when_broken_do)
                 target_container[1].contents.remove(target_container[0])
-                target_container[1].contents.append(Thing("broken " + target_container[0].name, target_container[0].description))
+                target_container[1].contents.append(\
+                    Thing("broken " + target_container[0].name,\
+                    target_container[0].description))
                 return break_method()
         return WEAPON_NOT_SPECIFIED
 
@@ -383,3 +387,43 @@ class DungeonMaster:
             rope.tied_to = None
             return UNTIE
         return ALREADY_UNTIED
+
+    def listen(self):
+        """Listens to environment"""
+        noises = []
+        for element_container in self.get_all_elements_container(self.player_location):
+            if element_container[0].sound:
+                noises.append(element_container[0].sound)
+        if len(noises) == 0:
+            return SILENCE
+        return noises_description(noises)
+
+    def smell(self):
+        """Smells the environment"""
+        smells = []
+        for element_container in self.get_all_elements_container(self.player_location):
+            if element_container[0].smell:
+                smells.append(element_container[0].smell)
+        if len(smells) == 0:
+            return NO_SMELLS
+        return smell_description(smells)
+
+    def hide(self, instructions):
+        """Hides player in thing"""
+        if "in" in instructions or "under" in instructions:
+            target = re.split("in|under", instructions)[1]
+            element_container = self.get_element_container(target, self.player_location)
+            if isinstance(element_container[0], Thing) and element_container[0].enterable:
+                self.get_player().hiding = True
+                return entering_thing(element_container[0].name)
+            return NOT_ENTERABLE
+        return SPECIFIY_HIDING_PLACE
+
+    def appear(self):
+        """Puts player out of hiding"""
+        player = self.get_player()
+        if player.hiding is True:
+            player.hiding = False
+            return APPEARING
+        return NOT_HIDING
+        

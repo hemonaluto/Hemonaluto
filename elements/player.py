@@ -11,3 +11,4 @@ class Player(Animate, Element):
         self.name = name
         self.description = description
         self.visible = True
+        self.hiding = False

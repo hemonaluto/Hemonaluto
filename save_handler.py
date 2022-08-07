@@ -76,6 +76,9 @@ class SaveHandler():
                 element.reveals = element_dictionary["reveals"]
                 element.preposition = element_dictionary["preposition"]
                 element.when_broken_do = element_dictionary["when_broken_do"]
+                element.smell = element_dictionary["smell"]
+                element.sound = element_dictionary["sound"]
+                element.enterable = element_dictionary["enterable"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
             if class_name == "Activator":
@@ -86,6 +89,7 @@ class SaveHandler():
                 element = Food(**element_dictionary)
                 element.regen = element_dictionary["regen"]
                 element.taste = element_dictionary["taste"]
+                element.smell = element_dictionary["smell"]
             if class_name == "Rope":
                 element = Rope(**element_dictionary)
                 element.tied_to = element_dictionary["tied_to"]
