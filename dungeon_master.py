@@ -12,7 +12,7 @@ from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, C
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
     LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, THREW_AT_NOTHING,\
     TURNED_OFF, TURNED_ON, WEAPON_NOT_SPECIFIED, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, element_not_found, element_not_in_inventory, hit_target, picked_up_element,\
+    INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory, hit_target, picked_up_element,\
     element_in_container, reveal_element
 
 
@@ -99,20 +99,28 @@ class DungeonMaster:
             if element_container[1] is not self.get_player():
                 if element_container[1] is not self.player_location:
                     description = description + "\n" +\
-                    element_in_container(element_container[0].name, element_container[1].name)
+                    element_in_container(element_container[0].name,\
+                    element_container[1].preposition,\
+                    element_container[1].name)
                 else:
                     if not isinstance(element_container[0], Player):
                         description = description + "\n" + element_container[0].description
         return description
 
-    def get_element_container(self, element_name, container, only_visible = True):
+    def get_element_container(self, compare_element_name, container, only_visible = True):
         """Get an element in the container
         by its name and the corresponding container.
         If it's not found it returns None"""
+        vague_matches = []
         for element_container in self.get_all_elements_container(container, only_visible):
             element = element_container[0]
-            if element.name.lower() == element_name.lower():
-                return (element, element_container[1])
+            if bool(set(compare_element_name.lower().split()) & set(element.name.lower().split())):
+                vague_matches.append((element, element_container[1]))
+        if len(vague_matches) > 1:
+            for vague_match in vague_matches:
+                if vague_match[0].name.lower() == compare_element_name.lower():
+                    return vague_match
+        return vague_matches[0]
 
     def get_all_elements_container(self, container, only_visible=False, only_takeable=False):
         """Recursive method to get all elements in the container
@@ -281,8 +289,11 @@ class DungeonMaster:
     def move_element(self, element_name):
         """Moves element"""
         element_container = self.get_element_container(element_name, self.player_location)
+        if not element_container:
+            return element_not_found(element_name)
         element_container[0].moved = True
-        revealed_element = self.get_element_container(element_container[0].reveals, self.player_location, only_visible=False)[0]
+        revealed_element = self.get_element_container(element_container[0].reveals,\
+        self.player_location, only_visible=False)[0]
         revealed_element.visible = True
         return reveal_element(element_name, revealed_element.description.lower())
 
@@ -300,3 +311,11 @@ class DungeonMaster:
                 target_container[0].health = target_container[0].health - thing_container[0].damage
                 return hit_target(target_container[0].name)
         return WEAPON_NOT_SPECIFIED
+
+    def eat(self, element_name):
+        """Feeds the player"""
+        food = self.get_element_container(element_name, self.player_location)[0]
+        if not food:
+            return element_not_found(food)
+        self.get_player().health += food.regen
+        return eat_food(food.name, food.taste)

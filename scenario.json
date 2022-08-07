@@ -10,6 +10,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Player",
+                "preposition": "in",
                 "clothes": [],
                 "health": 100
             },
@@ -19,6 +20,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Thing",
+                "preposition": "in",
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
@@ -32,6 +34,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Door",
+                "preposition": "in",
                 "open": false,
                 "lockable": false,
                 "locked": true,
@@ -52,6 +55,7 @@
                         "visible": true,
                         "contents": [],
                         "class_name": "Thing",
+                        "preposition": "in",
                         "fixed": false,
                         "moved": false,
                         "wearable": false,
@@ -61,6 +65,7 @@
                     }
                 ],
                 "class_name": "Thing",
+                "preposition": "in",
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
@@ -74,6 +79,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Thing",
+                "preposition": "in",
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
@@ -87,6 +93,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Activator",
+                "preposition": "in",
                 "type": "push",
                 "is_on": false,
                 "turn_on_method_name": "bedroom_button_on",
@@ -98,6 +105,7 @@
                 "visible": false,
                 "contents": [],
                 "class_name": "Thing",
+                "preposition": "in",
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
@@ -107,6 +115,7 @@
             }
         ],
         "class_name": "Location",
+        "preposition": "in",
         "visited": false,
         "exits": {
             "west": "Dining Room"
@@ -124,6 +133,7 @@
                 "visible": true,
                 "contents": [],
                 "class_name": "Door",
+                "preposition": "in",
                 "open": false,
                 "lockable": false,
                 "locked": true,
@@ -132,9 +142,56 @@
                     "Dining Room",
                     "Bedroom"
                 ]
+            },
+            {
+                "name": "table",
+                "description": "A round wooden table.",
+                "visible": true,
+                "contents": [
+                    {
+                        "name": "plate",
+                        "description": "A ceramic plate.",
+                        "visible": true,
+                        "contents": [
+                            {
+                                "name": "breakfast",
+                                "description": "A hearty breakfasat.",
+                                "visible": true,
+                                "contents": [],
+                                "class_name": "Food",
+                                "preposition": "in",
+                                "fixed": false,
+                                "moved": false,
+                                "wearable": false,
+                                "damage": 1,
+                                "text": null,
+                                "reveals": null,
+                                "regen": 10,
+                                "taste": "amazing"
+                            }
+                        ],
+                        "class_name": "Thing",
+                        "preposition": "on",
+                        "fixed": false,
+                        "moved": false,
+                        "wearable": false,
+                        "damage": 1,
+                        "text": null,
+                        "reveals": null
+                    }
+                ],
+                "class_name": "Thing",
+                "preposition": "on",
+                "fixed": false,
+                "moved": false,
+                "wearable": false,
+                "damage": 1,
+                "text": null,
+                "reveals": null
             }
         ],
         "class_name": "Location",
+        "preposition": "in",
         "visited": false,
         "exits": {
             "east": "Bedroom"

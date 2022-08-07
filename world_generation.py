@@ -3,6 +3,7 @@
 
 from elements.activator import Activator
 from elements.door import Door
+from elements.food import Food
 from elements.location import Location
 from elements.player import Player
 from elements.thing import Thing
@@ -10,8 +11,8 @@ from save_handler import SaveHandler
 from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BUTTON_DESCRIPTION, BEDROOM_BUTTON_NAME,\
 BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
 BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION, BEDROOM_PILE_OF_DUST_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME, DINING_ROOM_DESCRIPTION,\
-DINING_ROOM_NAME, EAST, PLAYER_DESCRIPTION, PLAYER_NAME, WEST
+BEDROOM_KEY_NAME, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION, BEDROOM_PILE_OF_DUST_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME, DINING_ROOM_DESCRIPTION, DINING_ROOM_FOOD_DESCRIPTION, DINING_ROOM_FOOD_NAME, DINING_ROOM_FOOD_TASTE,\
+DINING_ROOM_NAME, DINING_ROOM_PLATE_DESCRIPTION, DINING_ROOM_PLATE_NAME, DINING_ROOM_TABLE_DESCRIPTION, DINING_ROOM_TABLE_NAME, EAST, PLAYER_DESCRIPTION, PLAYER_NAME, WEST
 
 
 all_name_locations = []
@@ -48,8 +49,19 @@ bedroom.contents.extend([player, bed, bedroom_door, bedroom_hook,\
 bedroom_rug, bedroom_button, bedroom_pile_of_dust])
 # dining room exits
 dining_room.exits[EAST] = bedroom.name
+# dining room table
+dining_room_table = Thing(DINING_ROOM_TABLE_NAME, DINING_ROOM_TABLE_DESCRIPTION)
+dining_room_table.preposition = "on"
+dining_room_plate = Thing(DINING_ROOM_PLATE_NAME, DINING_ROOM_PLATE_DESCRIPTION)
+dining_room_plate.preposition = "on"
+dining_room_breakfast = Food(DINING_ROOM_FOOD_NAME, DINING_ROOM_FOOD_DESCRIPTION)
+dining_room_breakfast.taste = DINING_ROOM_FOOD_TASTE
+dining_room_plate.contents.append(dining_room_breakfast)
+dining_room_table.contents.append(dining_room_plate)
 # dining room contents
 dining_room.contents.append(bedroom_door)
+dining_room.contents.append(dining_room_table)
+# dining room door connections
 bedroom_door.connects.append(bedroom.name)
 # add all rooms to all_name_rooms list
 all_name_locations.append((bedroom.name, bedroom))

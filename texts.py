@@ -68,9 +68,9 @@ BEDROOM_RUG_NAME = "rug"
 BEDROOM_RUG_DESCRIPTION = "A large soft red rug."
 
 # thing in container
-def element_in_container(things_as_string, container):
+def element_in_container(things_as_string, preposition, container):
     """Returns a description for a thing within a container"""
-    return f"There is a {things_as_string} in the {container}."
+    return f"There is a {things_as_string} {preposition} the {container}."
 
 # element not found
 def element_not_found(element_name):
@@ -188,3 +188,20 @@ def reveal_element(moved_item, revealed_item):
 
 # attacks without specifying weapon
 WEAPON_NOT_SPECIFIED = "You didn't specify a weapon."
+
+# dining room table
+DINING_ROOM_TABLE_NAME = "table"
+DINING_ROOM_TABLE_DESCRIPTION = "A round wooden table."
+
+# dining room plate
+DINING_ROOM_PLATE_NAME = "plate"
+DINING_ROOM_PLATE_DESCRIPTION = "A ceramic plate."
+
+# dining room food
+DINING_ROOM_FOOD_NAME = "breakfast"
+DINING_ROOM_FOOD_DESCRIPTION = "A hearty breakfasat."
+DINING_ROOM_FOOD_TASTE = "amazing"
+
+def eat_food(food_name, taste):
+    """Eating food message"""
+    return f"You eat the {food_name}. It tastes {taste}."

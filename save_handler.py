@@ -5,6 +5,7 @@ from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
 from elements.element import Element
+from elements.food import Food
 from elements.location import Location
 from elements.player import Player
 from elements.thing import Thing
@@ -69,12 +70,17 @@ class SaveHandler():
                 element.text = element_dictionary["text"]
                 element.visible = element_dictionary["visible"]
                 element.reveals = element_dictionary["reveals"]
+                element.preposition = element_dictionary["preposition"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
             if class_name == "Activator":
                 element = Activator(**element_dictionary)
                 element.turn_on_method_name = element_dictionary["turn_on_method_name"]
                 element.turn_off_method_name = element_dictionary["turn_off_method_name"]
+            if class_name == "Food":
+                element = Food(**element_dictionary)
+                element.regen = element_dictionary["regen"]
+                element.taste = element_dictionary["taste"]
             if len(element_dictionary["contents"]) > 0:
                 element.contents = self.dictionary_to_elements(element_dictionary["contents"])
             converted_contents.append(element)
