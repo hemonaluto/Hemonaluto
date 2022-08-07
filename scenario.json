@@ -14,7 +14,8 @@
                 "sound": null,
                 "smell": null,
                 "clothes": [],
-                "health": 100
+                "health": 100,
+                "hiding": false
             },
             {
                 "name": "bed",
@@ -112,7 +113,7 @@
                 "preposition": "in",
                 "sound": null,
                 "smell": null,
-                "type": "push",
+                "type": "press",
                 "is_on": false,
                 "turn_on_method_name": "bedroom_button_on",
                 "turn_off_method_name": "bedroom_button_off"
@@ -335,7 +336,9 @@
         "sound": null,
         "smell": null,
         "visited": false,
-        "exits": {},
+        "exits": {
+            "up": "Dining Room"
+        },
         "has_light": false,
         "brief": null,
         "needs_rope": true

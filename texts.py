@@ -312,3 +312,6 @@ SPECIFIY_HIDING_PLACE = "Hidingplace not specified."
 CANT_SEE_LOCATION_FROM_HIDING = "You can't see anything from your hididng spot."
 APPEARING = "You leave your hiding place."
 NOT_HIDING = "You're not hiding in the first place."
+
+# bedroom key text
+BEDROOM_KEY_TEXT = "B"

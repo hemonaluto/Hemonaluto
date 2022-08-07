@@ -9,11 +9,11 @@ class ActivatorHandler():
 
     def bedroom_button_on(self):
         """Turns on bedroom test button"""
-        return "Button turned on."
+        return "The button lights up."
 
     def bedroom_button_off(self):
         """Turns off bedroom test button"""
-        return "Button turned off."
+        return "The button goes dark."
 
     def break_plate(self):
         """Reacts to the player breaking a plate"""
