@@ -3,7 +3,7 @@
 
 
 class ActivatorHandler():
-    """Class containing the methods corresponding to button presses or valve turns"""
+    """Class containing the methods corresponding to button presses, valve turns or thing breaking"""
     def __init__(self):
         pass
 
@@ -14,3 +14,7 @@ class ActivatorHandler():
     def bedroom_button_off(self):
         """Turns off bedroom test button"""
         return "Button turned off."
+
+    def break_plate(self):
+        """Reacts to the player breaking a plate"""
+        return "The plate shatters into a dozen pieces."

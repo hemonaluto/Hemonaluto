@@ -3,7 +3,7 @@ from functools import partial
 import random
 from enums.activator_type import ActivatorType
 from texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE, NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES,\
-QUIT_MESSAGE, SOUTH, SOUTHEAST, SOUTHWEST, SWEAR_RESPONSE, UP, WEST
+QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST, SOUTHWEST, SWEAR_RESPONSE, UP, WEST
 
 
 class ConsoleView:
@@ -42,6 +42,8 @@ class ConsoleView:
         move_element = self.dungeon_master.move_element
         attack = self.dungeon_master.attack
         eat = self.dungeon_master.eat
+        tie = self.dungeon_master.tie
+        untie = self.dungeon_master.untie
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -108,14 +110,18 @@ class ConsoleView:
             "move": partial(move_element, rest_input_joined),
             "attack": partial(attack, rest_input_joined),
             "kill": partial(attack, rest_input_joined),
-            "eat": partial(eat, rest_input_joined)
+            "eat": partial(eat, rest_input_joined),
+            "drink": partial(eat, rest_input_joined),
+            "shout": SHOUT_RESPONSE,
+            "tie": partial(tie, rest_input_joined),
+            "attach": partial(tie, rest_input_joined),
+            "untie": partial(untie, rest_input_joined),
+            "destroy": partial(attack, rest_input_joined),
+            "break": partial(attack, rest_input_joined)
         }
         """
         ToDo:
-        "eat": eat,
-        "shout": shout,
-        "tie": tie,
-        "break": destroy,
+        "break": destroy, if item dmg higher than
         "pray": pray,
         "drink": drink,
         "smell": smell,

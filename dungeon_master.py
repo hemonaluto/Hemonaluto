@@ -5,15 +5,17 @@ from elements.animate import Animate
 from elements.chest import Chest
 from elements.door import Door
 from elements.player import Player
+from elements.rope import Rope
 from elements.thing import Thing
+from elements.tool import Tool
 from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, CLOSED,\
+from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, ALREADY_UNTIED, CANT_BREAK, CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DOWN,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
-    LOCATION_SUFFIX, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, THREW_AT_NOTHING,\
-    TURNED_OFF, TURNED_ON, WEAPON_NOT_SPECIFIED, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING,\
+    TURNED_OFF, TURNED_ON, UNTIE, WEAPON_NOT_SPECIFIED, door_leads_to, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory, hit_target, picked_up_element,\
-    element_in_container, reveal_element
+    element_in_container, reveal_element, tie_rope_to_target
 
 
 class DungeonMaster:
@@ -23,6 +25,7 @@ class DungeonMaster:
         self.all_name_locations = []
         self.save_handler = SaveHandler()
         self.player_score = 0
+        self.activator_handler = ActivatorHandler()
 
     def get_player(self):
         """Get the player object from the current location"""
@@ -39,17 +42,26 @@ class DungeonMaster:
     def move_player(self, direction):
         """Move the player from one location to the next, which lies in the given direction"""
         if direction in self.player_location.exits:
+            travel_text = ""
             all_name_rooms_dict =  dict(self.all_name_locations)
             next_room = all_name_rooms_dict[self.player_location.exits[direction]]
+            room_has_attached_rope = False
             for element in self.player_location.contents:
                 if isinstance(element, Door):
                     if next_room.name in element.connects and element.locked:
                         return LOCKED_DOOR
                     element.open = True
+                if isinstance(element, Rope) and direction == DOWN and next_room.needs_rope:
+                    if not element.tied_to:
+                        return NO_TIED_ROPE
+                    room_has_attached_rope = True
+                    travel_text = CLIMBING_DOWN
+            if next_room.needs_rope and room_has_attached_rope is False:
+                return NO_TIED_ROPE
             player = self.get_player()
             self.player_location.contents.remove(player)
             self.set_player_location(player, next_room)
-            return self.player_location.name
+            return travel_text + self.player_location.name
         return INVALID_DIRECTION
 
     def unlock(self, door_name):
@@ -105,7 +117,18 @@ class DungeonMaster:
                 else:
                     if not isinstance(element_container[0], Player):
                         description = description + "\n" + element_container[0].description
+                    if isinstance(element_container[0], Door):
+                        description = description + " " + door_leads_to(self.get_door_directions(element_container))
         return description
+
+    def get_door_directions(self, door_container):
+        """Get the directions a door leads to"""
+        directions = [] 
+        for direction_location in door_container[1].exits.items():
+            if direction_location[1] in door_container[0].connects:
+                directions.append(direction_location[0])
+        return directions
+
 
     def get_element_container(self, compare_element_name, container, only_visible = True):
         """Get an element in the container
@@ -120,7 +143,9 @@ class DungeonMaster:
             for vague_match in vague_matches:
                 if vague_match[0].name.lower() == compare_element_name.lower():
                     return vague_match
-        return vague_matches[0]
+        if len(vague_matches) == 1:
+            return vague_matches[0]
+        return None
 
     def get_all_elements_container(self, container, only_visible=False, only_takeable=False):
         """Recursive method to get all elements in the container
@@ -241,18 +266,17 @@ class DungeonMaster:
 
     def activate(self, instructions, expected_activator_type: ActivatorType):
         """Activate an activator"""
-        activator_handler = ActivatorHandler()
         split_input = instructions.split()
         if "on" in instructions.split():
             split_input.remove("on")
             activator = self.get_element_container(split_input[0], self.player_location)[0]
-            if not self.turn_on(activator, activator_handler):
+            if not self.turn_on(activator, self.activator_handler):
                 return ALREADY_ON
             return TURNED_ON
         if "off" in instructions.split():
             split_input.remove("off")
             activator = self.get_element_container(split_input[0], self.player_location)[0]
-            if not self.turn_off(activator, activator_handler):
+            if not self.turn_off(activator, self.activator_handler):
                 return ALREADY_OFF
             return TURNED_OFF
         activator = self.get_element_container(instructions, self.player_location)[0]
@@ -261,9 +285,9 @@ class DungeonMaster:
         if not expected_activator_type is activator.type:
             return ACTION_NOT_POSSIBLE
         if activator.is_on is True:
-            return self.turn_off(activator, activator_handler)
+            return self.turn_off(activator, self.activator_handler)
         if activator.is_on is False:
-            return self.turn_on(activator, activator_handler)  
+            return self.turn_on(activator, self.activator_handler)  
         return ACTION_FAILED
 
     def turn_on(self, activator: Activator, activator_handler: ActivatorHandler):
@@ -298,18 +322,27 @@ class DungeonMaster:
         return reveal_element(element_name, revealed_element.description.lower())
 
     def attack(self, instructions):
-        """Throws an item"""
+        """Attacks a target"""
         if "with" in instructions:
             target_thing = instructions.split(" with ")
-            thing_container = self.get_element_container(target_thing[1], self.get_player())
-            if thing_container is None:
+            tool_container = self.get_element_container(target_thing[1], self.get_player())
+            if tool_container is None:
                 return element_not_in_inventory(target_thing[1])
+            if not isinstance(tool_container[0], Tool):
+                return NEEDS_TO_BE_TOOL
             target_container = self.get_element_container(target_thing[0], self.player_location)
             if target_container is None:
                 return element_not_found(target_thing[0])
             if isinstance(target_container[0], Animate):
-                target_container[0].health = target_container[0].health - thing_container[0].damage
+                target_container[0].health = target_container[0].health - tool_container[0].damage
                 return hit_target(target_container[0].name)
+            if isinstance(target_container[0], Thing):
+                if not target_container[0].when_broken_do:
+                    return CANT_BREAK
+                break_method = getattr(self.activator_handler, target_container[0].when_broken_do)
+                target_container[1].contents.remove(target_container[0])
+                target_container[1].contents.append(Thing("broken " + target_container[0].name, target_container[0].description))
+                return break_method()
         return WEAPON_NOT_SPECIFIED
 
     def eat(self, element_name):
@@ -319,3 +352,34 @@ class DungeonMaster:
             return element_not_found(food)
         self.get_player().health += food.regen
         return eat_food(food.name, food.taste)
+
+    def tie(self, instructions):
+        """Ties a rope to something"""
+        if "to" in instructions:
+            thing_target = instructions.split(" to ")
+            thing_container = self.get_element_container(thing_target[0], self.get_player())
+            if thing_container is None:
+                return element_not_in_inventory(thing_target[0])
+            target_container = self.get_element_container(thing_target[1], self.player_location)
+            if target_container is None:
+                return element_not_found(thing_target[1])
+            if not isinstance(target_container[0], Thing):
+                return CANT_TIE_TO_ELEMENT
+            if not target_container[0].fixed:
+                return THAT_WONT_HOLD
+            if isinstance(thing_container[0], Rope):
+                self.get_player().contents.remove(thing_container[0])
+                target_container[1].contents.append(thing_container[0])
+                thing_container[0].tied_to = target_container[0].name
+                return tie_rope_to_target(target_container[0].name.lower())
+        return TARGET_NOT_SPECIFIED
+
+    def untie(self, rope_name):
+        """Unties a rope"""
+        rope = self.get_element_container(rope_name, self.player_location)
+        if rope is None:
+            return element_not_found(rope_name)
+        if self.get_element_container(rope.tied_to, self.player_location):
+            rope.tied_to = None
+            return UNTIE
+        return ALREADY_UNTIED

@@ -8,7 +8,9 @@ from elements.element import Element
 from elements.food import Food
 from elements.location import Location
 from elements.player import Player
+from elements.rope import Rope
 from elements.thing import Thing
+from elements.tool import Tool
 
 class SaveHandler():
     """Class to save and load the game state"""
@@ -40,6 +42,7 @@ class SaveHandler():
                 location = Location(**location_dictionary)
                 # ToDo: Find out why it doesn't do this automatically:
                 location.exits = location_dictionary["exits"]
+                location.needs_rope = location_dictionary["needs_rope"]
                 location.contents = self.dictionary_to_elements(contents_dictionary)
                 all_name_locations.append((location.name, location))
                 for element in location.contents:
@@ -64,6 +67,7 @@ class SaveHandler():
             if class_name == "Location":
                 element = Location(**element_dictionary)
                 element.exits = element_dictionary["exits"]
+                element.needs_rope = element_dictionary["needs_rope"]
             if class_name == "Thing":
                 element = Thing(**element_dictionary)
                 element.fixed = element_dictionary["fixed"]
@@ -71,6 +75,7 @@ class SaveHandler():
                 element.visible = element_dictionary["visible"]
                 element.reveals = element_dictionary["reveals"]
                 element.preposition = element_dictionary["preposition"]
+                element.when_broken_do = element_dictionary["when_broken_do"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
             if class_name == "Activator":
@@ -81,6 +86,11 @@ class SaveHandler():
                 element = Food(**element_dictionary)
                 element.regen = element_dictionary["regen"]
                 element.taste = element_dictionary["taste"]
+            if class_name == "Rope":
+                element = Rope(**element_dictionary)
+                element.tied_to = element_dictionary["tied_to"]
+            if class_name == "Tool":
+                element = Tool(**element_dictionary)
             if len(element_dictionary["contents"]) > 0:
                 element.contents = self.dictionary_to_elements(element_dictionary["contents"])
             converted_contents.append(element)

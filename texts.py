@@ -45,7 +45,7 @@ PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."
 
 # examine location
 LOCATION_PREFIX = "You are in "
-LOCATION_SUFFIX = " You look around you and you see:"
+LOCATION_SUFFIX = "\nYou look around you and you see:"
 
 # bed
 BED_NAME = "bed"
@@ -70,7 +70,7 @@ BEDROOM_RUG_DESCRIPTION = "A large soft red rug."
 # thing in container
 def element_in_container(things_as_string, preposition, container):
     """Returns a description for a thing within a container"""
-    return f"There is a {things_as_string} {preposition} the {container}."
+    return f"    There is a {things_as_string} {preposition} the {container}."
 
 # element not found
 def element_not_found(element_name):
@@ -85,7 +85,7 @@ def element_not_in_inventory(element_name):
 # picked up element
 def picked_up_element(element_name):
     """Returns the information that the player picked up a specific element"""
-    return f"You picked up the {element_name}"
+    return f"You picked up the {element_name}."
 
 # generic location
 GENERIC_LOCATAION_NAME = "location"
@@ -202,6 +202,75 @@ DINING_ROOM_FOOD_NAME = "breakfast"
 DINING_ROOM_FOOD_DESCRIPTION = "A hearty breakfasat."
 DINING_ROOM_FOOD_TASTE = "amazing"
 
+# eating food message
 def eat_food(food_name, taste):
     """Eating food message"""
     return f"You eat the {food_name}. It tastes {taste}."
+
+# shouting response
+SHOUT_RESPONSE = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
+# dining room trapdoor
+DINING_ROOM_TRAPDOOR_NAME = "trapdoor"
+DINING_ROOM_TRAPDOOR_DESCRIPTION = "A wooden trapdoor."
+
+# rope
+ROPE_NAME = "rope"
+ROPE_DESCRIPTION = "A long rope."
+
+# tied element to target
+def tie_rope_to_target(target):
+    """Tying rope to something message"""
+    return f"You tie the rope to the {target}."
+
+# that won't hold
+THAT_WONT_HOLD = "That won't hold your weight."
+
+# target not specified
+TARGET_NOT_SPECIFIED = "Target not specified."
+
+# untie
+UNTIE = "You untie it."
+
+# cellar
+CELLAR_NAME = "Cellar"
+CELLAR_DESCRIPTION = "A dusty abandoned cellar with an unusable broken staircase leading up.\n"
+
+# climbing down text
+CLIMBING_DOWN = "You climb down the rope.\n"
+
+# tries to go down when there is no tied rope in the room
+NO_TIED_ROPE = "There is a steep way down but you'll need something to lower yourself."
+
+# tries to tie rope to something you can't tie ropes to
+CANT_TIE_TO_ELEMENT = "You can't tie the rope to that."
+
+# dining room crate
+DINING_ROOM_CRATE_NAME = "crate"
+DINING_ROOM_CRATE_DESCRIPTION = "A heavy crate filled to the brim with dirt."
+
+# tries to untie an already untied rope
+ALREADY_UNTIED = "No need for that, it's already untied."
+
+# tries to break a thing that has no break method
+CANT_BREAK = "Breaking that would be pointless."
+
+# tries to attack something without a valid tool
+NEEDS_TO_BE_TOOL = "Try using a tool or weapon instead."
+
+# breakfast knife
+BREAKFAST_KNIFE_NAME = "knife"
+BREAKFAST_KNIFE_DESCRIPTION = "A small blunt knife."
+
+# door leads to message
+def door_leads_to(directions):
+    """describes where a door leads to"""
+    description = ""
+    for direction in directions:
+        description += f"\n    The door leads to the {direction}."
+    return description

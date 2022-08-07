@@ -10,3 +10,4 @@ class Element:
         self.contents = []
         self.class_name = type(self).__name__
         self.preposition = "in"
+        # idea: emoji for every element

@@ -11,3 +11,5 @@ class Location(Element):
         self.visited = False
         self.exits = {}
         self.has_light = False
+        self.brief = None # ToDo: implement
+        self.needs_rope = False

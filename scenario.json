@@ -24,9 +24,9 @@
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "damage": 1,
                 "text": null,
-                "reveals": null
+                "reveals": null,
+                "when_broken_do": null
             },
             {
                 "name": "door",
@@ -59,9 +59,9 @@
                         "fixed": false,
                         "moved": false,
                         "wearable": false,
-                        "damage": 1,
                         "text": "B",
-                        "reveals": null
+                        "reveals": null,
+                        "when_broken_do": null
                     }
                 ],
                 "class_name": "Thing",
@@ -69,9 +69,9 @@
                 "fixed": true,
                 "moved": false,
                 "wearable": false,
-                "damage": 1,
                 "text": null,
-                "reveals": null
+                "reveals": null,
+                "when_broken_do": null
             },
             {
                 "name": "rug",
@@ -83,9 +83,9 @@
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
-                "damage": 1,
                 "text": null,
-                "reveals": "pile of dust"
+                "reveals": "pile of dust",
+                "when_broken_do": null
             },
             {
                 "name": "button",
@@ -109,9 +109,9 @@
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
-                "damage": 1,
                 "text": null,
-                "reveals": null
+                "reveals": null,
+                "when_broken_do": null
             }
         ],
         "class_name": "Location",
@@ -120,7 +120,9 @@
         "exits": {
             "west": "Dining Room"
         },
-        "has_light": false
+        "has_light": false,
+        "brief": null,
+        "needs_rope": false
     },
     {
         "name": "Dining Room",
@@ -163,9 +165,9 @@
                                 "fixed": false,
                                 "moved": false,
                                 "wearable": false,
-                                "damage": 1,
                                 "text": null,
                                 "reveals": null,
+                                "when_broken_do": null,
                                 "regen": 10,
                                 "taste": "amazing"
                             }
@@ -175,9 +177,25 @@
                         "fixed": false,
                         "moved": false,
                         "wearable": false,
-                        "damage": 1,
                         "text": null,
-                        "reveals": null
+                        "reveals": null,
+                        "when_broken_do": "break_plate"
+                    },
+                    {
+                        "name": "knife",
+                        "description": "A small blunt knife.",
+                        "visible": true,
+                        "contents": [],
+                        "class_name": "Tool",
+                        "preposition": "in",
+                        "fixed": false,
+                        "moved": false,
+                        "wearable": false,
+                        "text": null,
+                        "reveals": null,
+                        "when_broken_do": null,
+                        "damage": 10,
+                        "durability": 100
                     }
                 ],
                 "class_name": "Thing",
@@ -185,17 +203,75 @@
                 "fixed": false,
                 "moved": false,
                 "wearable": false,
-                "damage": 1,
                 "text": null,
-                "reveals": null
+                "reveals": null,
+                "when_broken_do": null
+            },
+            {
+                "name": "trapdoor",
+                "description": "A wooden trapdoor.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Door",
+                "preposition": "in",
+                "open": false,
+                "lockable": false,
+                "locked": false,
+                "key": null,
+                "connects": []
+            },
+            {
+                "name": "rope",
+                "description": "A long rope.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Rope",
+                "preposition": "in",
+                "fixed": false,
+                "moved": false,
+                "wearable": false,
+                "text": null,
+                "reveals": null,
+                "when_broken_do": null,
+                "tied_to": null
+            },
+            {
+                "name": "crate",
+                "description": "A heavy crate filled to the brim with dirt.",
+                "visible": true,
+                "contents": [],
+                "class_name": "Thing",
+                "preposition": "in",
+                "fixed": true,
+                "moved": false,
+                "wearable": false,
+                "text": null,
+                "reveals": null,
+                "when_broken_do": null
             }
         ],
         "class_name": "Location",
         "preposition": "in",
         "visited": false,
         "exits": {
-            "east": "Bedroom"
+            "east": "Bedroom",
+            "down": "Cellar"
         },
-        "has_light": false
+        "has_light": false,
+        "brief": null,
+        "needs_rope": false
+    },
+    {
+        "name": "Cellar",
+        "description": "A dusty abandoned cellar with an unusable broken staircase leading up.\n",
+        "visible": true,
+        "contents": [],
+        "class_name": "Location",
+        "preposition": "in",
+        "visited": false,
+        "exits": {},
+        "has_light": false,
+        "brief": null,
+        "needs_rope": true
     }
 ]
