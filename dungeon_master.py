@@ -261,7 +261,8 @@ class DungeonMaster:
     def put(self, instructions):
         """Put element into the contents of another element"""
         if " in " in instructions or " on " in instructions:
-            thing_target = re.split(" in | on ", instructions)
+            thing_target = instructions.split(" in ") # ToDo: Fix this, doesn't split
+            thing_target = instructions.split(" on ")
             thing_container = self.get_element_container(thing_target[0], self.get_player())
             if thing_container is None:
                 return element_not_found(thing_target[0])
