@@ -1,5 +1,6 @@
 """save handler module"""
 import json
+from helper_methods import isinstanceorsubclass
 from elements.activator import Activator
 from elements.animate import Animate
 from elements.chest import Chest
@@ -39,12 +40,14 @@ class SaveHandler():
                 contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)
                 # ToDo: Find out why it doesn't do this automatically:
+                location.brief = location_dictionary["brief"]
                 location.exits = location_dictionary["exits"]
+                location.has_light = location_dictionary["has_light"]
                 location.needs_rope = location_dictionary["needs_rope"]
                 location.contents = self.dictionary_to_elements(contents_dictionary)
                 all_name_locations.append((location.name, location))
                 for element in location.contents:
-                    if isinstance(element, Player):
+                    if isinstanceorsubclass(element, Player):
                         player_location = location
             return (all_name_locations, player_location)
 
@@ -53,6 +56,7 @@ class SaveHandler():
         converted_contents = []
         for element_dictionary in contents_dictionary_list:
             class_name = element_dictionary["class_name"]
+            element = None
             if class_name == "Player":
                 element = Player(**element_dictionary)
             if class_name == "Animate":
@@ -79,10 +83,12 @@ class SaveHandler():
                 element.enterable = element_dictionary["enterable"]
             if class_name == "Element":
                 element = Element(**element_dictionary)
+                element.sound = element_dictionary["sound"]
             if class_name == "Activator":
                 element = Activator(**element_dictionary)
                 element.turn_on_method_name = element_dictionary["turn_on_method_name"]
                 element.turn_off_method_name = element_dictionary["turn_off_method_name"]
+                element.is_on = element_dictionary["is_on"]
             if class_name == "Food":
                 element = Food(**element_dictionary)
                 element.regen = element_dictionary["regen"]
