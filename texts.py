@@ -15,6 +15,10 @@ EXAMINE_COMMAND_DESCRIPTION = "Examine anything in the game"
 EXAMINE_COMMAND_HELP = "Type examine followed by the thing you want to examine."\
         "\nExamples:\nexamine door\nexamine location\nexamine knife"
 
+# examine location
+LOCATION_PREFIX = "You are in "
+LOCATION_SUFFIX = "\nYou look around you and you see:"
+
 # directions
 NORTH = "north"
 EAST = "east"
@@ -39,34 +43,6 @@ def door_not_locked(door_name):
     return f"{door_name.capitalize()} is already unlocked."
 KEY_MISSING = "You don't have the required key for that."
 
-# player
-PLAYER_NAME = "Player"
-PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."
-
-# examine location
-LOCATION_PREFIX = "You are in "
-LOCATION_SUFFIX = "\nYou look around you and you see:"
-
-# bed
-BED_NAME = "bed"
-BED_DESCRIPTION = "A comfy wooden red bed."
-
-# bedroom door
-BEDROOM_DOOR_NAME = "door"
-BEDROOM_DOOR_DESCRIPTION = "A mundane wooden door."
-
-# bedroom key
-BEDROOM_KEY_NAME = "crude key"
-BEDROOM_KEY_DESCRIPTION = "A key with a cursive letter B inscribed on it."
-
-# bedroom hook
-BEDROOM_HOOK_NAME = "hook"
-BEDROOM_HOOK_DESCRIPTION = "A blunt wooden hook attached to the wall."
-
-# bedroom rug
-BEDROOM_RUG_NAME = "rug"
-BEDROOM_RUG_DESCRIPTION = "A large soft red rug."
-
 # thing in container
 def element_in_container(things_as_string, preposition, container):
     """Returns a description for a thing within a container"""
@@ -89,14 +65,6 @@ def picked_up_element(element_name):
 
 # generic location
 GENERIC_LOCATAION_NAME = "location"
-
-# bedroom
-BEDROOM_NAME = "Bedroom"
-BEDROOM_DESCRIPTION = "A room designed for humans to rest."
-
-# dining room
-DINING_ROOM_NAME = "Dining Room"
-DINING_ROOM_DESCRIPTION = "A room designed for humans to eat."
 
 # greetings
 GREETINGS = ["Hi.", "Hello.", "Greetings"]
@@ -170,16 +138,8 @@ ACTION_NOT_POSSIBLE = "You can't do that."
 # action failed
 ACTION_FAILED = "Action failed."
 
-# bedroom button
-BEDROOM_BUTTON_NAME = "button"
-BEDROOM_BUTTON_DESCRIPTION = "A big decorated wooden button attached to the wall next to the bed."
-
 # tries activator that does nothing
 NOTHING_HAPPENS = "Nothing happens."
-
-# pile of dust
-BEDROOM_PILE_OF_DUST_NAME = "pile of dust"
-BEDROOM_PILE_OF_DUST_DESCRIPTION = "A large pile of dust."
 
 # reveal element
 def reveal_element(moved_item, revealed_item):
@@ -188,20 +148,6 @@ def reveal_element(moved_item, revealed_item):
 
 # attacks without specifying weapon
 WEAPON_NOT_SPECIFIED = "You didn't specify a weapon."
-
-# dining room table
-DINING_ROOM_TABLE_NAME = "table"
-DINING_ROOM_TABLE_DESCRIPTION = "A round wooden table."
-
-# dining room plate
-DINING_ROOM_PLATE_NAME = "plate"
-DINING_ROOM_PLATE_DESCRIPTION = "A ceramic plate."
-
-# dining room food
-DINING_ROOM_FOOD_NAME = "breakfast"
-DINING_ROOM_FOOD_DESCRIPTION = "A hearty breakfasat."
-DINING_ROOM_FOOD_TASTE = "amazing"
-DINING_ROOM_FOOD_SMELL = "A pleasent smell resembling eggs and bacon."
 
 # eating food message
 def eat_food(food_name, taste):
@@ -215,14 +161,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-
-# dining room trapdoor
-DINING_ROOM_TRAPDOOR_NAME = "trapdoor"
-DINING_ROOM_TRAPDOOR_DESCRIPTION = "A wooden trapdoor."
-
-# rope
-ROPE_NAME = "rope"
-ROPE_DESCRIPTION = "A long rope."
 
 # tied element to target
 def tie_rope_to_target(target):
@@ -238,10 +176,6 @@ TARGET_NOT_SPECIFIED = "Target not specified."
 # untie
 UNTIE = "You untie it."
 
-# cellar
-CELLAR_NAME = "Cellar"
-CELLAR_DESCRIPTION = "A dusty abandoned cellar with an unusable broken staircase leading up.\n"
-
 # climbing down text
 CLIMBING_DOWN = "You climb down the rope.\n"
 
@@ -251,10 +185,6 @@ NO_TIED_ROPE = "There is a steep way down but you'll need something to lower you
 # tries to tie rope to something you can't tie ropes to
 CANT_TIE_TO_ELEMENT = "You can't tie the rope to that."
 
-# dining room crate
-DINING_ROOM_CRATE_NAME = "crate"
-DINING_ROOM_CRATE_DESCRIPTION = "A heavy crate filled to the brim with dirt."
-
 # tries to untie an already untied rope
 ALREADY_UNTIED = "No need for that, it's already untied."
 
@@ -263,10 +193,6 @@ CANT_BREAK = "Breaking that would be pointless."
 
 # tries to attack something without a valid tool
 NEEDS_TO_BE_TOOL = "Try using a tool or weapon instead."
-
-# breakfast knife
-BREAKFAST_KNIFE_NAME = "knife"
-BREAKFAST_KNIFE_DESCRIPTION = "A small blunt knife."
 
 # door leads to message
 def door_leads_to(directions):
@@ -298,11 +224,6 @@ def smell_description(smells):
         description += f"\n    {smell}"
     return description
 
-# dining room fireplace
-DINING_ROOM_FIREPLACE_NAME = "fireplace"
-DINING_ROOM_FIREPLACE_DESCRIPTION = "A lit fireplace."
-DINING_ROOM_FIREPLACE_SOUND = "The crackle of a fire."
-
 # hiding
 def entering_thing(thing):
     """Entering thing message"""
@@ -313,5 +234,5 @@ CANT_SEE_LOCATION_FROM_HIDING = "You can't see anything from your hididng spot."
 APPEARING = "You leave your hiding place."
 NOT_HIDING = "You're not hiding in the first place."
 
-# bedroom key text
-BEDROOM_KEY_TEXT = "B"
+# done generic action
+DONE = "Done."

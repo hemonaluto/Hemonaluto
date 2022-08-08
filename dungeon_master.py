@@ -11,11 +11,17 @@ from elements.thing import Thing
 from elements.tool import Tool
 from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON, ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING, CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DOWN,\
+from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
+    ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING,\
+    CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
-    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE, NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE, SILENCE, SPECIFIY_HIDING_PLACE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING,\
-    TURNED_OFF, TURNED_ON, UNTIE, WEAPON_NOT_SPECIFIED, door_leads_to, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
-    INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory, entering_thing, hit_target, noises_description, picked_up_element,\
+    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE,\
+    NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE,\
+    SILENCE, SPECIFIY_HIDING_PLACE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD,\
+    THREW_AT_NOTHING, TURNED_OFF, TURNED_ON, UNTIE, WEAPON_NOT_SPECIFIED,\
+    door_leads_to, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
+    INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory,\
+    entering_thing, hit_target, noises_description, picked_up_element,\
     element_in_container, reveal_element, smell_description, tie_rope_to_target
 
 
@@ -106,7 +112,7 @@ class DungeonMaster:
         """Descsribe any container and its contents and all the contents contents etc."""
         if prefix_suffix:
             description = top_container.name + "\n" + prefix_suffix[0] +\
-            top_container.description.lower() + prefix_suffix[1]
+                top_container.description.lower() + prefix_suffix[1]
         else:
             description = top_container.description
         visible_elements = self.get_all_elements_container(top_container, only_visible=True)
@@ -114,9 +120,9 @@ class DungeonMaster:
             if element_container[1] is not self.get_player():
                 if element_container[1] is not self.player_location:
                     description = description + "\n" +\
-                    element_in_container(element_container[0].name,\
-                    element_container[1].preposition,\
-                    element_container[1].name)
+                        element_in_container(element_container[0].name,\
+                        element_container[1].preposition,\
+                        element_container[1].name)
                 else:
                     if not isinstance(element_container[0], Player):
                         description = description + "\n" + element_container[0].description
@@ -158,7 +164,7 @@ class DungeonMaster:
                 if isinstance(element, Thing) and element.visible and not element.fixed:
                     elements_container.append((element, container))
                 elements_container = elements_container +\
-                self.get_all_elements_container(element, only_visible, only_takeable)
+                    self.get_all_elements_container(element, only_visible, only_takeable)
             return elements_container
         if only_visible:
             for element in container.contents:
@@ -169,13 +175,13 @@ class DungeonMaster:
                     pass
                 else:
                     elements_container = elements_container +\
-                    self.get_all_elements_container(element, only_visible)
+                        self.get_all_elements_container(element, only_visible)
             return elements_container
         if not only_visible:
             for element in container.contents:
                 elements_container.append((element, container))
                 elements_container = elements_container +\
-                self.get_all_elements_container(element, only_visible)
+                    self.get_all_elements_container(element, only_visible)
             return elements_container
         return None
 
@@ -255,7 +261,7 @@ class DungeonMaster:
     def put(self, instructions):
         """Put element into the contents of another element"""
         if " in " in instructions or " on " in instructions:
-            thing_target = instructions.split(" in ")
+            thing_target = instructions.split(" in ") # ToDo: Fix this, doesn't split
             thing_target = instructions.split(" on ")
             thing_container = self.get_element_container(thing_target[0], self.get_player())
             if thing_container is None:
@@ -265,6 +271,8 @@ class DungeonMaster:
                 return element_not_found(thing_target[1])
             thing_container[1].contents.remove(thing_container[0])
             target_container[0].contents.append(thing_container[0])
+            return DONE
+        return TARGET_NOT_SPECIFIED
 
     def activate(self, instructions, expected_activator_type: ActivatorType):
         """Activate an activator"""
@@ -289,7 +297,7 @@ class DungeonMaster:
         if activator.is_on is True:
             return self.turn_off(activator, self.activator_handler)
         if activator.is_on is False:
-            return self.turn_on(activator, self.activator_handler)  
+            return self.turn_on(activator, self.activator_handler)
         return ACTION_FAILED
 
     def turn_on(self, activator: Activator, activator_handler: ActivatorHandler):
@@ -319,7 +327,7 @@ class DungeonMaster:
             return element_not_found(element_name)
         element_container[0].moved = True
         revealed_element = self.get_element_container(element_container[0].reveals,\
-        self.player_location, only_visible=False)[0]
+            self.player_location, only_visible=False)[0]
         revealed_element.visible = True
         return reveal_element(element_name, revealed_element.description.lower())
 
@@ -426,4 +434,3 @@ class DungeonMaster:
             player.hiding = False
             return APPEARING
         return NOT_HIDING
-        

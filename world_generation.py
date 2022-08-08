@@ -1,6 +1,4 @@
 """Generates the game world"""
-
-
 from elements.activator import Activator
 from elements.door import Door
 from elements.food import Food
@@ -11,25 +9,28 @@ from elements.thing import Thing
 from elements.tool import Tool
 from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BUTTON_DESCRIPTION, BEDROOM_BUTTON_NAME,\
-BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
+from scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BUTTON_DESCRIPTION,\
+BEDROOM_BUTTON_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
 BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
 BEDROOM_KEY_NAME, BEDROOM_KEY_TEXT, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION,\
 BEDROOM_PILE_OF_DUST_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
-BREAKFAST_KNIFE_DESCRIPTION, BREAKFAST_KNIFE_NAME,\
-CELLAR_DESCRIPTION, CELLAR_NAME, DINING_ROOM_CRATE_DESCRIPTION, DINING_ROOM_CRATE_NAME,\
+BREAKFAST_KNIFE_DESCRIPTION, BREAKFAST_KNIFE_NAME, CELLAR_ALTAR_DESCRIPTION, CELLAR_ALTAR_NAME,\
+CELLAR_DESCRIPTION, CELLAR_NAME, CELLAR_SKELETON_DESCRIPTION,\
+CELLAR_SKELETON_NAME, DINING_ROOM_CRATE_DESCRIPTION, DINING_ROOM_CRATE_NAME,\
 DINING_ROOM_DESCRIPTION, DINING_ROOM_FIREPLACE_DESCRIPTION, DINING_ROOM_FIREPLACE_NAME,\
 DINING_ROOM_FIREPLACE_SOUND, DINING_ROOM_FOOD_DESCRIPTION, DINING_ROOM_FOOD_NAME,\
 DINING_ROOM_FOOD_SMELL, DINING_ROOM_FOOD_TASTE, DINING_ROOM_NAME,\
 DINING_ROOM_PLATE_DESCRIPTION, DINING_ROOM_PLATE_NAME, DINING_ROOM_TABLE_DESCRIPTION,\
 DINING_ROOM_TABLE_NAME, DINING_ROOM_TRAPDOOR_DESCRIPTION, DINING_ROOM_TRAPDOOR_NAME,\
-DOWN, EAST, PLAYER_DESCRIPTION, PLAYER_NAME, ROPE_DESCRIPTION, ROPE_NAME, UP, WEST
+PLAYER_DESCRIPTION, PLAYER_NAME, ROPE_DESCRIPTION, ROPE_NAME
+from texts import UP, DOWN, EAST, WEST
 
 
 all_name_locations = []
 # Create all game elements
 player = Player(PLAYER_NAME, PLAYER_DESCRIPTION, 100)
 bedroom = Location(BEDROOM_NAME, BEDROOM_DESCRIPTION)
+bedroom.exits[WEST] = DINING_ROOM_NAME
 bed = Thing(BED_NAME, BED_DESCRIPTION)
 bed.fixed = True
 bed.enterable = True
@@ -51,7 +52,6 @@ bedroom_pile_of_dust = Thing(BEDROOM_PILE_OF_DUST_NAME, BEDROOM_PILE_OF_DUST_DES
 bedroom_pile_of_dust.visible = False
 bedroom_rug.reveals = bedroom_pile_of_dust.name
 bedroom_door.connects.append(BEDROOM_NAME)
-bedroom.exits[WEST] = DINING_ROOM_NAME
 bedroom.contents.extend([player, bed, bedroom_door, bedroom_hook,\
     bedroom_rug, bedroom_button, bedroom_pile_of_dust])
 dining_room = Location(DINING_ROOM_NAME, DINING_ROOM_DESCRIPTION)
@@ -77,8 +77,11 @@ dining_room_table.contents.extend([dining_room_plate, breakfast_knife])
 dining_room.contents.extend([bedroom_door, dining_room_table, dining_room_trapdoor,\
     rope, dining_room_crate, dining_room_fireplace])
 cellar = Location(CELLAR_NAME, CELLAR_DESCRIPTION)
-cellar.needs_rope = True
 cellar.exits[UP] = dining_room.name
+cellar.needs_rope = True
+cellar_altar = Thing(CELLAR_ALTAR_NAME, CELLAR_ALTAR_DESCRIPTION)
+cellar_skeleton = Thing(CELLAR_SKELETON_NAME, CELLAR_SKELETON_DESCRIPTION)
+cellar.contents.extend([cellar_altar, cellar_skeleton])
 
 # add all rooms to all_name_rooms list and save
 all_name_locations.append((bedroom.name, bedroom))
