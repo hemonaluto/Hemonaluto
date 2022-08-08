@@ -8,7 +8,7 @@ class Food(Thing, Element):
     def __init__(self, name, description, **kwargs):
         Thing.__init__(self, name, description, **kwargs)
         Element.__init__(self, name, description, **kwargs)
-        self.name: str = name
-        self.description: str = description
-        self.regen: int = 10
-        self.taste: str = None
+        self.name = name
+        self.description = description
+        self.regen = 10
+        self.taste = None
