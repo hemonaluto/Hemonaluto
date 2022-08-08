@@ -1,0 +1,196 @@
+[
+    [
+        "test",
+        {
+            "name": "test",
+            "description": "test",
+            "visible": true,
+            "contents": [
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Activator",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "type": "press",
+                    "is_on": true,
+                    "turn_on_method_name": "test_turn_on_method",
+                    "turn_off_method_name": "test_turn_off_method"
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Animate",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "clothes": [
+                        "test"
+                    ],
+                    "health": "test"
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Chest",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "fixed": false,
+                    "moved": false,
+                    "wearable": false,
+                    "text": null,
+                    "reveals": null,
+                    "when_broken_do": null,
+                    "enterable": false,
+                    "open": true,
+                    "locked": true,
+                    "key": "test",
+                    "peekable": true
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Door",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "open": true,
+                    "lockable": true,
+                    "locked": true,
+                    "key": "test",
+                    "connects": [
+                        "test"
+                    ]
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [
+                        {
+                            "name": "test",
+                            "description": "test",
+                            "visible": true,
+                            "contents": [],
+                            "class_name": "Element",
+                            "preposition": "in",
+                            "sound": null,
+                            "smell": null
+                        }
+                    ],
+                    "class_name": "test",
+                    "preposition": "test",
+                    "sound": "test",
+                    "smell": "test"
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Food",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "fixed": false,
+                    "moved": false,
+                    "wearable": false,
+                    "text": null,
+                    "reveals": null,
+                    "when_broken_do": null,
+                    "enterable": false,
+                    "regen": 10,
+                    "taste": null
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Player",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "clothes": [],
+                    "health": 10,
+                    "hiding": false
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Rope",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "fixed": false,
+                    "moved": false,
+                    "wearable": false,
+                    "text": null,
+                    "reveals": null,
+                    "when_broken_do": null,
+                    "enterable": false,
+                    "tied_to": null
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Thing",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "fixed": false,
+                    "moved": false,
+                    "wearable": false,
+                    "text": null,
+                    "reveals": null,
+                    "when_broken_do": null,
+                    "enterable": false
+                },
+                {
+                    "name": "test",
+                    "description": "test",
+                    "visible": true,
+                    "contents": [],
+                    "class_name": "Tool",
+                    "preposition": "in",
+                    "sound": null,
+                    "smell": null,
+                    "fixed": false,
+                    "moved": false,
+                    "wearable": false,
+                    "text": null,
+                    "reveals": null,
+                    "when_broken_do": null,
+                    "enterable": false,
+                    "damage": 10,
+                    "durability": 100
+                }
+            ],
+            "class_name": "Location",
+            "preposition": "in",
+            "sound": null,
+            "smell": null,
+            "visited": false,
+            "exits": {
+                "test": "test"
+            },
+            "has_light": true,
+            "brief": "test",
+            "needs_rope": true
+        }
+    ]
+]

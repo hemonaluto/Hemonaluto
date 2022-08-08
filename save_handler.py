@@ -14,9 +14,7 @@ from elements.tool import Tool
 
 class SaveHandler():
     """Class to save and load the game state"""
-    def __init__(self):
-        pass
-
+   
     class ElementEncoder(json.JSONEncoder):
         """json encoder for elements"""
         def default(self, o):

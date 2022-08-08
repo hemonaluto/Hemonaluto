@@ -1,20 +1,21 @@
 """activator handler module"""
-
+from scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP, PLATE_BREAKS
 
 
 class ActivatorHandler():
-    """Class containing the methods corresponding to button presses, valve turns or thing breaking"""
+    """Class containing the methods corresponding to button presses,
+    valve turns or thing breaking"""
     def __init__(self):
         pass
 
     def bedroom_button_on(self):
         """Turns on bedroom test button"""
-        return "The button lights up."
+        return BUTTON_LIGHTS_UP
 
     def bedroom_button_off(self):
         """Turns off bedroom test button"""
-        return "The button goes dark."
+        return BUTTON_GOES_DARK
 
     def break_plate(self):
         """Reacts to the player breaking a plate"""
-        return "The plate shatters into a dozen pieces."
+        return PLATE_BREAKS

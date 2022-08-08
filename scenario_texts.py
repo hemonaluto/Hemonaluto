@@ -88,3 +88,10 @@ BEDROOM_HOOK_DESCRIPTION = "A blunt wooden hook attached to the wall."
 # bedroom rug
 BEDROOM_RUG_NAME = "rug"
 BEDROOM_RUG_DESCRIPTION = "A large soft red rug."
+
+# bedroom button
+BUTTON_LIGHTS_UP = "The button lights up."
+BUTTON_GOES_DARK = "The button goes dark."
+
+# plate
+PLATE_BREAKS = "The plate shatters into a dozen pieces."
