@@ -9,5 +9,5 @@ class Tool(Thing, Element):
     def __init__(self, name, description, **kwargs):
         Thing.__init__(self, name, description, **kwargs)
         Element.__init__(self, name, description, **kwargs)
-        self.damage = 10
-        self.durability = 100
+        self.damage: int = 10
+        self.durability: int = 100
