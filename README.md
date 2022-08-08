@@ -6,11 +6,11 @@ Hemonaluto is a text based adventure game where you wake up in a curious magical
 !The story isn't developed yet!
 
 ## How it works
-When you start the game in a terminal by executing main.py you are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork.
+When you start the game in a terminal by executing main.py you are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. To create your custom world or change the existing one you can edit world_generation.py and execute the script.
 
 ## Commands
 ### quit/q/exit
-This command quits the game entierly.
+This command quits the game entirely.
 ### examine/look/l
 Examine any kind of in-game element. Type the thing you want to examine after the command, e.g. examine door, or don't and get a general description of your environment.
 ### north/northeast/n/up/u/...
@@ -56,7 +56,7 @@ Listen to your surroundings.
 ### smell
 Smell your environment.
 ### hide in/under
-Hide in an something
+Hide in or under something
 ### leave/appear
 Leave your hiding spot.
 
