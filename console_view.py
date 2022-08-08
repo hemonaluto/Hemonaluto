@@ -21,7 +21,7 @@ class ConsoleView:
         self.quit = True
         return QUIT_MESSAGE
 
-    def string_to_method(self, user_input):
+    def parse(self, user_input):
         """Runtime polymorphic method to map the possible user input to a corresponding method"""
         split_user_input = user_input.lower().split()
         if len(split_user_input) < 2:
@@ -145,5 +145,5 @@ class ConsoleView:
         print(INTRODUCTION)
         while self.quit is False:
             user_input = input(INPUT_INDICATOR)
-            print(self.string_to_method(user_input))
+            print(self.parse(user_input))
             

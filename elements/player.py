@@ -8,7 +8,7 @@ class Player(Animate, Element):
     def __init__(self, name, description, health, **kwargs):
         Animate.__init__(self, name, description, health, **kwargs)
         Element.__init__(self, name, description, **kwargs)
-        self.name = name
-        self.description = description
-        self.visible = True
-        self.hiding = False
+        self.name: str = name
+        self.description: str = description
+        self.visible: bool = True
+        self.hiding: bool = False
