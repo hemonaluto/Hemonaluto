@@ -1,5 +1,6 @@
 """dungeon master module"""
 import re
+from helper_methods import isinstanceorsubclass
 from activator_handler import ActivatorHandler
 from elements.activator import Activator
 from elements.animate import Animate
@@ -54,11 +55,11 @@ class DungeonMaster:
             next_room = all_name_rooms_dict[self.player_location.exits[direction]]
             room_has_attached_rope = False
             for element in self.player_location.contents:
-                if isinstance(element, Door):
+                if isinstanceorsubclass(element, Door):
                     if next_room.name in element.connects and element.locked:
                         return LOCKED_DOOR
                     element.open = True
-                if isinstance(element, Rope) and direction == DOWN and next_room.needs_rope:
+                if isinstanceorsubclass(element, Rope) and direction == DOWN and next_room.needs_rope:
                     if not element.tied_to:
                         return NO_TIED_ROPE
                     room_has_attached_rope = True
@@ -124,9 +125,9 @@ class DungeonMaster:
                         element_container[1].preposition,\
                         element_container[1].name)
                 else:
-                    if not isinstance(element_container[0], Player):
+                    if not isinstanceorsubclass(element_container[0], Player):
                         description = description + "\n" + element_container[0].description
-                    if isinstance(element_container[0], Door):
+                    if isinstanceorsubclass(element_container[0], Door):
                         description = description + " " + door_leads_to(self.get_door_directions(element_container))
         return description
 
@@ -161,7 +162,7 @@ class DungeonMaster:
         elements_container = []
         if only_takeable:
             for element in container.contents:
-                if isinstance(element, Thing) and element.visible and not element.fixed:
+                if isinstanceorsubclass(element, Thing) and element.visible and not element.fixed:
                     elements_container.append((element, container))
                 elements_container = elements_container +\
                     self.get_all_elements_container(element, only_visible, only_takeable)
@@ -170,8 +171,8 @@ class DungeonMaster:
             for element in container.contents:
                 if element.visible:
                     elements_container.append((element, container))
-                if isinstance(element, Chest) and not element.peekable or\
-                isinstance(element, Chest) and not element.open:
+                if isinstanceorsubclass(element, Chest) and not element.peekable or\
+                isinstanceorsubclass(element, Chest) and not element.open:
                     pass
                 else:
                     elements_container = elements_container +\
@@ -191,7 +192,7 @@ class DungeonMaster:
             all_takeable = self.get_all_elements_container(self.player_location, only_takeable=True)
             response = ""
             for element_container in all_takeable:
-                if not isinstance(element_container[0], Player) and not element_container[0].fixed:
+                if not isinstanceorsubclass(element_container[0], Player) and not element_container[0].fixed:
                     element_container[1].contents.remove(element_container[0])
                     self.get_player().contents.append(element_container[0])
                     response = response + picked_up_element(element_container[0].name) + "\n"
@@ -233,7 +234,7 @@ class DungeonMaster:
             target_container = self.get_element_container(thing_target[1], self.player_location)[0]
             if target_container is None:
                 return element_not_found(target_container.name)
-            if isinstance(target_container, Animate):
+            if isinstanceorsubclass(target_container, Animate):
                 self.get_player().contents.remove(thing_container)
                 target_container.health = target_container.health - thing_container.damage * 1.5
                 self.player_location.contents.append(thing_container)
@@ -246,7 +247,7 @@ class DungeonMaster:
     def close(self, element_name):
         """Closes a door or chest element"""
         element_container = self.get_element_container(element_name, self.player_location)
-        if isinstance(element_container[0], (Chest, Door)):
+        if isinstanceorsubclass(element_container[0], (Chest, Door)):
             element_container[0].open = False
             return CLOSED
         return NOT_OPENABLE
@@ -254,7 +255,7 @@ class DungeonMaster:
     def read(self, element_name):
         """Read an elements text"""
         element_container = self.get_element_container(element_name, self.player_location)
-        if isinstance(element_container[0], Thing) and element_container[0].text:
+        if isinstanceorsubclass(element_container[0], Thing) and element_container[0].text:
             return element_container[0].text
         return NOT_READABLE
 
@@ -337,15 +338,15 @@ class DungeonMaster:
             tool_container = self.get_element_container(target_thing[1], self.get_player())
             if tool_container is None:
                 return element_not_in_inventory(target_thing[1])
-            if not isinstance(tool_container[0], Tool):
+            if not isinstanceorsubclass(tool_container[0], Tool):
                 return NEEDS_TO_BE_TOOL
             target_container = self.get_element_container(target_thing[0], self.player_location)
             if target_container is None:
                 return element_not_found(target_thing[0])
-            if isinstance(target_container[0], Animate):
+            if isinstanceorsubclass(target_container[0], Animate):
                 target_container[0].health = target_container[0].health - tool_container[0].damage
                 return hit_target(target_container[0].name)
-            if isinstance(target_container[0], Thing):
+            if isinstanceorsubclass(target_container[0], Thing):
                 if not target_container[0].when_broken_do:
                     return CANT_BREAK
                 break_method = getattr(self.activator_handler, target_container[0].when_broken_do)
@@ -374,11 +375,11 @@ class DungeonMaster:
             target_container = self.get_element_container(thing_target[1], self.player_location)
             if target_container is None:
                 return element_not_found(thing_target[1])
-            if not isinstance(target_container[0], Thing):
+            if not isinstanceorsubclass(target_container[0], Thing):
                 return CANT_TIE_TO_ELEMENT
             if not target_container[0].fixed:
                 return THAT_WONT_HOLD
-            if isinstance(thing_container[0], Rope):
+            if isinstanceorsubclass(thing_container[0], Rope):
                 self.get_player().contents.remove(thing_container[0])
                 target_container[1].contents.append(thing_container[0])
                 thing_container[0].tied_to = target_container[0].name
@@ -420,7 +421,7 @@ class DungeonMaster:
         if "in" in instructions or "under" in instructions:
             target = re.split("in|under", instructions)[1]
             element_container = self.get_element_container(target, self.player_location)
-            if isinstance(element_container[0], Thing) and element_container[0].enterable:
+            if isinstanceorsubclass(element_container[0], Thing) and element_container[0].enterable:
                 self.get_player().hiding = True
                 return entering_thing(element_container[0].name)
             return NOT_ENTERABLE
