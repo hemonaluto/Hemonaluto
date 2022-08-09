@@ -47,8 +47,8 @@ class TestSaveHandler(unittest.TestCase):
                 self.assertEqual(element.turn_on_method_name, "test_turn_on_method")
                 self.assertEqual(element.turn_off_method_name, "test_turn_off_method")
             if isinstance(element, Animate) or issubclass(element.__class__, Animate):
-                self.assertEqual(element.clothes, ["test"])
-                self.assertEqual(element.health, "test")
+                self.assertEqual(element.clothes[0], "test")
+                self.assertEqual(element.health, 50)
             if isinstance(element, Chest) or issubclass(element.__class__, Chest):
                 self.assertEqual(element.open, True)
                 self.assertEqual(element.locked, True)
@@ -59,18 +59,17 @@ class TestSaveHandler(unittest.TestCase):
                 self.assertEqual(element.lockable, True)
                 self.assertEqual(element.locked, True)
                 self.assertEqual(element.key, "test")
-                self.assertEqual(element.connects, ["test"])
+                self.assertEqual(element.connects[0], "test")
             if isinstance(element, Element) or issubclass(element.__class__, Element):
                 self.assertEqual(element.visible, True)
                 self.assertEqual(element.contents[0].name, "test")
-                #self.assertEqual(element.preposition, "test")
+                self.assertEqual(element.preposition, "test")
                 self.assertEqual(element.sound, "test")
                 self.assertEqual(element.smell, "test")
             if isinstance(element, Food) or issubclass(element.__class__, Food):
                 self.assertEqual(element.regen, 50)
                 self.assertEqual(element.taste, "test")
             if isinstance(element, Player) or issubclass(element.__class__, Player):
-                self.assertEqual(element.clothes, ["test"])
                 self.assertEqual(element.hiding, True)
             if isinstance(element, Rope) or issubclass(element.__class__, Rope):
                 self.assertEqual(element.tied_to, "test")

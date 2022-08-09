@@ -36,7 +36,7 @@ for element in test_elements:
         element.turn_off_method_name = "test_turn_off_method"
     if isinstanceorsubclass(element, Animate):
         element.clothes = ["test"]
-        element.health = "test"
+        element.health = 50
     if isinstanceorsubclass(element, Chest):
         element.open = True
         element.locked = True
@@ -48,17 +48,10 @@ for element in test_elements:
         element.locked = True
         element.key = "test"
         element.connects = ["test"]
-    if isinstanceorsubclass(element, Element):
-        element.visible = True
-        element.contents = [Element("test", "test")]
-        element.preposition = "test"
-        element.sound = "test"
-        element.smell = "test"
     if isinstanceorsubclass(element, Food):
         element.regen = 50
         element.taste = "test"
     if isinstanceorsubclass(element, Player):
-        element.clothes = ["test"]
         element.hiding = True
     if isinstanceorsubclass(element, Rope):
         element.tied_to = "test"
@@ -74,6 +67,12 @@ for element in test_elements:
     if isinstanceorsubclass(element, Tool):
         element.damage = 50
         element.durability = 50
+    if isinstanceorsubclass(element, Element):
+        element.visible = True
+        element.preposition = "test"
+        element.sound = "test"
+        element.smell = "test"
+        element.contents = [Element("test", "test")]
 
 test_location = Location("test", "test")
 test_location.exits = {"test": "test"}

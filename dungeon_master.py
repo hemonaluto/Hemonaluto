@@ -1,5 +1,6 @@
 """dungeon master module"""
 import re
+from helper_methods import isinstanceorsubclass
 from activator_handler import ActivatorHandler
 from elements.activator import Activator
 from elements.animate import Animate

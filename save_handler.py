@@ -39,11 +39,6 @@ class SaveHandler():
             for location_dictionary in location_dictionaries:
                 contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)
-                # ToDo: Find out why it doesn't do this automatically:
-                location.brief = location_dictionary["brief"]
-                location.exits = location_dictionary["exits"]
-                location.has_light = location_dictionary["has_light"]
-                location.needs_rope = location_dictionary["needs_rope"]
                 location.contents = self.dictionary_to_elements(contents_dictionary)
                 all_name_locations.append((location.name, location))
                 for element in location.contents:
@@ -56,49 +51,7 @@ class SaveHandler():
         converted_contents = []
         for element_dictionary in contents_dictionary_list:
             class_name = element_dictionary["class_name"]
-            element = None
-            if class_name == "Player":
-                element = Player(**element_dictionary)
-            if class_name == "Animate":
-                element = Animate(**element_dictionary)
-            if class_name == "Chest":
-                element = Chest(**element_dictionary)
-            if class_name == "Door":
-                element = Door(**element_dictionary)
-                element.connects = element_dictionary["connects"]
-            if class_name == "Location":
-                element = Location(**element_dictionary)
-                element.exits = element_dictionary["exits"]
-                element.needs_rope = element_dictionary["needs_rope"]
-            if class_name == "Thing":
-                element = Thing(**element_dictionary)
-                element.fixed = element_dictionary["fixed"]
-                element.text = element_dictionary["text"]
-                element.visible = element_dictionary["visible"]
-                element.reveals = element_dictionary["reveals"]
-                element.preposition = element_dictionary["preposition"]
-                element.when_broken_do = element_dictionary["when_broken_do"]
-                element.smell = element_dictionary["smell"]
-                element.sound = element_dictionary["sound"]
-                element.enterable = element_dictionary["enterable"]
-            if class_name == "Element":
-                element = Element(**element_dictionary)
-                element.sound = element_dictionary["sound"]
-            if class_name == "Activator":
-                element = Activator(**element_dictionary)
-                element.turn_on_method_name = element_dictionary["turn_on_method_name"]
-                element.turn_off_method_name = element_dictionary["turn_off_method_name"]
-                element.is_on = element_dictionary["is_on"]
-            if class_name == "Food":
-                element = Food(**element_dictionary)
-                element.regen = element_dictionary["regen"]
-                element.taste = element_dictionary["taste"]
-                element.smell = element_dictionary["smell"]
-            if class_name == "Rope":
-                element = Rope(**element_dictionary)
-                element.tied_to = element_dictionary["tied_to"]
-            if class_name == "Tool":
-                element = Tool(**element_dictionary)
+            element = eval(class_name)(**element_dictionary)
             if len(element_dictionary["contents"]) > 0:
                 element.contents = self.dictionary_to_elements(element_dictionary["contents"])
             converted_contents.append(element)
