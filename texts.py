@@ -1,7 +1,7 @@
 """texts module"""
 # introduction
-INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and powerful secret."\
-        "\n\nType any command to start exploring your new environment."
+INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and powerful secret."
+PLEASE_TYPE = "Type any command to start exploring your new environment."
 
 # quit message
 QUIT_MESSAGE = "They will miss you."

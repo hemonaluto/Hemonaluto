@@ -1,6 +1,14 @@
 """scenario texts module"""
-# bedroom key text
-BEDROOM_KEY_TEXT = "B"
+# player
+PLAYER_NAME = "Player"
+PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."
+
+#########################################################################
+
+# cellar
+CELLAR_NAME = "Cellar"
+CELLAR_DESCRIPTION = "A dusty abandoned cellar with an unusable broken staircase leading up.\n"
+CELLAR_BRIEF = "You find yourself in a repurposed cellar. There are dustparticals dancing rhythmically around you; there is magic in the air."
 
 # cellar altar
 CELLAR_ALTAR_NAME = "altar"
@@ -10,22 +18,12 @@ CELLAR_ALTAR_DESCRIPTION = "A large round object covered in a tarp."
 CELLAR_SKELETON_NAME = "skeleton"
 CELLAR_SKELETON_DESCRIPTION = "A skeleton."
 
-# dining room fireplace
-DINING_ROOM_FIREPLACE_NAME = "fireplace"
-DINING_ROOM_FIREPLACE_DESCRIPTION = "A lit fireplace."
-DINING_ROOM_FIREPLACE_SOUND = "The crackle of a fire."
+#########################################################################
 
-# breakfast knife
-BREAKFAST_KNIFE_NAME = "knife"
-BREAKFAST_KNIFE_DESCRIPTION = "A small blunt knife."
-
-# dining room crate
-DINING_ROOM_CRATE_NAME = "crate"
-DINING_ROOM_CRATE_DESCRIPTION = "A heavy crate filled to the brim with dirt."
-
-# cellar
-CELLAR_NAME = "Cellar"
-CELLAR_DESCRIPTION = "A dusty abandoned cellar with an unusable broken staircase leading up.\n"
+# dining room
+DINING_ROOM_NAME = "Dining Room"
+DINING_ROOM_DESCRIPTION = "A large L shaped room with two closed windows illuminating a homey interior."
+DINING_ROOM_BRIEF = "As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast."
 
 # rope
 ROPE_NAME = "rope"
@@ -49,6 +47,32 @@ DINING_ROOM_TABLE_DESCRIPTION = "A round wooden table."
 DINING_ROOM_PLATE_NAME = "plate"
 DINING_ROOM_PLATE_DESCRIPTION = "A ceramic plate."
 
+# dining room fireplace
+DINING_ROOM_FIREPLACE_NAME = "fireplace"
+DINING_ROOM_FIREPLACE_DESCRIPTION = "A lit fireplace."
+DINING_ROOM_FIREPLACE_SOUND = "The crackle of a fire."
+
+# breakfast knife
+BREAKFAST_KNIFE_NAME = "knife"
+BREAKFAST_KNIFE_DESCRIPTION = "A small blunt knife."
+
+# dining room crate
+DINING_ROOM_CRATE_NAME = "crate"
+DINING_ROOM_CRATE_DESCRIPTION = "A heavy crate filled to the brim with dirt."
+
+# plate
+PLATE_BREAKS = "The plate shatters into a dozen pieces."
+
+#########################################################################
+
+# bedroom
+BEDROOM_NAME = "Bedroom"
+BEDROOM_DESCRIPTION = "A room designed for humans to rest."
+BEDROOM_BRIEF = "You are standig in a beautiful forest clearing with three beings infront of you. Their form is fuzzy and blurred and you can't make out their true appearence. They want to tell you something important but as they are about to do so you hear a distant clinking followed by a door knocking. You realize you're in a dream and you wake up covered in warm cozy bedsheets."
+
+# bedroom key text
+BEDROOM_KEY_TEXT = "B"
+
 # pile of dust
 BEDROOM_PILE_OF_DUST_NAME = "pile of dust"
 BEDROOM_PILE_OF_DUST_DESCRIPTION = "A large pile of dust."
@@ -56,18 +80,6 @@ BEDROOM_PILE_OF_DUST_DESCRIPTION = "A large pile of dust."
 # bedroom button
 BEDROOM_BUTTON_NAME = "button"
 BEDROOM_BUTTON_DESCRIPTION = "A big decorated wooden button attached to the wall next to the bed."
-
-# bedroom
-BEDROOM_NAME = "Bedroom"
-BEDROOM_DESCRIPTION = "A room designed for humans to rest."
-
-# dining room
-DINING_ROOM_NAME = "Dining Room"
-DINING_ROOM_DESCRIPTION = "A room designed for humans to eat."
-
-# player
-PLAYER_NAME = "Player"
-PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."
 
 # bed
 BED_NAME = "bed"
@@ -92,6 +104,3 @@ BEDROOM_RUG_DESCRIPTION = "A large soft red rug."
 # bedroom button
 BUTTON_LIGHTS_UP = "The button lights up."
 BUTTON_GOES_DARK = "The button goes dark."
-
-# plate
-PLATE_BREAKS = "The plate shatters into a dozen pieces."
