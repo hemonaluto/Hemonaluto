@@ -1,5 +1,8 @@
 """dungeon master module"""
 import re
+from typing import Tuple
+from elements.element import Element
+from elements.location import Location
 from helper_methods import isinstanceorsubclass
 from activator_handler import ActivatorHandler
 from elements.activator import Activator
@@ -34,6 +37,13 @@ class DungeonMaster:
         self.save_handler = SaveHandler()
         self.player_score = 0
         self.activator_handler = ActivatorHandler()
+    
+    def brief(self, room_name: str):
+        for name_location in self.all_name_locations:
+            if name_location[0] == room_name and not name_location[1].visited and name_location[1].brief:
+                name_location[1].visited = True
+                return name_location[1].brief + "\n\n"
+        return ""
 
     def get_player(self):
         """Get the player object from the current location"""
@@ -47,7 +57,7 @@ class DungeonMaster:
         """Get the current health"""
         return self.get_player().health
 
-    def move_player(self, direction):
+    def move_player(self, direction: str):
         """Move the player from one location to the next, which lies in the given direction"""
         if direction in self.player_location.exits:
             travel_text = ""
@@ -63,16 +73,18 @@ class DungeonMaster:
                     if not element.tied_to:
                         return NO_TIED_ROPE
                     room_has_attached_rope = True
-                    travel_text = CLIMBING_DOWN
+                    travel_text = CLIMBING_DOWN + "\n"
             if next_room.needs_rope and room_has_attached_rope is False:
                 return NO_TIED_ROPE
             player = self.get_player()
             self.player_location.contents.remove(player)
             self.set_player_location(player, next_room)
-            return travel_text + self.player_location.name
+            brief_text = ""
+            brief_text = self.brief(next_room.name)
+            return f"{travel_text}{brief_text}{self.player_location.name}"
         return INVALID_DIRECTION
 
-    def unlock(self, door_name):
+    def unlock(self, door_name: str):
         """Unlocks and opens a door"""
         door = self.get_element_container(door_name, self.player_location)[0]
         if not door.locked:
@@ -83,12 +95,12 @@ class DungeonMaster:
             return door_unlocked(door_name)
         return KEY_MISSING
 
-    def set_player_location(self, player, location):
+    def set_player_location(self, player: Player, location: Location):
         """Update the players location to a new one"""
         location.contents.append(player)
         self.player_location = location
 
-    def describe(self, element_name):
+    def describe(self, element_name: str):
         """Returns a desription of any kind of in-game element at the location of the player"""
         element_name = element_name.lower()
         if element_name in (self.player_location.name, GENERIC_LOCATAION_NAME, ''):
@@ -101,7 +113,7 @@ class DungeonMaster:
             return self.describe_container(self.player_location, (LOCATION_PREFIX, LOCATION_SUFFIX))
         return CANT_SEE_LOCATION_FROM_HIDING
 
-    def describe_element(self, element_name):
+    def describe_element(self, element_name: str):
         """Get description of a single element"""
         element_container = self.get_element_container(element_name, self.player_location)
         if element_container:
@@ -109,7 +121,7 @@ class DungeonMaster:
         else:
             return element_not_found(element_name)
 
-    def describe_container(self, top_container, prefix_suffix=None):
+    def describe_container(self, top_container: Element, prefix_suffix=None):
         """Descsribe any container and its contents and all the contents contents etc."""
         if prefix_suffix:
             description = top_container.name + "\n" + prefix_suffix[0] +\
@@ -131,7 +143,7 @@ class DungeonMaster:
                         description = description + " " + door_leads_to(self.get_door_directions(element_container))
         return description
 
-    def get_door_directions(self, door_container):
+    def get_door_directions(self, door_container: Tuple[Door, Element]):
         """Get the directions a door leads to"""
         directions = [] 
         for direction_location in door_container[1].exits.items():
@@ -139,7 +151,7 @@ class DungeonMaster:
                 directions.append(direction_location[0])
         return directions
 
-    def get_element_container(self, compare_element_name, container, only_visible = True):
+    def get_element_container(self, compare_element_name: str, container: Element, only_visible: bool = True):
         """Get an element in the container
         by its name and the corresponding container.
         If it's not found it returns None"""
@@ -156,7 +168,7 @@ class DungeonMaster:
             return vague_matches[0]
         return None
 
-    def get_all_elements_container(self, container, only_visible=False, only_takeable=False):
+    def get_all_elements_container(self, container: Element, only_visible: bool = False, only_takeable: bool = False):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""
         elements_container = []
@@ -186,7 +198,7 @@ class DungeonMaster:
             return elements_container
         return None
 
-    def take(self, element_name):
+    def take(self, element_name: str):
         """Take all elements or a single element and put it into the players inventory"""
         if element_name == "all":
             all_takeable = self.get_all_elements_container(self.player_location, only_takeable=True)
@@ -217,14 +229,14 @@ class DungeonMaster:
             return SAVED_GAME_MESSAGE
         return FAILED_SAVE_MESSAGE
 
-    def load(self, filename):
+    def load(self, filename: str):
         """Loads the game state from file"""
         load_data = self.save_handler.load(filename)
         self.all_name_locations = load_data[0]
         self.player_location = load_data[1]
         return LOADED_SAVE_MESSAGE
 
-    def throw(self, instructions):
+    def throw(self, instructions: str):
         """Throws an item"""
         if "at" in instructions:
             thing_target = instructions.split(" at ")
@@ -244,7 +256,7 @@ class DungeonMaster:
         self.player_location.contents.append(thing_container[0])
         return THREW_AT_NOTHING
 
-    def close(self, element_name):
+    def close(self, element_name: str):
         """Closes a door or chest element"""
         element_container = self.get_element_container(element_name, self.player_location)
         if isinstanceorsubclass(element_container[0], (Chest, Door)):
@@ -252,14 +264,14 @@ class DungeonMaster:
             return CLOSED
         return NOT_OPENABLE
 
-    def read(self, element_name):
+    def read(self, element_name: str):
         """Read an elements text"""
         element_container = self.get_element_container(element_name, self.player_location)
         if isinstanceorsubclass(element_container[0], Thing) and element_container[0].text:
             return element_container[0].text
         return NOT_READABLE
 
-    def put(self, instructions):
+    def put(self, instructions: str):
         """Put element into the contents of another element"""
         if " in " in instructions or " on " in instructions:
             thing_target = re.split(" in | on ", instructions)
@@ -274,7 +286,7 @@ class DungeonMaster:
             return DONE
         return TARGET_NOT_SPECIFIED
 
-    def activate(self, instructions, expected_activator_type: ActivatorType):
+    def activate(self, instructions: str, expected_activator_type: ActivatorType):
         """Activate an activator"""
         split_input = instructions.split()
         if "on" in instructions.split():
@@ -320,7 +332,7 @@ class DungeonMaster:
             return turn_off_method()
         return NOTHING_HAPPENS
 
-    def move_element(self, element_name):
+    def move_element(self, element_name: str):
         """Moves element"""
         element_container = self.get_element_container(element_name, self.player_location)
         if not element_container:
@@ -331,7 +343,7 @@ class DungeonMaster:
         revealed_element.visible = True
         return reveal_element(element_name, revealed_element.description.lower())
 
-    def attack(self, instructions):
+    def attack(self, instructions: str):
         """Attacks a target"""
         if "with" in instructions:
             target_thing = instructions.split(" with ")
@@ -357,7 +369,7 @@ class DungeonMaster:
                 return break_method()
         return WEAPON_NOT_SPECIFIED
 
-    def eat(self, element_name):
+    def eat(self, element_name: str):
         """Feeds the player"""
         food = self.get_element_container(element_name, self.player_location)[0]
         if not food:
@@ -365,7 +377,7 @@ class DungeonMaster:
         self.get_player().health += food.regen
         return eat_food(food.name, food.taste)
 
-    def tie(self, instructions):
+    def tie(self, instructions: str):
         """Ties a rope to something"""
         if "to" in instructions:
             thing_target = instructions.split(" to ")
@@ -386,7 +398,7 @@ class DungeonMaster:
                 return tie_rope_to_target(target_container[0].name.lower())
         return TARGET_NOT_SPECIFIED
 
-    def untie(self, rope_name):
+    def untie(self, rope_name: str):
         """Unties a rope"""
         rope = self.get_element_container(rope_name, self.player_location)
         if rope is None:
@@ -416,7 +428,7 @@ class DungeonMaster:
             return NO_SMELLS
         return smell_description(smells)
 
-    def hide(self, instructions):
+    def hide(self, instructions: str):
         """Hides player in thing"""
         if "in" in instructions or "under" in instructions:
             target = re.split("in|under", instructions)[1]

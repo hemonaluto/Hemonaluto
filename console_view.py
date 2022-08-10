@@ -1,9 +1,11 @@
 """console view module"""
 from functools import partial
 import random
+from dungeon_master import DungeonMaster
 from enums.activator_type import ActivatorType
+from scenario_texts import BEDROOM_BRIEF, BEDROOM_NAME
 from texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
-    NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES,\
+    NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES, PLEASE_TYPE,\
     QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST,\
     SOUTHWEST, SWEAR_RESPONSE, UP, WEST
 
@@ -13,7 +15,6 @@ class ConsoleView:
 
     def __init__(self, dungeon_master):
         self.quit = False
-        self.current_room = None
         self.dungeon_master = dungeon_master
 
     def toggle_quit(self):
@@ -21,7 +22,7 @@ class ConsoleView:
         self.quit = True
         return QUIT_MESSAGE
 
-    def parse(self, user_input):
+    def parse(self, user_input: str):
         """Runtime polymorphic method to map the possible user input to a corresponding method"""
         split_user_input = user_input.lower().split()
         if len(split_user_input) < 2:
@@ -54,7 +55,6 @@ class ConsoleView:
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
             "l": partial(describe, rest_input_joined),
-            "brief": partial(describe, rest_input_joined),
             "north": partial(move, NORTH),
             "n": partial(move, NORTH),
             "east": partial(move, EAST),
@@ -142,7 +142,9 @@ class ConsoleView:
         """Start the process of displaying messages to the cosole"""
         with open("logo.txt", "r", encoding="UTF-8") as logo_file:
             print(logo_file.read())
-        print(INTRODUCTION)
+        print(INTRODUCTION + "\n")
+        print(self.dungeon_master.brief(BEDROOM_NAME))
+        print(PLEASE_TYPE)
         while self.quit is False:
             user_input = input(INPUT_INDICATOR)
             print(self.parse(user_input))

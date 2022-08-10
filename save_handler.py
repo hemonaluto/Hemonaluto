@@ -1,17 +1,18 @@
 """save handler module"""
 import json
+from typing import Dict, List, Tuple
 from helper_methods import isinstanceorsubclass
-from elements.activator import Activator
-from elements.animate import Animate
-from elements.chest import Chest
-from elements.door import Door
-from elements.element import Element
-from elements.food import Food
 from elements.location import Location
 from elements.player import Player
 from elements.rope import Rope
 from elements.thing import Thing
 from elements.tool import Tool
+from elements.activator import Activator
+from elements.animate import Animate
+from elements.chest import Chest
+from elements.door import Door
+from elements.food import Food
+
 
 class SaveHandler():
     """Class to save and load the game state"""
@@ -21,7 +22,7 @@ class SaveHandler():
         def default(self, o):
             return o.__dict__
 
-    def save(self, all_name_locations, filename):
+    def save(self, all_name_locations: List[Tuple[str, Location]], filename):
         """Saves the game"""
         locations = []
         for location in all_name_locations:
@@ -30,7 +31,7 @@ class SaveHandler():
             json.dump(locations, savefile, indent=4, cls=self.ElementEncoder)
         return True
 
-    def load(self, filename):
+    def load(self, filename: str):
         """Loads the save file"""
         all_name_locations = []
         player_location = None
@@ -46,7 +47,7 @@ class SaveHandler():
                         player_location = location
             return (all_name_locations, player_location)
 
-    def dictionary_to_elements(self, contents_dictionary_list):
+    def dictionary_to_elements(self, contents_dictionary_list: Dict):
         """Converts dictionary to elements"""
         converted_contents = []
         for element_dictionary in contents_dictionary_list:
