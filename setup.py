@@ -20,7 +20,7 @@ extra_files = package_files('game/data')
 setup(
     install_requires=["parameterized==0.8.1"],
     name = "hemonaluto",
-    version = "0.0.7",
+    version = "0.0.1",
     author = "Gabriel Schafflützel",
     author_email = "schaffluetzel.gabriel@gmail.com",
     description = ("A text adventure game!"),
