@@ -1,20 +1,20 @@
 """dungeon master module"""
 import re
 from typing import Tuple
-from elements.element import Element
-from elements.location import Location
+from model.element import Element
+from model.location import Location
+from model.activator import Activator
+from model.animate import Animate
+from model.chest import Chest
+from model.door import Door
+from model.player import Player
+from model.rope import Rope
+from model.thing import Thing
+from model.tool import Tool
+from model.enums.activator_type import ActivatorType
 from helper_methods import isinstanceorsubclass
-from activator_handler import ActivatorHandler
-from elements.activator import Activator
-from elements.animate import Animate
-from elements.chest import Chest
-from elements.door import Door
-from elements.player import Player
-from elements.rope import Rope
-from elements.thing import Thing
-from elements.tool import Tool
-from enums.activator_type import ActivatorType
-from save_handler import SaveHandler
+from controller.activator_controller import ActivatorHandler
+from controller.save_controller import SaveHandler
 from data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
     ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING,\
     CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN,\

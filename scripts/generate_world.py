@@ -1,15 +1,23 @@
 """Generates the game world"""
-from elements.activator import Activator
-from elements.door import Door
-from elements.food import Food
-from elements.location import Location
-from elements.player import Player
-from elements.rope import Rope
-from elements.thing import Thing
-from elements.tool import Tool
-from enums.activator_type import ActivatorType
-from game.save_handler import SaveHandler
-from game.data.scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
+import os
+import sys
+PROJECT_PATH = os.getcwd()
+SOURCE_PATH = os.path.join(
+    PROJECT_PATH,"game"
+)
+sys.path.append(SOURCE_PATH)
+from model.activator import Activator
+from model.door import Door
+from model.food import Food
+from model.location import Location
+from model.player import Player
+from model.rope import Rope
+from model.thing import Thing
+from model.tool import Tool
+from model.enums.activator_type import ActivatorType
+from controller.save_controller import SaveHandler
+from data.texts import UP, DOWN, EAST, WEST
+from data.scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
 BEDROOM_BUTTON_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
 BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
 BEDROOM_KEY_NAME, BEDROOM_KEY_TEXT, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION,\
@@ -23,7 +31,6 @@ DINING_ROOM_FOOD_SMELL, DINING_ROOM_FOOD_TASTE, DINING_ROOM_NAME,\
 DINING_ROOM_PLATE_DESCRIPTION, DINING_ROOM_PLATE_NAME, DINING_ROOM_TABLE_DESCRIPTION,\
 DINING_ROOM_TABLE_NAME, DINING_ROOM_TRAPDOOR_DESCRIPTION, DINING_ROOM_TRAPDOOR_NAME,\
 PLAYER_DESCRIPTION, PLAYER_NAME, ROPE_DESCRIPTION, ROPE_NAME
-from game.data.texts import UP, DOWN, EAST, WEST
 
 
 all_name_locations = []
@@ -92,4 +99,4 @@ all_name_locations.append((bedroom.name, bedroom))
 all_name_locations.append((dining_room.name, dining_room))
 all_name_locations.append((cellar.name, cellar))
 save_handler = SaveHandler()
-save_handler.save(all_name_locations, "scenario.json")
+save_handler.save(all_name_locations, "game/data/scenario.json")

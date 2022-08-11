@@ -1,6 +1,6 @@
 """Player module"""
-from elements.animate import Animate
-from elements.element import Element
+from model.animate import Animate
+from model.element import Element
 
 
 class Player(Animate, Element):

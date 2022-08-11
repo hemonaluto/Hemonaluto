@@ -2,16 +2,17 @@
 import json
 from typing import Dict, List, Tuple
 from helper_methods import isinstanceorsubclass
-from elements.location import Location
-from elements.player import Player
-from elements.rope import Rope
-from elements.thing import Thing
-from elements.tool import Tool
-from elements.activator import Activator
-from elements.animate import Animate
-from elements.chest import Chest
-from elements.door import Door
-from elements.food import Food
+from model.location import Location
+from model.player import Player
+from model.rope import Rope
+from model.thing import Thing
+from model.tool import Tool
+from model.activator import Activator
+from model.animate import Animate
+from model.chest import Chest
+from model.door import Door
+from model.food import Food
+from model.element import Element
 
 
 class SaveHandler():

@@ -1,5 +1,5 @@
 """Door module"""
-from elements.element import Element
+from model.element import Element
 
 
 class Door(Element):

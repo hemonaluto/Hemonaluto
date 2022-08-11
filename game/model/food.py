@@ -1,6 +1,6 @@
 """Food module"""
-from elements.element import Element
-from elements.thing import Thing
+from model.element import Element
+from model.thing import Thing
 
 
 class Food(Thing, Element):

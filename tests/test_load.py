@@ -1,18 +1,18 @@
 """test save handler module"""
 import unittest
-from game.elements.activator import Activator
-from game.elements.animate import Animate
-from game.elements.chest import Chest
-from game.elements.door import Door
-from game.elements.element import Element
-from game.elements.food import Food
-from game.elements.location import Location
-from game.elements.player import Player
-from game.elements.rope import Rope
-from game.elements.thing import Thing
-from game.elements.tool import Tool
-from game.enums.activator_type import ActivatorType
-from game.save_handler import SaveHandler
+from game.model.activator import Activator
+from game.model.animate import Animate
+from model.chest import Chest
+from model.door import Door
+from model.element import Element
+from model.food import Food
+from model.location import Location
+from model.player import Player
+from model.rope import Rope
+from model.thing import Thing
+from model.tool import Tool
+from model.enums.activator_type import ActivatorType
+from controller.save_controller import SaveHandler
 
 
 class TestSaveHandler(unittest.TestCase):

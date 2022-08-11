@@ -1,18 +1,25 @@
 """Generate test world module"""
+import os
+import sys
+PROJECT_PATH = os.getcwd()
+SOURCE_PATH = os.path.join(
+    PROJECT_PATH,"game"
+)
+sys.path.append(SOURCE_PATH)
 import json
-from elements.animate import Animate
-from elements.chest import Chest
-from elements.element import Element
-from elements.activator import Activator
-from elements.door import Door
-from elements.food import Food
-from elements.location import Location
-from elements.player import Player
-from elements.rope import Rope
-from elements.thing import Thing
-from elements.tool import Tool
-from enums.activator_type import ActivatorType
-from game.helper_methods import isinstanceorsubclass
+from model.animate import Animate
+from model.chest import Chest
+from model.element import Element
+from model.activator import Activator
+from model.door import Door
+from model.food import Food
+from model.location import Location
+from model.player import Player
+from model.rope import Rope
+from model.thing import Thing
+from model.tool import Tool
+from model.enums.activator_type import ActivatorType
+from helper_methods import isinstanceorsubclass
 
 test_elements = [
     Activator("test", "test"),

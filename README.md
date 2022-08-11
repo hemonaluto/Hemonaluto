@@ -6,7 +6,21 @@ Hemonaluto is a text based adventure game where you wake up in a curious magical
 !The story isn't developed yet!
 
 ## How it works
-When you start the game in a terminal by executing main.py you are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. To create your custom world or change the existing one you can edit world_generation.py and execute the script.
+
+Windows:
+
+1. Open terminal as administrator.
+2. Run ```winget install GnuWin32.Make```
+3. Run ```setx /M path "%path%;C:\Program Files (x86)\GnuWin32\bin"```
+
+Windows and Linux:
+
+4. Navigate into project folder using terminal.
+5. Type ```make run``` and hit enter.
+
+You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. 
+
+To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
 
 ## Commands
 ### quit/q/exit
