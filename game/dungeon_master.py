@@ -15,7 +15,7 @@ from elements.thing import Thing
 from elements.tool import Tool
 from enums.activator_type import ActivatorType
 from save_handler import SaveHandler
-from texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
+from data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
     ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING,\
     CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
