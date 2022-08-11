@@ -17,7 +17,7 @@ Windows:
 Windows and Linux:
 
 4. Navigate to the folder you want to clone the project to.
-5. Run ```git clone https://github.com/hemonaluto/Hemonaluto.git```
+5. Run ```git clone https://github.com/gasupidupi/Hemonaluto.git```
 6. Happy coding!
 
 ### Players
