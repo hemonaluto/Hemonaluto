@@ -28,6 +28,12 @@ Windows and Linux:
 
 You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. 
 
+## Contributors
+### How you can help
+If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.
+
+To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
+
 ## Commands
 ### quit/q/exit
 This command quits the game entirely.
@@ -79,9 +85,3 @@ Smell your environment.
 Hide in or under something
 ### leave/appear
 Leave your hiding spot.
-
-## Contributors
-### How you can help
-If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.
-
-To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
