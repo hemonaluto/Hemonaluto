@@ -1,6 +1,6 @@
 """Tool module"""
-from model.element import Element
-from model.thing import Thing
+from game.model.element import Element
+from game.model.thing import Thing
 
 
 class Tool(Thing, Element):

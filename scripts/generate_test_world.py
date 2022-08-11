@@ -3,23 +3,23 @@ import os
 import sys
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
-    PROJECT_PATH,"game"
+    PROJECT_PATH,"hemonaluto"
 )
 sys.path.append(SOURCE_PATH)
 import json
-from model.animate import Animate
-from model.chest import Chest
-from model.element import Element
-from model.activator import Activator
-from model.door import Door
-from model.food import Food
-from model.location import Location
-from model.player import Player
-from model.rope import Rope
-from model.thing import Thing
-from model.tool import Tool
-from model.enums.activator_type import ActivatorType
-from helper_methods import isinstanceorsubclass
+from game.model.animate import Animate
+from game.model.chest import Chest
+from game.model.element import Element
+from game.model.activator import Activator
+from game.model.door import Door
+from game.model.food import Food
+from game.model.location import Location
+from game.model.player import Player
+from game.model.rope import Rope
+from game.model.thing import Thing
+from game.model.tool import Tool
+from game.model.enums.activator_type import ActivatorType
+from game.helper_methods import isinstanceorsubclass
 
 test_elements = [
     Activator("test", "test"),

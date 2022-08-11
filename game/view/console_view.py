@@ -1,9 +1,9 @@
 """console view module"""
 from functools import partial
 import random
-from model.enums.activator_type import ActivatorType
-from data.scenario_texts import BEDROOM_NAME
-from data.texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
+from game.model.enums.activator_type import ActivatorType
+from game.data.scenario_texts import BEDROOM_NAME
+from game.data.texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
     NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES, PLEASE_TYPE,\
     QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST,\
     SOUTHWEST, SWEAR_RESPONSE, UP, WEST
