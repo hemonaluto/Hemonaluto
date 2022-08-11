@@ -1,8 +1,8 @@
 """test activator handler module"""
 import unittest
 
-from activator_handler import ActivatorHandler
-from scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP
+from hemonaluto.activator_handler import ActivatorHandler
+from hemonaluto.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP
 
 class TestActivatorHandler(unittest.TestCase):
     """Test ActivatorHandler class"""

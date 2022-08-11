@@ -12,7 +12,7 @@ from elements.rope import Rope
 from elements.thing import Thing
 from elements.tool import Tool
 from enums.activator_type import ActivatorType
-from helper_methods import isinstanceorsubclass
+from hemonaluto.helper_methods import isinstanceorsubclass
 
 test_elements = [
     Activator("test", "test"),

@@ -1,18 +1,18 @@
 """test save handler module"""
 import unittest
-from elements.activator import Activator
-from elements.animate import Animate
-from elements.chest import Chest
-from elements.door import Door
-from elements.element import Element
-from elements.food import Food
-from elements.location import Location
-from elements.player import Player
-from elements.rope import Rope
-from elements.thing import Thing
-from elements.tool import Tool
-from enums.activator_type import ActivatorType
-from save_handler import SaveHandler
+from hemonaluto.elements.activator import Activator
+from hemonaluto.elements.animate import Animate
+from hemonaluto.elements.chest import Chest
+from hemonaluto.elements.door import Door
+from hemonaluto.elements.element import Element
+from hemonaluto.elements.food import Food
+from hemonaluto.elements.location import Location
+from hemonaluto.elements.player import Player
+from hemonaluto.elements.rope import Rope
+from hemonaluto.elements.thing import Thing
+from hemonaluto.elements.tool import Tool
+from hemonaluto.enums.activator_type import ActivatorType
+from hemonaluto.save_handler import SaveHandler
 
 
 class TestSaveHandler(unittest.TestCase):

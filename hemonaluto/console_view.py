@@ -3,8 +3,8 @@ from functools import partial
 import random
 from dungeon_master import DungeonMaster
 from enums.activator_type import ActivatorType
-from scenario_texts import BEDROOM_BRIEF, BEDROOM_NAME
-from texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
+from data.scenario_texts import BEDROOM_BRIEF, BEDROOM_NAME
+from data.texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
     NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES, PLEASE_TYPE,\
     QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST,\
     SOUTHWEST, SWEAR_RESPONSE, UP, WEST
@@ -140,7 +140,7 @@ class ConsoleView:
 
     def start_view(self):
         """Start the process of displaying messages to the cosole"""
-        with open("logo.txt", "r", encoding="UTF-8") as logo_file:
+        with open("hemonaluto/data/logo.txt", "r", encoding="UTF-8") as logo_file:
             print(logo_file.read())
         print(INTRODUCTION + "\n")
         print(self.dungeon_master.brief(BEDROOM_NAME))
