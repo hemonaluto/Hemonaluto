@@ -3,10 +3,11 @@
 
 Hemonaluto is a text based adventure game where you wake up in a curious magical world with a dark and powerful secret.
 
-!The story isn't developed yet!
+The story isn't developed yet, so far there are only three rooms to discover.
 
 ## How it works
 
+### Developers
 Windows:
 
 1. Open terminal as administrator.
@@ -15,10 +16,21 @@ Windows:
 
 Windows and Linux:
 
-4. Navigate into project folder using terminal.
-5. Type ```make run``` and hit enter.
+4. Navigate to the folder you want to clone the project to.
+5. Run ```git clone https://github.com/hemonaluto/Hemonaluto.git```
+6. Happy coding!
+
+### Players
+
+1. Open terminal as administrator.
+2. Run ```pip install hemonaluto```
+3. Run ```hemonaluto```
 
 You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. 
+
+## Contributors
+### How you can help
+If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.
 
 To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
 
@@ -73,7 +85,3 @@ Smell your environment.
 Hide in or under something
 ### leave/appear
 Leave your hiding spot.
-
-## Contributors
-### How you can help
-If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.

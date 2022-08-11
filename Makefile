@@ -1,5 +1,5 @@
 run:
-	python ./game/hemonaluto.py
+	python main.py
 
 setup: requirements.txt
 	pip install --upgrade pip

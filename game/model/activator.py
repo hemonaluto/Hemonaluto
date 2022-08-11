@@ -1,6 +1,6 @@
 """Activator module"""
-from model.enums.activator_type import ActivatorType
-from model.element import Element
+from game.model.enums.activator_type import ActivatorType
+from game.model.element import Element
 
 
 class Activator(Element):

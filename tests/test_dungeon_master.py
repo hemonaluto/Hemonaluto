@@ -2,7 +2,7 @@
 import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
-from controller.dungeon_controller import DungeonMaster
+from game.controller.dungeon_controller import DungeonMaster
 
 class TestDungeonMaster(unittest.TestCase):
     """Test DungeonMaster class"""

@@ -1,5 +1,5 @@
 """activator handler module"""
-from data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP, PLATE_BREAKS
+from game.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP, PLATE_BREAKS
 
 
 class ActivatorHandler():

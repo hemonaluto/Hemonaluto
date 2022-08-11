@@ -1,8 +1,8 @@
 """test activator handler module"""
 import unittest
 
-from controller.activator_controller import ActivatorHandler
-from data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP
+from game.controller.activator_controller import ActivatorHandler
+from game.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP
 
 class TestActivatorHandler(unittest.TestCase):
     """Test ActivatorHandler class"""

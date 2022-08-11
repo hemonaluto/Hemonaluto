@@ -3,21 +3,21 @@ import os
 import sys
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
-    PROJECT_PATH,"game"
+    PROJECT_PATH,"hemonaluto"
 )
 sys.path.append(SOURCE_PATH)
-from model.activator import Activator
-from model.door import Door
-from model.food import Food
-from model.location import Location
-from model.player import Player
-from model.rope import Rope
-from model.thing import Thing
-from model.tool import Tool
-from model.enums.activator_type import ActivatorType
-from controller.save_controller import SaveHandler
-from data.texts import UP, DOWN, EAST, WEST
-from data.scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
+from game.model.activator import Activator
+from game.model.door import Door
+from game.model.food import Food
+from game.model.location import Location
+from game.model.player import Player
+from game.model.rope import Rope
+from game.model.thing import Thing
+from game.model.tool import Tool
+from game.model.enums.activator_type import ActivatorType
+from game.controller.save_controller import SaveHandler
+from game.data.texts import UP, DOWN, EAST, WEST
+from game.data.scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
 BEDROOM_BUTTON_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
 BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
 BEDROOM_KEY_NAME, BEDROOM_KEY_TEXT, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION,\

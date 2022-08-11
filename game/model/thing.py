@@ -1,5 +1,5 @@
 """Thing module"""
-from model.element import Element
+from game.model.element import Element
 
 
 class Thing(Element):

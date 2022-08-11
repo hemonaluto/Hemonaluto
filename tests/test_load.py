@@ -2,17 +2,17 @@
 import unittest
 from game.model.activator import Activator
 from game.model.animate import Animate
-from model.chest import Chest
-from model.door import Door
-from model.element import Element
-from model.food import Food
-from model.location import Location
-from model.player import Player
-from model.rope import Rope
-from model.thing import Thing
-from model.tool import Tool
-from model.enums.activator_type import ActivatorType
-from controller.save_controller import SaveHandler
+from game.model.chest import Chest
+from game.model.door import Door
+from game.model.element import Element
+from game.model.food import Food
+from game.model.location import Location
+from game.model.player import Player
+from game.model.rope import Rope
+from game.model.thing import Thing
+from game.model.tool import Tool
+from game.model.enums.activator_type import ActivatorType
+from game.controller.save_controller import SaveHandler
 
 
 class TestSaveHandler(unittest.TestCase):
