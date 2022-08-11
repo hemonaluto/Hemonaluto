@@ -1,5 +1,6 @@
 """dungeon master module"""
 import re
+import pkg_resources
 from typing import Tuple
 from game.model.element import Element
 from game.model.location import Location
@@ -225,7 +226,7 @@ class DungeonMaster:
 
     def save(self):
         """Saves the game state to file"""
-        if self.save_handler.save(self.all_name_locations, "save.json"):
+        if self.save_handler.save(self.all_name_locations, pkg_resources.resource_filename("game.data", "save.json")):
             return SAVED_GAME_MESSAGE
         return FAILED_SAVE_MESSAGE
 

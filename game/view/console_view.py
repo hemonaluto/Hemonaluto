@@ -1,6 +1,7 @@
 """console view module"""
 from functools import partial
 import random
+import pkg_resources
 from game.model.enums.activator_type import ActivatorType
 from game.data.scenario_texts import BEDROOM_NAME
 from game.data.texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
@@ -95,9 +96,9 @@ class ConsoleView:
             "fuck": SWEAR_RESPONSE,
             "jump": JUMP_RESPONSE,
             "save": save,
-            "load": partial(load, "save.json"),
-            "restore": load,
-            "restart": partial(load, "scenario.json"),
+            "load": partial(load, pkg_resources.resource_filename("game.data", "save.json")),
+            "restore": partial(load, pkg_resources.resource_filename("game.data", "save.json")),
+            "restart": partial(load, pkg_resources.resource_filename("game.data", "scenario.json")),
             "score": score,
             "diagnostic": health,
             "health": health,
@@ -139,7 +140,7 @@ class ConsoleView:
 
     def start_view(self):
         """Start the process of displaying messages to the cosole"""
-        with open("game/data/logo.txt", "r", encoding="UTF-8") as logo_file:
+        with open(pkg_resources.resource_filename("game.data", "logo.txt"), "r", encoding="UTF-8") as logo_file:
             print(logo_file.read())
         print(INTRODUCTION + "\n")
         print(self.dungeon_master.brief(BEDROOM_NAME))
