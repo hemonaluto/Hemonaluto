@@ -1,12 +1,10 @@
-"""activator handler module"""
+"""activator controller module"""
 from game.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP, PLATE_BREAKS
 
 
-class ActivatorHandler():
+class ActivatorController():
     """Class containing the methods corresponding to button presses,
     valve turns or thing breaking"""
-    def __init__(self):
-        pass
 
     def bedroom_button_on(self):
         """Turns on bedroom test button"""

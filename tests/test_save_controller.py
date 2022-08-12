@@ -1,5 +1,7 @@
-"""test save handler module"""
+"""test save controller module"""
+import os
 import unittest
+import json
 from game.model.activator import Activator
 from game.model.animate import Animate
 from game.model.chest import Chest
@@ -12,15 +14,15 @@ from game.model.rope import Rope
 from game.model.thing import Thing
 from game.model.tool import Tool
 from game.model.enums.activator_type import ActivatorType
-from game.controller.save_controller import SaveHandler
+from game.controller.save_controller import SaveController
 
 
-class TestSaveHandler(unittest.TestCase):
-    """Test SaveHandler class"""
+class TestSaveController(unittest.TestCase):
+    """Test SaveController class"""
 
     def setUp(self):
         """Set up environment required for tests"""
-        self.save_handler = SaveHandler()
+        self.save_handler = SaveController()
         self.names_locations, self.player_location = self.save_handler.load("tests/test_world.json")
 
     def test_load_names_locations(self):
@@ -85,3 +87,16 @@ class TestSaveHandler(unittest.TestCase):
             if isinstance(element, Tool) or issubclass(element.__class__, Tool):
                 self.assertEqual(element.damage, 50)
                 self.assertEqual(element.durability, 50)
+
+    def test_save_json_validity(self):
+        """Test if everything gets saved as a valid json"""
+        self.save_handler.save(self.names_locations, "tests/saving_test.json")
+        is_valid: bool = None
+        try:
+            with open("tests/saving_test.json", "r") as f:
+                json.load(f)
+            is_valid = True
+        except ValueError:
+            is_valid = False
+        os.remove("tests/saving_test.json")
+        self.assertTrue(is_valid)

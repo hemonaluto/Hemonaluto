@@ -1,4 +1,4 @@
-"""save handler module"""
+"""save controller module"""
 import json
 from typing import Dict, List, Tuple
 from game.helper_methods import isinstanceorsubclass
@@ -15,7 +15,7 @@ from game.model.food import Food
 from game.model.element import Element
 
 
-class SaveHandler():
+class SaveController():
     """Class to save and load the game state"""
    
     class ElementEncoder(json.JSONEncoder):

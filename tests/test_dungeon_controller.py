@@ -1,15 +1,15 @@
-"""test dungeon master module"""
+"""test dungeon controller module"""
 import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
-from game.controller.dungeon_controller import DungeonMaster
+from game.controller.dungeon_controller import DungeonController
 
-class TestDungeonMaster(unittest.TestCase):
-    """Test DungeonMaster class"""
+class TestDungeonController(unittest.TestCase):
+    """Test DungeonController class"""
 
     def setUp(self):
         """Set up environment required for tests"""
-        self.dungeon_master = DungeonMaster()
+        self.dungeon_master = DungeonController()
 
     @parameterized.expand([
         ["You enter a quirky test location.", "You enter a quirky test location.\n\n"],

@@ -1,4 +1,4 @@
-"""dungeon master module"""
+"""dungeon controller module"""
 import re
 import pkg_resources
 from typing import Tuple
@@ -14,8 +14,8 @@ from game.model.thing import Thing
 from game.model.tool import Tool
 from game.model.enums.activator_type import ActivatorType
 from game.helper_methods import isinstanceorsubclass
-from game.controller.activator_controller import ActivatorHandler
-from game.controller.save_controller import SaveHandler
+from game.controller.activator_controller import ActivatorController
+from game.controller.save_controller import SaveController
 from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
     ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING,\
     CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN,\
@@ -30,14 +30,14 @@ from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALR
     element_in_container, reveal_element, smell_description, tie_rope_to_target
 
 
-class DungeonMaster:
+class DungeonController:
     """dungeon master class"""
     def __init__(self):
         self.player_location = None
         self.all_name_locations = []
-        self.save_handler = SaveHandler()
+        self.save_handler = SaveController()
         self.player_score = 0
-        self.activator_handler = ActivatorHandler()
+        self.activator_handler = ActivatorController()
     
     def brief(self, room_name: str):
         for name_location in self.all_name_locations:
@@ -313,7 +313,7 @@ class DungeonMaster:
             return self.turn_on(activator, self.activator_handler)
         return ACTION_FAILED
 
-    def turn_on(self, activator: Activator, activator_handler: ActivatorHandler):
+    def turn_on(self, activator: Activator, activator_handler: ActivatorController):
         """Turns an activator on"""
         if activator.is_on:
             return ALREADY_ON
@@ -323,7 +323,7 @@ class DungeonMaster:
             return turn_on_method()
         return NOTHING_HAPPENS
 
-    def turn_off(self, activator: Activator, activator_handler: ActivatorHandler):
+    def turn_off(self, activator: Activator, activator_handler: ActivatorController):
         """Turns an activator off"""
         if not activator.is_on:
             return ALREADY_OFF
