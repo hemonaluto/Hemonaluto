@@ -31,7 +31,7 @@ from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALR
 
 
 class DungeonController:
-    """dungeon master class"""
+    """dungeon controller (dungeon master) class"""
     def __init__(self):
         self.player_location = None
         self.all_name_locations = []
@@ -40,6 +40,7 @@ class DungeonController:
         self.activator_handler = ActivatorController()
     
     def brief(self, room_name: str):
+        """Debrief the player if they arrive at a location they've never been"""
         for name_location in self.all_name_locations:
             if name_location[0] == room_name and not name_location[1].visited and name_location[1].brief:
                 name_location[1].visited = True
