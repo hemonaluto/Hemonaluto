@@ -15,7 +15,7 @@ from game.model.rope import Rope
 from game.model.thing import Thing
 from game.model.tool import Tool
 from game.model.enums.activator_type import ActivatorType
-from game.controller.save_controller import SaveHandler
+from game.controller.save_controller import SaveController
 from game.data.texts import UP, DOWN, EAST, WEST
 from game.data.scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
 BEDROOM_BUTTON_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
@@ -98,5 +98,5 @@ cellar.contents.extend([cellar_altar, cellar_skeleton])
 all_name_locations.append((bedroom.name, bedroom))
 all_name_locations.append((dining_room.name, dining_room))
 all_name_locations.append((cellar.name, cellar))
-save_handler = SaveHandler()
+save_handler = SaveController()
 save_handler.save(all_name_locations, "game/data/scenario.json")

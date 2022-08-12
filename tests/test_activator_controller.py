@@ -1,15 +1,15 @@
-"""test activator handler module"""
+"""test activator controller module"""
 import unittest
 
-from game.controller.activator_controller import ActivatorHandler
+from game.controller.activator_controller import ActivatorController
 from game.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP
 
-class TestActivatorHandler(unittest.TestCase):
-    """Test ActivatorHandler class"""
+class TestActivatorController(unittest.TestCase):
+    """Test ActivatorController class"""
 
     def setUp(self):
         """Set up environment required for tests"""
-        self.activator_handler = ActivatorHandler()
+        self.activator_handler = ActivatorController()
 
     def test_bedroom_button_on(self):
         """Test bedroom button on method"""
