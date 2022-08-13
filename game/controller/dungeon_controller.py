@@ -1,4 +1,4 @@
-"""dungeon controller module"""
+"""kind of like a dungeon master that controls everything that's happening in the in-game world"""
 import re
 import pkg_resources
 from typing import Tuple

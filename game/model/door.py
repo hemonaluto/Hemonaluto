@@ -1,4 +1,4 @@
-"""Door module"""
+"""data structure to store information about in-game doors"""
 from game.model.element import Element
 
 

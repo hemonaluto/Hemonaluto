@@ -1,4 +1,4 @@
-"""Element module"""
+"""data structure to store information about in-game elements"""
 
 
 class Element:

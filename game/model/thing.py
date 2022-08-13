@@ -1,4 +1,4 @@
-"""Thing module"""
+"""data structure to store information about in-game things"""
 from game.model.element import Element
 
 

@@ -1,4 +1,4 @@
-"""main module"""
+"""starts the main process"""
 from game import runner
 
 

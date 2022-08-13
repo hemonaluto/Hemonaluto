@@ -1,4 +1,4 @@
-"""texts module"""
+"""responses to the players inputs, excluding descriptions of the in-game world"""
 # introduction
 INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and powerful secret."
 PLEASE_TYPE = "Type any command to start exploring your new environment."

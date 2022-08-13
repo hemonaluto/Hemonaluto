@@ -1,4 +1,4 @@
-"""save controller module"""
+"""storing and loading game save files"""
 import json
 from typing import Dict, List, Tuple
 from game.helper_methods import isinstanceorsubclass

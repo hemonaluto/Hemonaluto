@@ -1,4 +1,4 @@
-"""scenario texts module"""
+"""texts that are used specifically to describe things within the in-game world"""
 # player
 PLAYER_NAME = "Player"
 PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."

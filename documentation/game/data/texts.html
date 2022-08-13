@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>game.data.texts API documentation</title>
+<meta name="description" content="responses to the players inputs, excluding descriptions of the in-game world" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>game.data.texts</code></h1>
+</header>
+<section id="section-intro">
+<p>responses to the players inputs, excluding descriptions of the in-game world</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;responses to the players inputs, excluding descriptions of the in-game world&#34;&#34;&#34;
+# introduction
+INTRODUCTION = &#34;\nWelcome to Hemonaluto! A curious magical world with a dark and powerful secret.&#34;
+PLEASE_TYPE = &#34;Type any command to start exploring your new environment.&#34;
+
+# quit message
+QUIT_MESSAGE = &#34;They will miss you.&#34;
+
+# indicator for the user to recognize it&#39;s their turn to type something
+INPUT_INDICATOR = &#34;\n&gt;&#34;
+
+# examine command
+EXAMINE_COMMAND_NAME = &#34;examine&#34;
+EXAMINE_COMMAND_DESCRIPTION = &#34;Examine anything in the game&#34;
+EXAMINE_COMMAND_HELP = &#34;Type examine followed by the thing you want to examine.&#34;\
+        &#34;\nExamples:\nexamine door\nexamine location\nexamine knife&#34;
+
+# examine location
+LOCATION_PREFIX = &#34;You are in &#34;
+LOCATION_SUFFIX = &#34;\nYou look around you and you see:&#34;
+
+# directions
+NORTH = &#34;north&#34;
+EAST = &#34;east&#34;
+SOUTH = &#34;south&#34;
+WEST = &#34;west&#34;
+NORTHEAST = &#34;northeast&#34;
+NORTHWEST = &#34;northwest&#34;
+SOUTHEAST = &#34;southeast&#34;
+SOUTHWEST = &#34;southwest&#34;
+UP = &#34;up&#34;
+DOWN = &#34;down&#34;
+INVALID_DIRECTION = &#34;You can&#39;t go there.&#34;
+
+# door
+LOCKED_DOOR = &#34;There is a locked door blocking the path.&#34;
+def door_unlocked(door_name):
+    &#34;&#34;&#34;Returns the message for when the player unlocks a specific door.&#34;&#34;&#34;
+    return f&#34;You have unlocked the {door_name}.&#34;
+def door_not_locked(door_name):
+    &#34;&#34;&#34;Returns the message for when the player tries to unlock a\
+    specific door that already is unlocked.&#34;&#34;&#34;
+    return f&#34;{door_name.capitalize()} is already unlocked.&#34;
+KEY_MISSING = &#34;You don&#39;t have the required key for that.&#34;
+
+# thing in container
+def element_in_container(things_as_string, preposition, container):
+    &#34;&#34;&#34;Returns a description for a thing within a container&#34;&#34;&#34;
+    return f&#34;    There is a {things_as_string} {preposition} the {container}.&#34;
+
+# element not found
+def element_not_found(element_name):
+    &#34;&#34;&#34;Returns element not found message&#34;&#34;&#34;
+    return f&#34;You couldn&#39;t find the {element_name}.&#34;
+
+# element not in inventory
+def element_not_in_inventory(element_name):
+    &#34;&#34;&#34;Returns element not in inventory message&#34;&#34;&#34;
+    return f&#34;You don&#39;t have the {element_name} in your inventory.&#34;
+
+# picked up element
+def picked_up_element(element_name):
+    &#34;&#34;&#34;Returns the information that the player picked up a specific element&#34;&#34;&#34;
+    return f&#34;You picked up the {element_name}.&#34;
+
+# generic location
+GENERIC_LOCATAION_NAME = &#34;location&#34;
+
+# greetings
+GREETINGS = [&#34;Hi.&#34;, &#34;Hello.&#34;, &#34;Greetings&#34;]
+
+# swear response
+SWEAR_RESPONSE = &#34;No. More. Saying. Cuss words! It. Is. Not. Good. I\&#39;m putting a video on YouTube \
+about no more saying cuss words. No more saying cuss words guys! It&#39;s inappropriate and violent! \
+If you say a cuss word then you&#39;re like, going to jail, and you&#39;re like, and when you go to jail, \
+i- ba- when you go to jail, if you say, if you say a cuss word you go to jail and if you go to \
+jail cause you said a cuss word, then... You&#39;re only gonna eat BROCCOLI and OTHER VEGETABLES \
+for your WHOLE LIFE. You don&#39;t want to eat vegetables. Sometimes people like eating sweets but, \
+I eat broccoli. So, I&#39;m okay with broccoli but I do not want to go to jail. You can not go to jail. \
+And saying cuss words is ILLEGAL. They are now gonna make a law about that. It is illegal, it is \
+inappropriate, it is really violent. I better warn my school about that.&#34;
+
+# jump response
+JUMP_RESPONSE = &#34;You jump up and down.&#34;
+
+# saved game message
+SAVED_GAME_MESSAGE = &#34;Saved the game!&#34;
+
+# loaded save message
+LOADED_SAVE_MESSAGE = &#34;Loaded last save!&#34;
+
+# failed save message
+FAILED_SAVE_MESSAGE = &#34;Failed to load last save.&#34;
+
+# scenario loaded message
+SCENARIO_LOADED = &#34;Loaded scenario.&#34;
+
+# nothing response
+NOTHING_RESPONSES = [&#34;What do sea monsters eat for dinner?\n\nFish and ships.&#34;,\
+&#34;Why did the necromancer kill his depressed allies?\n\nHe wanted to raise their spirits.&#34;,\
+&#34;Why do dwarven bards sound better by candlelight?\n\nYou can shove the wax in your ears.&#34;]
+
+# hit target response
+def hit_target(target_name):
+    &#34;&#34;&#34;Returns hit target message&#34;&#34;&#34;
+    return f&#34;Your weapon hit the {target_name}.&#34;
+
+# threw thing at nothing specific response
+THREW_AT_NOTHING = &#34;You threw it on the ground.&#34;
+
+# closed door or chest response
+CLOSED = &#34;Closed it.&#34;
+
+# tries to close something unopenable response
+NOT_OPENABLE = &#34;You can&#39;t close that.&#34;
+
+# tries to read something unreadable response
+NOT_READABLE = &#34;You can&#39;t read that.&#34;
+
+# tries to throw something unthrowable
+NOT_THROWABLE = &#34;You can&#39;t throw that.&#34;
+
+# tries to turn on something that is already on
+ALREADY_ON = &#34;That&#39;s already turned on.&#34;
+
+# tries to turn off something that is already off
+ALREADY_OFF = &#34;That&#39;s already turned off.&#34;
+
+# turned on an activator
+TURNED_ON = &#34;Turned on.&#34;
+
+# turned off an activator
+TURNED_OFF = &#34;Turned off.&#34;
+
+# tries to do an impossible action
+ACTION_NOT_POSSIBLE = &#34;You can&#39;t do that.&#34;
+
+# action failed
+ACTION_FAILED = &#34;Action failed.&#34;
+
+# tries activator that does nothing
+NOTHING_HAPPENS = &#34;Nothing happens.&#34;
+
+# reveal element
+def reveal_element(moved_item, revealed_item):
+    &#34;&#34;&#34;Revealing element message&#34;&#34;&#34;
+    return f&#34;You move the {moved_item} and reveal {revealed_item}&#34;
+
+# attacks without specifying weapon
+WEAPON_NOT_SPECIFIED = &#34;You didn&#39;t specify a weapon.&#34;
+
+# eating food message
+def eat_food(food_name, taste):
+    &#34;&#34;&#34;Eating food message&#34;&#34;&#34;
+    return f&#34;You eat the {food_name}. It tastes {taste}.&#34;
+
+# shouting response
+SHOUT_RESPONSE = &#34;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#34;
+
+# tied element to target
+def tie_rope_to_target(target):
+    &#34;&#34;&#34;Tying rope to something message&#34;&#34;&#34;
+    return f&#34;You tie the rope to the {target}.&#34;
+
+# that won&#39;t hold
+THAT_WONT_HOLD = &#34;That won&#39;t hold your weight.&#34;
+
+# target not specified
+TARGET_NOT_SPECIFIED = &#34;Target not specified.&#34;
+
+# untie
+UNTIE = &#34;You untie it.&#34;
+
+# climbing down text
+CLIMBING_DOWN = &#34;You climb down the rope.\n&#34;
+
+# tries to go down when there is no tied rope in the room
+NO_TIED_ROPE = &#34;There is a steep way down but you&#39;ll need something to lower yourself.&#34;
+
+# tries to tie rope to something you can&#39;t tie ropes to
+CANT_TIE_TO_ELEMENT = &#34;You can&#39;t tie the rope to that.&#34;
+
+# tries to untie an already untied rope
+ALREADY_UNTIED = &#34;No need for that, it&#39;s already untied.&#34;
+
+# tries to break a thing that has no break method
+CANT_BREAK = &#34;Breaking that would be pointless.&#34;
+
+# tries to attack something without a valid tool
+NEEDS_TO_BE_TOOL = &#34;Try using a tool or weapon instead.&#34;
+
+# door leads to message
+def door_leads_to(directions):
+    &#34;&#34;&#34;describes where a door leads to&#34;&#34;&#34;
+    description = &#34;&#34;
+    for direction in directions:
+        description += f&#34;\n    The door leads to the {direction}.&#34;
+    return description
+
+# hears nothing message
+SILENCE = &#34;You hear nothing specific.&#34;
+
+# smells nothing message
+NO_SMELLS = &#34;You smell nothing specific.&#34;
+
+# noises description
+def noises_description(noises):
+    &#34;&#34;&#34;Describes noises&#34;&#34;&#34;
+    description = &#34;You hear:&#34;
+    for noise in noises:
+        description += f&#34;\n    {noise}&#34;
+    return description
+
+# smell description
+def smell_description(smells):
+    &#34;&#34;&#34;Describes smells&#34;&#34;&#34;
+    description = &#34;You smell:&#34;
+    for smell in smells:
+        description += f&#34;\n    {smell}&#34;
+    return description
+
+# hiding
+def entering_thing(thing):
+    &#34;&#34;&#34;Entering thing message&#34;&#34;&#34;
+    return f&#34;Hiding in {thing}&#34;
+NOT_ENTERABLE = &#34;You can&#39;t enter that.&#34;
+SPECIFIY_HIDING_PLACE = &#34;Hidingplace not specified.&#34;
+CANT_SEE_LOCATION_FROM_HIDING = &#34;You can&#39;t see anything from your hididng spot.&#34;
+APPEARING = &#34;You leave your hiding place.&#34;
+NOT_HIDING = &#34;You&#39;re not hiding in the first place.&#34;
+
+# done generic action
+DONE = &#34;Done.&#34;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="game.data.texts.door_leads_to"><code class="name flex">
+<span>def <span class="ident">door_leads_to</span></span>(<span>directions)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>describes where a door leads to</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def door_leads_to(directions):
+    &#34;&#34;&#34;describes where a door leads to&#34;&#34;&#34;
+    description = &#34;&#34;
+    for direction in directions:
+        description += f&#34;\n    The door leads to the {direction}.&#34;
+    return description</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.door_not_locked"><code class="name flex">
+<span>def <span class="ident">door_not_locked</span></span>(<span>door_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the message for when the player tries to unlock a
+specific door that already is unlocked.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def door_not_locked(door_name):
+    &#34;&#34;&#34;Returns the message for when the player tries to unlock a\
+    specific door that already is unlocked.&#34;&#34;&#34;
+    return f&#34;{door_name.capitalize()} is already unlocked.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.door_unlocked"><code class="name flex">
+<span>def <span class="ident">door_unlocked</span></span>(<span>door_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the message for when the player unlocks a specific door.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def door_unlocked(door_name):
+    &#34;&#34;&#34;Returns the message for when the player unlocks a specific door.&#34;&#34;&#34;
+    return f&#34;You have unlocked the {door_name}.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.eat_food"><code class="name flex">
+<span>def <span class="ident">eat_food</span></span>(<span>food_name, taste)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Eating food message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eat_food(food_name, taste):
+    &#34;&#34;&#34;Eating food message&#34;&#34;&#34;
+    return f&#34;You eat the {food_name}. It tastes {taste}.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.element_in_container"><code class="name flex">
+<span>def <span class="ident">element_in_container</span></span>(<span>things_as_string, preposition, container)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a description for a thing within a container</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def element_in_container(things_as_string, preposition, container):
+    &#34;&#34;&#34;Returns a description for a thing within a container&#34;&#34;&#34;
+    return f&#34;    There is a {things_as_string} {preposition} the {container}.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.element_not_found"><code class="name flex">
+<span>def <span class="ident">element_not_found</span></span>(<span>element_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns element not found message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def element_not_found(element_name):
+    &#34;&#34;&#34;Returns element not found message&#34;&#34;&#34;
+    return f&#34;You couldn&#39;t find the {element_name}.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.element_not_in_inventory"><code class="name flex">
+<span>def <span class="ident">element_not_in_inventory</span></span>(<span>element_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns element not in inventory message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def element_not_in_inventory(element_name):
+    &#34;&#34;&#34;Returns element not in inventory message&#34;&#34;&#34;
+    return f&#34;You don&#39;t have the {element_name} in your inventory.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.entering_thing"><code class="name flex">
+<span>def <span class="ident">entering_thing</span></span>(<span>thing)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Entering thing message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def entering_thing(thing):
+    &#34;&#34;&#34;Entering thing message&#34;&#34;&#34;
+    return f&#34;Hiding in {thing}&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.hit_target"><code class="name flex">
+<span>def <span class="ident">hit_target</span></span>(<span>target_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns hit target message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hit_target(target_name):
+    &#34;&#34;&#34;Returns hit target message&#34;&#34;&#34;
+    return f&#34;Your weapon hit the {target_name}.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.noises_description"><code class="name flex">
+<span>def <span class="ident">noises_description</span></span>(<span>noises)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Describes noises</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def noises_description(noises):
+    &#34;&#34;&#34;Describes noises&#34;&#34;&#34;
+    description = &#34;You hear:&#34;
+    for noise in noises:
+        description += f&#34;\n    {noise}&#34;
+    return description</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.picked_up_element"><code class="name flex">
+<span>def <span class="ident">picked_up_element</span></span>(<span>element_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the information that the player picked up a specific element</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def picked_up_element(element_name):
+    &#34;&#34;&#34;Returns the information that the player picked up a specific element&#34;&#34;&#34;
+    return f&#34;You picked up the {element_name}.&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.reveal_element"><code class="name flex">
+<span>def <span class="ident">reveal_element</span></span>(<span>moved_item, revealed_item)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Revealing element message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reveal_element(moved_item, revealed_item):
+    &#34;&#34;&#34;Revealing element message&#34;&#34;&#34;
+    return f&#34;You move the {moved_item} and reveal {revealed_item}&#34;</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.smell_description"><code class="name flex">
+<span>def <span class="ident">smell_description</span></span>(<span>smells)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Describes smells</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def smell_description(smells):
+    &#34;&#34;&#34;Describes smells&#34;&#34;&#34;
+    description = &#34;You smell:&#34;
+    for smell in smells:
+        description += f&#34;\n    {smell}&#34;
+    return description</code></pre>
+</details>
+</dd>
+<dt id="game.data.texts.tie_rope_to_target"><code class="name flex">
+<span>def <span class="ident">tie_rope_to_target</span></span>(<span>target)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Tying rope to something message</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tie_rope_to_target(target):
+    &#34;&#34;&#34;Tying rope to something message&#34;&#34;&#34;
+    return f&#34;You tie the rope to the {target}.&#34;</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="game.data" href="index.html">game.data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="game.data.texts.door_leads_to" href="#game.data.texts.door_leads_to">door_leads_to</a></code></li>
+<li><code><a title="game.data.texts.door_not_locked" href="#game.data.texts.door_not_locked">door_not_locked</a></code></li>
+<li><code><a title="game.data.texts.door_unlocked" href="#game.data.texts.door_unlocked">door_unlocked</a></code></li>
+<li><code><a title="game.data.texts.eat_food" href="#game.data.texts.eat_food">eat_food</a></code></li>
+<li><code><a title="game.data.texts.element_in_container" href="#game.data.texts.element_in_container">element_in_container</a></code></li>
+<li><code><a title="game.data.texts.element_not_found" href="#game.data.texts.element_not_found">element_not_found</a></code></li>
+<li><code><a title="game.data.texts.element_not_in_inventory" href="#game.data.texts.element_not_in_inventory">element_not_in_inventory</a></code></li>
+<li><code><a title="game.data.texts.entering_thing" href="#game.data.texts.entering_thing">entering_thing</a></code></li>
+<li><code><a title="game.data.texts.hit_target" href="#game.data.texts.hit_target">hit_target</a></code></li>
+<li><code><a title="game.data.texts.noises_description" href="#game.data.texts.noises_description">noises_description</a></code></li>
+<li><code><a title="game.data.texts.picked_up_element" href="#game.data.texts.picked_up_element">picked_up_element</a></code></li>
+<li><code><a title="game.data.texts.reveal_element" href="#game.data.texts.reveal_element">reveal_element</a></code></li>
+<li><code><a title="game.data.texts.smell_description" href="#game.data.texts.smell_description">smell_description</a></code></li>
+<li><code><a title="game.data.texts.tie_rope_to_target" href="#game.data.texts.tie_rope_to_target">tie_rope_to_target</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

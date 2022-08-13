@@ -1,3 +1,9 @@
+.PHONY: documentation
+
+documentation:
+	rmdir documentation /s /Q
+	python -m pdoc --html game --output-dir documentation
+
 run:
 	python main.py
 

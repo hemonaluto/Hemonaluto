@@ -1,4 +1,4 @@
-"""Location module"""
+"""data structure to store information about in-game locations"""
 from game.model.element import Element
 
 

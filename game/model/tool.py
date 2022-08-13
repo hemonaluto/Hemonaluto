@@ -1,4 +1,4 @@
-"""Tool module"""
+"""data structure to store information about in-game tools"""
 from game.model.element import Element
 from game.model.thing import Thing
 
