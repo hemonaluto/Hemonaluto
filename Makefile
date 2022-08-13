@@ -2,7 +2,7 @@
 
 documentation:
 	python -c "import shutil;shutil.rmtree('documentation')"
-	python -m pdoc --html game --output-dir documentation
+	python -m pdoc game --output-dir documentation
 
 run:
 	python main.py
