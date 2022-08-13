@@ -1,5 +1,5 @@
 # Hemonaluto
-**A text adventure game**
+**A text-based adventure game**
 
 Hemonaluto is a text based adventure game where you wake up in a curious magical world with a dark and powerful secret.
 
@@ -7,34 +7,43 @@ The story isn't developed yet, so far there are only three rooms to discover.
 
 ## How it works
 
-### Developers
-Windows:
-
-1. Open terminal as administrator.
-2. Run ```winget install GnuWin32.Make```
-3. Run ```setx /M path "%path%;C:\Program Files (x86)\GnuWin32\bin"```
-
-Windows and Linux:
-
-4. Navigate to the folder you want to clone the project to.
-5. Run ```git clone https://github.com/gasupidupi/Hemonaluto.git```
-6. Happy coding!
-
 ### Players
 
-1. Open terminal as administrator.
-2. Run ```pip install hemonaluto```
-3. Run ```hemonaluto```
+1. [Install Python](https://www.python.org/downloads/) and [install pip](https://monovm.com/blog/how-to-install-pip-on-windows-linux/)
+2. Open terminal as administrator.
+3. Run ```pip install hemonaluto```
+4. Run ```hemonaluto```
 
-You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. 
+You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. Useful player commands are listed further down on this page.
 
-## Contributors
-### How you can help
+### Developers
+
+#### Set up
+1. [Install Python](https://www.python.org/downloads/) and [install pip](https://monovm.com/blog/how-to-install-pip-on-windows-linux/)
+2. Open terminal as administrator.
+3. Navigate to the folder you want to clone the project to.
+4. Run ```git clone https://github.com/hemonaluto/Hemonaluto.git```
+5. Install the required dependencies:
+   - Linux: run ```make setup``` to easily install them OR
+   - Any OS: run ```pip install -r requirements.txt``` OR
+   - use pipenv or anaconda
+
+#### How you can help
 If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.
 
-To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
+#### Makefile
+- ```make generate_world```:
+Generate the world json used in the game. To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` before running ```make generate_world```.
+- ```make generate_test_world```:
+Generate the test world json, which some of the unit tests require.
+- ```make run_tests```:
+Run all the unit tests.
+- ```make setup```:
+Installs the required libraries for the project.
+- ```make run```:
+Run the game.
 
-## Commands
+## Player Commands
 ### quit/q/exit
 This command quits the game entirely.
 ### examine/look/l
