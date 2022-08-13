@@ -1,4 +1,4 @@
-"""activator controller module"""
+"""everyting an in-game button or valve can execute"""
 from game.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP, PLATE_BREAKS
 
 

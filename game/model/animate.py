@@ -1,4 +1,4 @@
-"""Animate module"""
+"""data structure to store information about in-game creatures"""
 from game.model.element import Element
 
 

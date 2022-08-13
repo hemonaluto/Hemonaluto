@@ -1,4 +1,4 @@
-"""console view module"""
+"""console view that prints out what the player sees"""
 from functools import partial
 import random
 import pkg_resources

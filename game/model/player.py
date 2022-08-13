@@ -1,4 +1,4 @@
-"""Player module"""
+"""data structure to store information about the in-game player"""
 from game.model.animate import Animate
 from game.model.element import Element
 

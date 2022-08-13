@@ -1,3 +1,9 @@
+.PHONY: documentation
+
+documentation:
+	python -c "import shutil;shutil.rmtree('documentation')"
+	python -m pdoc game --output-dir documentation
+
 run:
 	python main.py
 

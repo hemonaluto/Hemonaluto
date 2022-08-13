@@ -1,4 +1,4 @@
-"""main module"""
+"""starts the game"""
 from game.view.console_view import ConsoleView
 from game.controller.dungeon_controller import DungeonController
 import pkg_resources

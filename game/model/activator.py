@@ -1,4 +1,4 @@
-"""Activator module"""
+"""data structure to store information about in-game activators like buttons or valves"""
 from game.model.enums.activator_type import ActivatorType
 from game.model.element import Element
 

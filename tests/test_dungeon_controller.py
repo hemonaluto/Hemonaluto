@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import INVALID_DIRECTION, LOCKED_DOOR
+from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, door_not_locked, door_unlocked
 from game.model.door import Door
 from game.model.player import Player
 
@@ -79,6 +79,7 @@ class TestDungeonController(unittest.TestCase):
     @parameterized.expand([
         ["west", "west location"],
         ["east", LOCKED_DOOR],
+        ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]
     ])
     def test_move_player(self, direction, expected_response):
@@ -111,6 +112,11 @@ class TestDungeonController(unittest.TestCase):
             "needs_rope": False,
             "name": "east location"
         }
+        mock_location_down_attrs = {
+            "contents": [],
+            "needs_rope": True,
+            "name": "down location"
+        }
         mock_location_start_attrs = {
             "name": "start location",
             "contents": [mock_player, mock_door],
@@ -124,6 +130,7 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**mock_door_attrs)
         mock_location_west.configure_mock(**mock_location_west_attrs)
         mock_location_east.configure_mock(**mock_location_east_attrs)
+        mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_start.configure_mock(**mock_location_start_attrs)
         self.dungeon_master.all_name_locations.extend([
             ("start location", mock_location_start),
@@ -133,4 +140,138 @@ class TestDungeonController(unittest.TestCase):
         ])
         self.dungeon_master.player_location = mock_location_start
         actual_response = self.dungeon_master.move_player(direction)
+        self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        [True, True],
+        [False, True],
+        [True, False]
+    ])
+    def test_unlock(self, player_has_key: bool, locked: bool):
+        """Test unlock method"""
+        mock_door = Mock(spec=Door)
+        door_name = "test door"
+        mock_location = Mock()
+        mock_player = Mock()
+        mock_key = Mock()
+        location_attrs = {
+            "contents": [mock_door, mock_player]
+        }
+        if player_has_key:
+            player_contents = [mock_key]
+        else:
+            player_contents = []
+        player_attrs = {
+            "contents": player_contents,
+            "name": "Player",
+            "visible": True
+        }
+        key_attrs = {
+            "contents": [],
+            "name": "test key",
+            "visible": True
+        }
+        door_attrs = {
+            "contents": [],
+            "name": door_name,
+            "locked": locked,
+            "visible": True,
+            "key": "test key"
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_key.configure_mock(**key_attrs)
+        mock_door.configure_mock(**door_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.unlock(door_name)
+        if player_has_key and locked:
+            self.assertEqual(door_unlocked(door_name), actual_response)
+        elif not player_has_key and locked:
+            self.assertEqual(KEY_MISSING, actual_response)
+        else:
+            self.assertEqual(door_not_locked(door_name), actual_response)
+
+    def test_set_player_location(self):
+        """Test set player method"""
+        mock_location = Mock()
+        mock_player = Mock()
+        location_attrs = {
+            "contents": []
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        self.dungeon_master.set_player_location(mock_player, mock_location)
+        self.assertIn(mock_player, mock_location.contents)
+
+    @parameterized.expand([
+        ["table", "A quirky test table."],
+        ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
+    ])
+    def test_describe(self, input, expected_response):
+        """test describe method"""
+        mock_location = Mock()
+        mock_player = Mock()
+        mock_table = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "description": "A quirky test location.",
+            "contents": [mock_player, mock_table]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "description": "A quirky test player.",
+            "visible": True,
+            "hiding": False
+        }
+        table_attrs = {
+            "contents": [],
+            "name": "table",
+            "description": "A quirky test table."
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_table.configure_mock(**table_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.describe(input)
+        self.assertEqual(expected_response, actual_response)
+
+    def test_describe_location(self):
+        """test describe_location method"""
+        mock_location = Mock()
+        mock_player = Mock()
+        mock_table = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "description": "A quirky test location.",
+            "contents": [mock_player, mock_table]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "description": "A quirky test player.",
+            "visible": True,
+            "hiding": False
+        }
+        table_attrs = {
+            "contents": [],
+            "name": "table",
+            "description": "A quirky test table."
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_table.configure_mock(**table_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        expected_response = "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."
+        actual_response = self.dungeon_master.describe_location()
         self.assertEqual(expected_response, actual_response)
