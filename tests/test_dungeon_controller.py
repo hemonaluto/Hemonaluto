@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX, LOCKED_DOOR, NO_TIED_ROPE, door_not_locked, door_unlocked
+from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, door_not_locked, door_unlocked
 from game.model.door import Door
 from game.model.player import Player
 
