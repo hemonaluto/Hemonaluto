@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, door_not_locked, door_unlocked
+from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCATION_PREFIX, LOCATION_SUFFIX, LOCKED_DOOR, NO_TIED_ROPE, door_not_locked, door_unlocked
 from game.model.door import Door
 from game.model.player import Player
 
@@ -210,3 +210,37 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.player_location = mock_location
         self.dungeon_master.set_player_location(mock_player, mock_location)
         self.assertIn(mock_player, mock_location.contents)
+
+    @parameterized.expand([
+        ["table",  "A quirky test table."],
+        ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
+    ])
+    def test_describe(self, input, expected_response):
+        """test describe method"""
+        mock_location = Mock()
+        mock_player = Mock()
+        mock_table = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "description": "A quirky test location.",
+            "contents": [mock_player, mock_table]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "description": "A quirky test player.",
+            "visible": True,
+            "hiding": False
+        }
+        table_attrs = {
+            "contents": [],
+            "name": "table",
+            "description": "A quirky test table."
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_table.configure_mock(**table_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.describe(input)
+        self.assertEqual(expected_response, actual_response)
