@@ -24,12 +24,25 @@ You are welcomed and prompted to type in a command. This command should be writt
 2. Open terminal as administrator.
 3. Navigate to the folder you want to clone the project to.
 4. Run ```git clone https://github.com/hemonaluto/Hemonaluto.git```
-5. Happy coding!
+5. Install the required dependencies:
+   - Linux: run ```make setup``` to easily install them OR
+   - Any OS: run ```pip install -r requirements.txt``` OR
+   - use pipenv or anaconda
 
 #### How you can help
 If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.
 
-To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
+#### Makefile
+- ```make generate_world```:
+Generate the world json used in the game. To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` before running ```make generate_world```.
+- ```make generate_test_world```:
+Generate the test world json, which some of the unit tests require.
+- ```make run_tests```:
+Run all the unit tests.
+- ```make setup```:
+Installs the required libraries for the project.
+- ```make run```:
+Run the game.
 
 ## Player Commands
 ### quit/q/exit
