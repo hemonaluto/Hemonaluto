@@ -9,18 +9,17 @@ The story isn't developed yet, so far there are only three rooms to discover.
 
 ### Players
 
-1. [Install Python](https://www.python.org/downloads/)
-2. [Install pip](https://monovm.com/blog/how-to-install-pip-on-windows-linux/)
-3. Open terminal as administrator.
-4. Run ```pip install hemonaluto```
-5. Run ```hemonaluto```
+1. [Install Python](https://www.python.org/downloads/) and [install pip](https://monovm.com/blog/how-to-install-pip-on-windows-linux/)
+2. Open terminal as administrator.
+3. Run ```pip install hemonaluto```
+4. Run ```hemonaluto```
 
 You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. Useful player commands are listed further down on this page.
 
 ### Developers
 
 #### Set up
-1. [Install Python](https://www.python.org/downloads/)
+1. [Install Python](https://www.python.org/downloads/) and [install pip](https://monovm.com/blog/how-to-install-pip-on-windows-linux/)
 2. Open terminal as administrator.
 3. Navigate to the folder you want to clone the project to.
 4. Run ```git clone https://github.com/hemonaluto/Hemonaluto.git```
