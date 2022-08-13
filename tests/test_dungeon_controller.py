@@ -244,3 +244,34 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.player_location = mock_location
         actual_response = self.dungeon_master.describe(input)
         self.assertEqual(expected_response, actual_response)
+
+    def test_describe_location(self):
+        """test describe_location method"""
+        mock_location = Mock()
+        mock_player = Mock()
+        mock_table = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "description": "A quirky test location.",
+            "contents": [mock_player, mock_table]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "description": "A quirky test player.",
+            "visible": True,
+            "hiding": False
+        }
+        table_attrs = {
+            "contents": [],
+            "name": "table",
+            "description": "A quirky test table."
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_table.configure_mock(**table_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        expected_response = "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."
+        actual_response = self.dungeon_master.describe_location()
+        self.assertEqual(expected_response, actual_response)
