@@ -1,7 +1,7 @@
 .PHONY: documentation
 
 documentation:
-	rmdir /s /Q documentation
+	python -c "import shutil;shutil.rmtree('documentation')"
 	python -m pdoc --html game --output-dir documentation
 
 run:
