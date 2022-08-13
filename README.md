@@ -7,34 +7,31 @@ The story isn't developed yet, so far there are only three rooms to discover.
 
 ## How it works
 
-### Developers
-Windows:
-
-1. Open terminal as administrator.
-2. Run ```winget install GnuWin32.Make```
-3. Run ```setx /M path "%path%;C:\Program Files (x86)\GnuWin32\bin"```
-
-Windows and Linux:
-
-4. Navigate to the folder you want to clone the project to.
-5. Run ```git clone https://github.com/gasupidupi/Hemonaluto.git```
-6. Happy coding!
-
 ### Players
 
-1. Open terminal as administrator.
-2. Run ```pip install hemonaluto```
-3. Run ```hemonaluto```
+1. [Install Python](https://www.python.org/downloads/)
+2. [Install pip](https://monovm.com/blog/how-to-install-pip-on-windows-linux/)
+3. Open terminal as administrator.
+4. Run ```pip install hemonaluto```
+5. Run ```hemonaluto```
 
-You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. 
+You are welcomed and prompted to type in a command. This command should be written from the perspective of the player, similar to how you would play in the game Zork. Useful player commands are listed further down on this page.
 
-## Contributors
-### How you can help
+### Developers
+
+#### Set up
+1. [Install Python](https://www.python.org/downloads/)
+2. Navigate to the folder you want to clone the project to.
+3. Open terminal as administrator.
+4. Run ```git clone https://github.com/gasupidupi/Hemonaluto.git```
+5. Happy coding!
+
+#### How you can help
 If you want to improve this game, fix bugs, write tests or add documentation, please feel free to do so, any kind of contribution is welcome. Simply open an issue and submit a pull request so we can discuss and close it.
 
 To create your custom world or change the existing one you can edit ```scripts/world_generation.py``` and run ```make generate_world```.
 
-## Commands
+## Player Commands
 ### quit/q/exit
 This command quits the game entirely.
 ### examine/look/l
