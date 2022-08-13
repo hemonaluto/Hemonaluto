@@ -42,6 +42,8 @@ Run all the unit tests.
 Installs the required libraries for the project.
 - ```make run```:
 Run the game.
+- ```make documentation```:
+Generates the project code documentation in form of a HTML page.
 
 ## Player Commands
 ### quit/q/exit
