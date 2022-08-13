@@ -8,7 +8,8 @@ PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."
 # cellar
 CELLAR_NAME = "Cellar"
 CELLAR_DESCRIPTION = "A dusty abandoned cellar with an unusable broken staircase leading up.\n"
-CELLAR_BRIEF = "You find yourself in a repurposed cellar. There are dustparticals dancing rhythmically around you; there is magic in the air."
+CELLAR_BRIEF = "You find yourself in a repurposed cellar. There are dustparticals dancing\
+    rhythmically around you; there is magic in the air."
 
 # cellar altar
 CELLAR_ALTAR_NAME = "altar"
@@ -22,8 +23,10 @@ CELLAR_SKELETON_DESCRIPTION = "A skeleton."
 
 # dining room
 DINING_ROOM_NAME = "Dining Room"
-DINING_ROOM_DESCRIPTION = "A large L shaped room with two closed windows illuminating a homey interior."
-DINING_ROOM_BRIEF = "As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast."
+DINING_ROOM_DESCRIPTION = "A large L shaped room with two closed windows\
+    illuminating a homey interior."
+DINING_ROOM_BRIEF = "As you enter the room you get greeted by the warmth\
+    of a crackling fireplace in the corner and the smell of a fresh breakfast."
 
 # rope
 ROPE_NAME = "rope"
@@ -68,7 +71,11 @@ PLATE_BREAKS = "The plate shatters into a dozen pieces."
 # bedroom
 BEDROOM_NAME = "Bedroom"
 BEDROOM_DESCRIPTION = "A room designed for humans to rest."
-BEDROOM_BRIEF = "You are standig in a beautiful forest clearing with three beings infront of you. Their form is fuzzy and blurred and you can't make out their true appearence. They want to tell you something important but as they are about to do so you hear a distant clinking followed by a door knocking. You realize you're in a dream and you wake up covered in warm cozy bedsheets."
+BEDROOM_BRIEF = "You are standig in a beautiful forest clearing with three beings \
+    infront of you. Their form is fuzzy and blurred and you can't make out their \
+    true appearence. They want to tell you something important but as they are \
+    about to do so you hear a distant clinking followed by a door knocking. You \
+    realize you're in a dream and you wake up covered in warm cozy bedsheets."
 
 # bedroom key text
 BEDROOM_KEY_TEXT = "B"

@@ -1,3 +1,4 @@
+"""adding the project path to system path to import modules"""
 import os
 import sys
 PROJECT_PATH = os.getcwd()

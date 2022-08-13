@@ -1,12 +1,12 @@
 """Generate test world module"""
 import os
 import sys
+import json
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
     PROJECT_PATH
 )
 sys.path.append(SOURCE_PATH)
-import json
 from game.model.animate import Animate
 from game.model.chest import Chest
 from game.model.element import Element

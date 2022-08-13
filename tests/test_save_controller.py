@@ -93,8 +93,8 @@ class TestSaveController(unittest.TestCase):
         self.save_handler.save(self.names_locations, "tests/saving_test.json")
         is_valid: bool = None
         try:
-            with open("tests/saving_test.json", "r") as f:
-                json.load(f)
+            with open("tests/saving_test.json", "r", encoding="utf-8") as save_file:
+                json.load(save_file)
             is_valid = True
         except ValueError:
             is_valid = False

@@ -1,3 +1,5 @@
+"""Setup information to create distributions"""
+# pylint: disable=unused-variable
 import pathlib
 import os
 from setuptools import setup, find_packages
@@ -9,6 +11,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 def package_files(directory):
+    """get all the file paths within a directory"""
     paths = []
     for (path, directories, filenames) in os.walk(directory):
         for filename in filenames:
