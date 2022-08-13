@@ -212,7 +212,7 @@ class TestDungeonController(unittest.TestCase):
         self.assertIn(mock_player, mock_location.contents)
 
     @parameterized.expand([
-        ["table",  "A quirky test table."],
+        ["table", "A quirky test table."],
         ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
     def test_describe(self, input, expected_response):

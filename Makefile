@@ -1,7 +1,7 @@
 .PHONY: documentation
 
 documentation:
-	rmdir documentation /s /Q
+	rmdir /s /Q documentation
 	python -m pdoc --html game --output-dir documentation
 
 run:
