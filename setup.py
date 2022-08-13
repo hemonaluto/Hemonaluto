@@ -26,7 +26,7 @@ setup(
     description = ("A text adventure game!"),
     license = "GNU General Public License v3.0",
     keywords = "text-based adventure game",
-    url = "https://github.com/gasupidupi/Hemonaluto",
+    url = "https://github.com/hemonaluto/Hemonaluto",
     long_description=README,
     long_description_content_type="text/markdown",
     packages=find_packages(),
