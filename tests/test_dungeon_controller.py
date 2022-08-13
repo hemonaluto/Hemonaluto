@@ -191,3 +191,22 @@ class TestDungeonController(unittest.TestCase):
             self.assertEqual(KEY_MISSING, actual_response)
         else:
             self.assertEqual(door_not_locked(door_name), actual_response)
+
+    def test_set_player_location(self):
+        """Test set player method"""
+        mock_location = Mock()
+        mock_player = Mock()
+        location_attrs = {
+            "contents": []
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        self.dungeon_master.set_player_location(mock_player, mock_location)
+        self.assertIn(mock_player, mock_location.contents)
