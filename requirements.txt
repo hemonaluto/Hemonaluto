@@ -1,2 +1,2 @@
 parameterized==0.8.1
-pdoc=12.1.0
+pdoc==12.1.0
