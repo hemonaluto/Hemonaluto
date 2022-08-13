@@ -21,8 +21,8 @@ You are welcomed and prompted to type in a command. This command should be writt
 
 #### Set up
 1. [Install Python](https://www.python.org/downloads/)
-2. Navigate to the folder you want to clone the project to.
-3. Open terminal as administrator.
+2. Open terminal as administrator.
+3. Navigate to the folder you want to clone the project to.
 4. Run ```git clone https://github.com/gasupidupi/Hemonaluto.git```
 5. Happy coding!
 
