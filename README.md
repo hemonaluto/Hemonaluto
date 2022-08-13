@@ -1,5 +1,5 @@
 # Hemonaluto
-**A text adventure game**
+**A text-based adventure game**
 
 Hemonaluto is a text based adventure game where you wake up in a curious magical world with a dark and powerful secret.
 
