@@ -305,3 +305,33 @@ class TestDungeonController(unittest.TestCase):
         expected_response = "A quirky test table."
         actual_response = self.dungeon_master.describe_element("table")
         self.assertEqual(expected_response, actual_response)
+
+    def test_describe_container(self):
+        """test describe_container method"""
+        mock_box = Mock()
+        mock_envelope = Mock()
+        mock_letter = Mock()
+        box_attrs = {
+            "name": "box",
+            "contents": [mock_envelope],
+            "description": "A quirky test box.",
+            "preposition": "in"
+        }
+        envelope_attrs = {
+            "name": "envelope",
+            "contents": [mock_letter],
+            "description": "A quirky test envelope.",
+            "preposition": "in"
+        }
+        letter_attrs = {
+            "name": "letter",
+            "contents": [],
+            "description": "A quirky test letter.",
+            "preposition": "in"
+        }
+        mock_box.configure_mock(**box_attrs)
+        mock_envelope.configure_mock(**envelope_attrs)
+        mock_letter.configure_mock(**letter_attrs)
+        expected_response = "A quirky test box.\n    There is a envelope in the box.\n    There is a letter in the envelope."
+        actual_response = self.dungeon_master.describe_container(mock_box)
+        self.assertEqual(expected_response, actual_response)

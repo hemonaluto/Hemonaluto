@@ -137,7 +137,7 @@ class DungeonController:
             description = top_container.description
         visible_elements = self.get_all_elements_container(top_container, only_visible=True)
         for element_container in visible_elements:
-            if element_container[1] is not self.get_player():
+            if not isinstanceorsubclass(element_container[1], Player):
                 if element_container[1] is not self.player_location:
                     description = description + "\n" +\
                         element_in_container(element_container[0].name,
