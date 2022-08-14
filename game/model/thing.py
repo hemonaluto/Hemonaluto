@@ -1,4 +1,6 @@
 """data structure to store information about in-game things"""
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-instance-attributes
 from game.model.element import Element
 
 

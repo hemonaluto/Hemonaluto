@@ -1,4 +1,5 @@
 """data structure to store information about in-game locations"""
+# pylint: disable=too-few-public-methods
 from game.model.element import Element
 
 
@@ -11,6 +12,6 @@ class Location(Element):
         self.exits: dict = kwargs.get("exits", {})
         """Keys must be directions e.g. west, values must be names of locations e.g. cellar"""
         self.has_light: bool = kwargs.get("has_light", False)
-        self.brief: str = kwargs.get("brief", None) # ToDo: implement
+        self.brief: str = kwargs.get("brief", None)
         self.needs_rope: bool = kwargs.get("needs_rope", False)
         Element.__init__(self, name, description, **kwargs)

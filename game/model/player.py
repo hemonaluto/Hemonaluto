@@ -1,4 +1,5 @@
 """data structure to store information about the in-game player"""
+# pylint: disable=too-few-public-methods
 from game.model.animate import Animate
 from game.model.element import Element
 

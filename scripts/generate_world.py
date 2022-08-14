@@ -1,11 +1,29 @@
 """Generates the game world"""
+# pylint: disable=wrong-import-position
 import os
 import sys
+import json
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
     PROJECT_PATH
 )
 sys.path.append(SOURCE_PATH)
+from game.data.scenario_texts import BED_DESCRIPTION, BED_NAME,\
+BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
+BEDROOM_BUTTON_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
+BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
+BEDROOM_KEY_NAME, BEDROOM_KEY_TEXT, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION,\
+BEDROOM_PILE_OF_DUST_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
+BREAKFAST_KNIFE_DESCRIPTION, BREAKFAST_KNIFE_NAME,\
+CELLAR_ALTAR_DESCRIPTION, CELLAR_ALTAR_NAME, CELLAR_BRIEF,\
+CELLAR_DESCRIPTION, CELLAR_NAME, CELLAR_SKELETON_DESCRIPTION,\
+CELLAR_SKELETON_NAME, DINING_ROOM_BRIEF, DINING_ROOM_CRATE_DESCRIPTION, DINING_ROOM_CRATE_NAME,\
+DINING_ROOM_DESCRIPTION, DINING_ROOM_FIREPLACE_DESCRIPTION, DINING_ROOM_FIREPLACE_NAME,\
+DINING_ROOM_FIREPLACE_SOUND, DINING_ROOM_FOOD_DESCRIPTION, DINING_ROOM_FOOD_NAME,\
+DINING_ROOM_FOOD_SMELL, DINING_ROOM_FOOD_TASTE, DINING_ROOM_NAME,\
+DINING_ROOM_PLATE_DESCRIPTION, DINING_ROOM_PLATE_NAME, DINING_ROOM_TABLE_DESCRIPTION,\
+DINING_ROOM_TABLE_NAME, DINING_ROOM_TRAPDOOR_DESCRIPTION, DINING_ROOM_TRAPDOOR_NAME,\
+PLAYER_DESCRIPTION, PLAYER_NAME, ROPE_DESCRIPTION, ROPE_NAME
 from game.model.activator import Activator
 from game.model.door import Door
 from game.model.food import Food
@@ -15,22 +33,7 @@ from game.model.rope import Rope
 from game.model.thing import Thing
 from game.model.tool import Tool
 from game.model.enums.activator_type import ActivatorType
-from game.controller.save_controller import SaveController
 from game.data.texts import UP, DOWN, EAST, WEST
-from game.data.scenario_texts import BED_DESCRIPTION, BED_NAME, BEDROOM_BRIEF, BEDROOM_BUTTON_DESCRIPTION,\
-BEDROOM_BUTTON_NAME, BEDROOM_DESCRIPTION, BEDROOM_DOOR_DESCRIPTION,\
-BEDROOM_DOOR_NAME, BEDROOM_HOOK_DESCRIPTION, BEDROOM_HOOK_NAME, BEDROOM_KEY_DESCRIPTION,\
-BEDROOM_KEY_NAME, BEDROOM_KEY_TEXT, BEDROOM_NAME, BEDROOM_PILE_OF_DUST_DESCRIPTION,\
-BEDROOM_PILE_OF_DUST_NAME, BEDROOM_RUG_DESCRIPTION, BEDROOM_RUG_NAME,\
-BREAKFAST_KNIFE_DESCRIPTION, BREAKFAST_KNIFE_NAME, CELLAR_ALTAR_DESCRIPTION, CELLAR_ALTAR_NAME, CELLAR_BRIEF,\
-CELLAR_DESCRIPTION, CELLAR_NAME, CELLAR_SKELETON_DESCRIPTION,\
-CELLAR_SKELETON_NAME, DINING_ROOM_BRIEF, DINING_ROOM_CRATE_DESCRIPTION, DINING_ROOM_CRATE_NAME,\
-DINING_ROOM_DESCRIPTION, DINING_ROOM_FIREPLACE_DESCRIPTION, DINING_ROOM_FIREPLACE_NAME,\
-DINING_ROOM_FIREPLACE_SOUND, DINING_ROOM_FOOD_DESCRIPTION, DINING_ROOM_FOOD_NAME,\
-DINING_ROOM_FOOD_SMELL, DINING_ROOM_FOOD_TASTE, DINING_ROOM_NAME,\
-DINING_ROOM_PLATE_DESCRIPTION, DINING_ROOM_PLATE_NAME, DINING_ROOM_TABLE_DESCRIPTION,\
-DINING_ROOM_TABLE_NAME, DINING_ROOM_TRAPDOOR_DESCRIPTION, DINING_ROOM_TRAPDOOR_NAME,\
-PLAYER_DESCRIPTION, PLAYER_NAME, ROPE_DESCRIPTION, ROPE_NAME
 
 
 all_name_locations = []
@@ -61,7 +64,7 @@ bedroom_pile_of_dust = Thing(BEDROOM_PILE_OF_DUST_NAME, BEDROOM_PILE_OF_DUST_DES
 bedroom_pile_of_dust.visible = False
 bedroom_rug.reveals = bedroom_pile_of_dust.name
 bedroom_door.connects.append(BEDROOM_NAME)
-bedroom.contents.extend([player, bed, bedroom_door, bedroom_hook,\
+bedroom.contents.extend([player, bed, bedroom_door, bedroom_hook,
     bedroom_rug, bedroom_button, bedroom_pile_of_dust])
 dining_room = Location(DINING_ROOM_NAME, DINING_ROOM_DESCRIPTION)
 dining_room.brief = DINING_ROOM_BRIEF
@@ -84,7 +87,7 @@ dining_room_plate.when_broken_do = "break_plate"
 dining_room_fireplace = Thing(DINING_ROOM_FIREPLACE_NAME, DINING_ROOM_FIREPLACE_DESCRIPTION)
 dining_room_fireplace.sound = DINING_ROOM_FIREPLACE_SOUND
 dining_room_table.contents.extend([dining_room_plate, breakfast_knife])
-dining_room.contents.extend([dining_room_table, dining_room_trapdoor,\
+dining_room.contents.extend([dining_room_table, dining_room_trapdoor,
     rope, dining_room_crate, dining_room_fireplace])
 cellar = Location(CELLAR_NAME, CELLAR_DESCRIPTION)
 cellar.brief = CELLAR_BRIEF
@@ -98,5 +101,14 @@ cellar.contents.extend([cellar_altar, cellar_skeleton])
 all_name_locations.append((bedroom.name, bedroom))
 all_name_locations.append((dining_room.name, dining_room))
 all_name_locations.append((cellar.name, cellar))
-save_handler = SaveController()
-save_handler.save(all_name_locations, "game/data/scenario.json")
+
+class ElementEncoder(json.JSONEncoder):
+    """json encoder for elements"""
+    def default(self, o):
+        return o.__dict__
+
+locations = []
+for location in all_name_locations:
+    locations.append(location[1])
+with open("game/data/scenario.json", "w", encoding="UTF-8") as savefile:
+    json.dump(locations, savefile, indent=4, cls=ElementEncoder)

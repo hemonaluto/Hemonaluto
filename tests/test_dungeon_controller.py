@@ -1,9 +1,13 @@
 """test dungeon controller module"""
+# pylint: disable=no-name-in-module
+# pylint: disable=too-many-locals
+# pylint: disable=line-too-long
 import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, door_not_locked, door_unlocked
+from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR,\
+    NO_TIED_ROPE, door_not_locked, door_unlocked
 from game.model.door import Door
 from game.model.player import Player
 
@@ -80,6 +84,7 @@ class TestDungeonController(unittest.TestCase):
         ["west", "west location"],
         ["east", LOCKED_DOOR],
         ["down", NO_TIED_ROPE],
+        ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]
     ])
     def test_move_player(self, direction, expected_response):
@@ -117,6 +122,11 @@ class TestDungeonController(unittest.TestCase):
             "needs_rope": True,
             "name": "down location"
         }
+        mock_location_down_attrs = {
+            "contents": [],
+            "needs_rope": True,
+            "name": "down location"
+        }
         mock_location_start_attrs = {
             "name": "start location",
             "contents": [mock_player, mock_door],
@@ -130,6 +140,7 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**mock_door_attrs)
         mock_location_west.configure_mock(**mock_location_west_attrs)
         mock_location_east.configure_mock(**mock_location_east_attrs)
+        mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_start.configure_mock(**mock_location_start_attrs)
         self.dungeon_master.all_name_locations.extend([
@@ -215,7 +226,7 @@ class TestDungeonController(unittest.TestCase):
         ["table", "A quirky test table."],
         ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
-    def test_describe(self, input, expected_response):
+    def test_describe(self, user_input, expected_response):
         """test describe method"""
         mock_location = Mock()
         mock_player = Mock()
@@ -229,7 +240,6 @@ class TestDungeonController(unittest.TestCase):
             "contents": [],
             "name": "Player",
             "description": "A quirky test player.",
-            "visible": True,
             "hiding": False
         }
         table_attrs = {
@@ -242,7 +252,7 @@ class TestDungeonController(unittest.TestCase):
         mock_table.configure_mock(**table_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
-        actual_response = self.dungeon_master.describe(input)
+        actual_response = self.dungeon_master.describe(user_input)
         self.assertEqual(expected_response, actual_response)
 
     def test_describe_location(self):
@@ -259,7 +269,6 @@ class TestDungeonController(unittest.TestCase):
             "contents": [],
             "name": "Player",
             "description": "A quirky test player.",
-            "visible": True,
             "hiding": False
         }
         table_attrs = {
@@ -274,4 +283,25 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.player_location = mock_location
         expected_response = "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."
         actual_response = self.dungeon_master.describe_location()
+        self.assertEqual(expected_response, actual_response)
+
+    def test_describe_element(self):
+        """test describe_element method"""
+        mock_location = Mock()
+        mock_table = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "contents": [mock_table]
+        }
+        table_attrs = {
+            "contents": [],
+            "name": "table",
+            "description": "A quirky test table."
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_table.configure_mock(**table_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        expected_response = "A quirky test table."
+        actual_response = self.dungeon_master.describe_element("table")
         self.assertEqual(expected_response, actual_response)

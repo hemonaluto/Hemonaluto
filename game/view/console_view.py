@@ -1,10 +1,12 @@
 """console view that prints out what the player sees"""
+# pylint: disable=too-many-locals
 from functools import partial
 import random
 import pkg_resources
 from game.model.enums.activator_type import ActivatorType
 from game.data.scenario_texts import BEDROOM_NAME
-from game.data.texts import DOWN, EAST, GREETINGS, INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
+from game.data.texts import ACTION_NOT_POSSIBLE, DOWN, EAST, GREETINGS,\
+    INPUT_INDICATOR, INTRODUCTION, JUMP_RESPONSE,\
     NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES, PLEASE_TYPE,\
     QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST,\
     SOUTHWEST, SWEAR_RESPONSE, UP, WEST
@@ -137,10 +139,12 @@ class ConsoleView:
         general_action = general_dictionary.get(split_user_input[0], None)
         if general_action is not None:
             return general_action()
+        return ACTION_NOT_POSSIBLE
 
     def start_view(self):
         """Start the process of displaying messages to the cosole"""
-        with open(pkg_resources.resource_filename("game.data", "logo.txt"), "r", encoding="UTF-8") as logo_file:
+        with open(pkg_resources.resource_filename("game.data", "logo.txt"),
+            "r", encoding="UTF-8") as logo_file:
             print(logo_file.read())
         print(INTRODUCTION + "\n")
         print(self.dungeon_master.brief(BEDROOM_NAME))

@@ -1,7 +1,10 @@
 """kind of like a dungeon master that controls everything that's happening in the in-game world"""
+# pylint: disable=no-name-in-module
+# pylint: disable=too-many-public-methods
+# pylint: disable=too-many-return-statements
 import re
-import pkg_resources
 from typing import Tuple
+import pkg_resources
 from game.model.element import Element
 from game.model.location import Location
 from game.model.activator import Activator
@@ -38,11 +41,13 @@ class DungeonController:
         self.save_handler = SaveController()
         self.player_score = 0
         self.activator_handler = ActivatorController()
-    
+
     def brief(self, room_name: str):
         """Debrief the player if they arrive at a location they've never been"""
         for name_location in self.all_name_locations:
-            if name_location[0] == room_name and not name_location[1].visited and name_location[1].brief:
+            if name_location[0] == room_name and\
+                not name_location[1].visited and\
+                name_location[1].brief:
                 name_location[1].visited = True
                 return name_location[1].brief + "\n\n"
         return ""
@@ -63,7 +68,7 @@ class DungeonController:
         """Move the player from one location to the next, which lies in the given direction"""
         if direction in self.player_location.exits:
             travel_text = ""
-            all_name_rooms_dict =  dict(self.all_name_locations)
+            all_name_rooms_dict = dict(self.all_name_locations)
             next_room = all_name_rooms_dict[self.player_location.exits[direction]]
             room_has_attached_rope = False
             for element in self.player_location.contents:
@@ -71,7 +76,8 @@ class DungeonController:
                     if next_room.name in element.connects and element.locked:
                         return LOCKED_DOOR
                     element.open = True
-                if isinstanceorsubclass(element, Rope) and direction == DOWN and next_room.needs_rope:
+                if isinstanceorsubclass(element, Rope) and\
+                    direction == DOWN and next_room.needs_rope:
                     if not element.tied_to:
                         return NO_TIED_ROPE
                     room_has_attached_rope = True
@@ -120,8 +126,7 @@ class DungeonController:
         element_container = self.get_element_container(element_name, self.player_location)
         if element_container:
             return self.describe_container(element_container[0])
-        else:
-            return element_not_found(element_name)
+        return element_not_found(element_name)
 
     def describe_container(self, top_container: Element, prefix_suffix=None):
         """Descsribe any container and its contents and all the contents contents etc."""
@@ -135,25 +140,27 @@ class DungeonController:
             if element_container[1] is not self.get_player():
                 if element_container[1] is not self.player_location:
                     description = description + "\n" +\
-                        element_in_container(element_container[0].name,\
-                        element_container[1].preposition,\
+                        element_in_container(element_container[0].name,
+                        element_container[1].preposition,
                         element_container[1].name)
                 else:
                     if not isinstanceorsubclass(element_container[0], Player):
                         description = description + "\n" + element_container[0].description
                     if isinstanceorsubclass(element_container[0], Door):
-                        description = description + " " + door_leads_to(self.get_door_directions(element_container))
+                        description = description + " " +\
+                            door_leads_to(self.get_door_directions(element_container))
         return description
 
     def get_door_directions(self, door_container: Tuple[Door, Element]):
         """Get the directions a door leads to"""
-        directions = [] 
+        directions = []
         for direction_location in door_container[1].exits.items():
             if direction_location[1] in door_container[0].connects:
                 directions.append(direction_location[0])
         return directions
 
-    def get_element_container(self, compare_element_name: str, container: Element, only_visible: bool = True):
+    def get_element_container(self, compare_element_name: str,
+        container: Element, only_visible: bool = True):
         """Get an element in the container
         by its name and the corresponding container.
         If it's not found it returns None"""
@@ -170,7 +177,8 @@ class DungeonController:
             return vague_matches[0]
         return None
 
-    def get_all_elements_container(self, container: Element, only_visible: bool = False, only_takeable: bool = False):
+    def get_all_elements_container(self, container: Element,\
+        only_visible: bool = False, only_takeable: bool = False):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""
         elements_container = []
@@ -206,7 +214,8 @@ class DungeonController:
             all_takeable = self.get_all_elements_container(self.player_location, only_takeable=True)
             response = ""
             for element_container in all_takeable:
-                if not isinstanceorsubclass(element_container[0], Player) and not element_container[0].fixed:
+                if not isinstanceorsubclass(element_container[0], Player) and\
+                    not element_container[0].fixed:
                     element_container[1].contents.remove(element_container[0])
                     self.get_player().contents.append(element_container[0])
                     response = response + picked_up_element(element_container[0].name) + "\n"
@@ -227,7 +236,8 @@ class DungeonController:
 
     def save(self):
         """Saves the game state to file"""
-        if self.save_handler.save(self.all_name_locations, pkg_resources.resource_filename("game.data", "save.json")):
+        if self.save_handler.save(self.all_name_locations,
+            pkg_resources.resource_filename("game.data", "save.json")):
             return SAVED_GAME_MESSAGE
         return FAILED_SAVE_MESSAGE
 
@@ -340,7 +350,7 @@ class DungeonController:
         if not element_container:
             return element_not_found(element_name)
         element_container[0].moved = True
-        revealed_element = self.get_element_container(element_container[0].reveals,\
+        revealed_element = self.get_element_container(element_container[0].reveals,
             self.player_location, only_visible=False)[0]
         revealed_element.visible = True
         return reveal_element(element_name, revealed_element.description.lower())
@@ -365,8 +375,8 @@ class DungeonController:
                     return CANT_BREAK
                 break_method = getattr(self.activator_handler, target_container[0].when_broken_do)
                 target_container[1].contents.remove(target_container[0])
-                target_container[1].contents.append(\
-                    Thing("broken " + target_container[0].name,\
+                target_container[1].contents.append(
+                    Thing("broken " + target_container[0].name,
                     target_container[0].description))
                 return break_method()
         return WEAPON_NOT_SPECIFIED

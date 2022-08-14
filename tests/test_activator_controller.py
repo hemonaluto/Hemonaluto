@@ -1,4 +1,5 @@
 """test activator controller module"""
+# pylint: disable=no-name-in-module
 import unittest
 
 from game.controller.activator_controller import ActivatorController

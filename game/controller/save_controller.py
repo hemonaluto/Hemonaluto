@@ -1,4 +1,6 @@
 """storing and loading game save files"""
+# pylint: disable=eval-used
+# pylint: disable=unused-import
 import json
 from typing import Dict, List, Tuple
 from game.helper_methods import isinstanceorsubclass
@@ -17,7 +19,7 @@ from game.model.element import Element
 
 class SaveController():
     """Class to save and load the game state"""
-   
+
     class ElementEncoder(json.JSONEncoder):
         """json encoder for elements"""
         def default(self, o):
