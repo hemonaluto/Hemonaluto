@@ -1,4 +1,5 @@
 """test save controller module"""
+# pylint: disable=no-name-in-module
 import os
 import unittest
 import json

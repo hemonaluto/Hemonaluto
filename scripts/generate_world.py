@@ -1,4 +1,6 @@
 """Generates the game world"""
+# pylint: disable=wrong-import-position
+# pylint: disable=no-name-in-module
 import os
 import sys
 PROJECT_PATH = os.getcwd()

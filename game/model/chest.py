@@ -1,4 +1,5 @@
 """data structure to store information about in-game chests"""
+# pylint: disable=too-few-public-methods
 from game.model.element import Element
 from game.model.thing import Thing
 

@@ -1,4 +1,7 @@
 """kind of like a dungeon master that controls everything that's happening in the in-game world"""
+# pylint: disable=no-name-in-module
+# pylint: disable=too-many-public-methods
+# pylint: disable=too-many-return-statements
 import re
 from typing import Tuple
 import pkg_resources

@@ -1,4 +1,6 @@
 """data structure to store information about in-game elements"""
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-instance-attributes
 
 
 class Element:

@@ -1,4 +1,5 @@
 """data structure to store information about in-game doors"""
+# pylint: disable=too-few-public-methods
 from game.model.element import Element
 
 

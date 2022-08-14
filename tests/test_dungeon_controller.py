@@ -1,4 +1,7 @@
 """test dungeon controller module"""
+# pylint: disable=no-name-in-module
+# pylint: disable=too-many-locals
+# pylint: disable=line-too-long
 import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
@@ -214,9 +217,7 @@ class TestDungeonController(unittest.TestCase):
 
     @parameterized.expand([
         ["table", "A quirky test table."],
-        ["", """Test location\nYou are in a quirky test location.
-You look around you and you see:\nA quirky test player.
-A quirky test table."""]
+        ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
     def test_describe(self, user_input, expected_response):
         """test describe method"""
@@ -273,8 +274,7 @@ A quirky test table."""]
         mock_table.configure_mock(**table_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
-        expected_response = """Test location\nYou are in a quirky test location.
-You look around you and you see:\nA quirky test player.\nA quirky test table."""
+        expected_response = "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."
         actual_response = self.dungeon_master.describe_location()
         self.assertEqual(expected_response, actual_response)
 

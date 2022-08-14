@@ -1,5 +1,6 @@
 """storing and loading game save files"""
 # pylint: disable=eval-used
+# pylint: disable=unused-import
 import json
 from typing import Dict, List, Tuple
 from game.helper_methods import isinstanceorsubclass

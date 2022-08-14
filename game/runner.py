@@ -1,7 +1,8 @@
 """starts the game"""
+# pylint: disable=no-name-in-module
+import pkg_resources
 from game.view.console_view import ConsoleView
 from game.controller.dungeon_controller import DungeonController
-import pkg_resources
 
 
 def run():

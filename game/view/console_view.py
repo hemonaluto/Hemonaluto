@@ -1,4 +1,5 @@
 """console view that prints out what the player sees"""
+# pylint: disable=too-many-locals
 from functools import partial
 import random
 import pkg_resources

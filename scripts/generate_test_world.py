@@ -1,4 +1,5 @@
 """Generate test world module"""
+# pylint: disable=wrong-import-position
 import os
 import sys
 import json
