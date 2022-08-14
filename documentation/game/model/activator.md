@@ -6,7 +6,8 @@ Classes
 -------
 
 `Activator(name, description, **kwargs)`
-:   Class to initialize any kind of activator, e.g. a button, with its own name and description
+:   Class to initialize any kind of activator, e.g. a button,
+    with its own name and description
 
     ### Ancestors (in MRO)
 

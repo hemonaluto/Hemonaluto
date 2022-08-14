@@ -1,8 +1,8 @@
 """Generates the game world"""
 # pylint: disable=wrong-import-position
-# pylint: disable=no-name-in-module
 import os
 import sys
+import json
 PROJECT_PATH = os.getcwd()
 SOURCE_PATH = os.path.join(
     PROJECT_PATH
@@ -33,7 +33,6 @@ from game.model.rope import Rope
 from game.model.thing import Thing
 from game.model.tool import Tool
 from game.model.enums.activator_type import ActivatorType
-from game.controller.save_controller import SaveController
 from game.data.texts import UP, DOWN, EAST, WEST
 
 
@@ -102,5 +101,14 @@ cellar.contents.extend([cellar_altar, cellar_skeleton])
 all_name_locations.append((bedroom.name, bedroom))
 all_name_locations.append((dining_room.name, dining_room))
 all_name_locations.append((cellar.name, cellar))
-save_handler = SaveController()
-save_handler.save(all_name_locations, "game/data/scenario.json")
+
+class ElementEncoder(json.JSONEncoder):
+    """json encoder for elements"""
+    def default(self, o):
+        return o.__dict__
+
+locations = []
+for location in all_name_locations:
+    locations.append(location[1])
+with open("game/data/scenario.json", "w", encoding="UTF-8") as savefile:
+    json.dump(locations, savefile, indent=4, cls=ElementEncoder)
