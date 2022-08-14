@@ -84,6 +84,7 @@ class TestDungeonController(unittest.TestCase):
         ["west", "west location"],
         ["east", LOCKED_DOOR],
         ["down", NO_TIED_ROPE],
+        ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]
     ])
     def test_move_player(self, direction, expected_response):
@@ -121,6 +122,11 @@ class TestDungeonController(unittest.TestCase):
             "needs_rope": True,
             "name": "down location"
         }
+        mock_location_down_attrs = {
+            "contents": [],
+            "needs_rope": True,
+            "name": "down location"
+        }
         mock_location_start_attrs = {
             "name": "start location",
             "contents": [mock_player, mock_door],
@@ -134,6 +140,7 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**mock_door_attrs)
         mock_location_west.configure_mock(**mock_location_west_attrs)
         mock_location_east.configure_mock(**mock_location_east_attrs)
+        mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_start.configure_mock(**mock_location_start_attrs)
         self.dungeon_master.all_name_locations.extend([
