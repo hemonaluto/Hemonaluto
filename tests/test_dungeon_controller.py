@@ -6,8 +6,8 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR,\
-    NO_TIED_ROPE, door_not_locked, door_unlocked
+from game.data.texts import DOWN, INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR,\
+    NO_TIED_ROPE, WEST, door_not_locked, door_unlocked
 from game.model.door import Door
 from game.model.player import Player
 
@@ -334,4 +334,26 @@ class TestDungeonController(unittest.TestCase):
         mock_letter.configure_mock(**letter_attrs)
         expected_response = "A quirky test box.\n    There is a envelope in the box.\n    There is a letter in the envelope."
         actual_response = self.dungeon_master.describe_container(mock_box)
+        self.assertEqual(expected_response, actual_response)
+
+    def test_get_door_directions(self):
+        """test get_door_directions"""
+        mock_location = Mock()
+        mock_door = Mock()
+        location_attrs = {
+            "contents": [mock_door],
+            "exits": [
+                (WEST, "west location"),
+                (DOWN, "down location")
+            ],
+        }
+        door_attrs = {
+            "connects": ["west location"]
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_door.configure_mock(**door_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        expected_response = ["west"]
+        actual_response = self.dungeon_master.get_door_directions((mock_door, mock_location))
         self.assertEqual(expected_response, actual_response)

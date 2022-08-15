@@ -154,7 +154,7 @@ class DungeonController:
     def get_door_directions(self, door_container: Tuple[Door, Element]):
         """Get the directions a door leads to"""
         directions = []
-        for direction_location in door_container[1].exits.items():
+        for direction_location in door_container[1].exits:
             if direction_location[1] in door_container[0].connects:
                 directions.append(direction_location[0])
         return directions
