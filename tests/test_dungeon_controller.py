@@ -85,6 +85,7 @@ class TestDungeonController(unittest.TestCase):
         ["east", LOCKED_DOOR],
         ["down", NO_TIED_ROPE],
         ["down", NO_TIED_ROPE],
+        ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]
     ])
     def test_move_player(self, direction, expected_response):
@@ -127,6 +128,11 @@ class TestDungeonController(unittest.TestCase):
             "needs_rope": True,
             "name": "down location"
         }
+        mock_location_down_attrs = {
+            "contents": [],
+            "needs_rope": True,
+            "name": "down location"
+        }
         mock_location_start_attrs = {
             "name": "start location",
             "contents": [mock_player, mock_door],
@@ -140,6 +146,7 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**mock_door_attrs)
         mock_location_west.configure_mock(**mock_location_west_attrs)
         mock_location_east.configure_mock(**mock_location_east_attrs)
+        mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_start.configure_mock(**mock_location_start_attrs)
@@ -226,7 +233,7 @@ class TestDungeonController(unittest.TestCase):
         ["table", "A quirky test table."],
         ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
-    def test_describe(self, user_input, expected_response):
+    def test_describe(self, user_user_input, expected_response):
         """test describe method"""
         mock_location = Mock()
         mock_player = Mock()
@@ -252,7 +259,7 @@ class TestDungeonController(unittest.TestCase):
         mock_table.configure_mock(**table_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
-        actual_response = self.dungeon_master.describe(user_input)
+        actual_response = self.dungeon_master.describe(user_user_input)
         self.assertEqual(expected_response, actual_response)
 
     def test_describe_location(self):

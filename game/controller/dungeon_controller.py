@@ -46,7 +46,9 @@ class DungeonController:
         """Debrief the player if they arrive at a location they've never been"""
         for name_location in self.all_name_locations:
             if name_location[0] == room_name and\
+               \
                 not name_location[1].visited and\
+               \
                 name_location[1].brief:
                 name_location[1].visited = True
                 return name_location[1].brief + "\n\n"
@@ -77,6 +79,7 @@ class DungeonController:
                         return LOCKED_DOOR
                     element.open = True
                 if isinstanceorsubclass(element, Rope) and\
+                   \
                     direction == DOWN and next_room.needs_rope:
                     if not element.tied_to:
                         return NO_TIED_ROPE
@@ -176,6 +179,7 @@ class DungeonController:
         return None
 
     def get_all_elements_container(self, container: Element,\
+       \
         only_visible: bool = False, only_takeable: bool = False):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""
@@ -213,6 +217,7 @@ class DungeonController:
             response = ""
             for element_container in all_takeable:
                 if not isinstanceorsubclass(element_container[0], Player) and\
+                   \
                     not element_container[0].fixed:
                     element_container[1].contents.remove(element_container[0])
                     self.get_player().contents.append(element_container[0])
