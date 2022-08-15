@@ -342,13 +342,13 @@ class TestDungeonController(unittest.TestCase):
         mock_door = Mock()
         location_attrs = {
             "contents": [mock_door],
-            "exits": [
-                (WEST, "west location"),
-                (DOWN, "down location")
-            ],
+            "exits": {
+                WEST: "quirky location",
+                DOWN: "special location"
+            },
         }
         door_attrs = {
-            "connects": ["west location"]
+            "connects": ["quirky location"]
         }
         mock_location.configure_mock(**location_attrs)
         mock_door.configure_mock(**door_attrs)

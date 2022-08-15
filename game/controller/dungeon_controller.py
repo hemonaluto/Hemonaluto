@@ -137,24 +137,22 @@ class DungeonController:
             description = top_container.description
         visible_elements = self.get_all_elements_container(top_container, only_visible=True)
         for element_container in visible_elements:
-            if not isinstanceorsubclass(element_container[1], Player):
-                if element_container[1] is not self.player_location:
-                    description = description + "\n" +\
-                        element_in_container(element_container[0].name,
+            if element_container[1] is not self.player_location:
+                description = description + "\n" +\
+                    element_in_container(element_container[0].name,
                         element_container[1].preposition,
                         element_container[1].name)
-                else:
-                    if not isinstanceorsubclass(element_container[0], Player):
-                        description = description + "\n" + element_container[0].description
-                    if isinstanceorsubclass(element_container[0], Door):
-                        description = description + " " +\
-                            door_leads_to(self.get_door_directions(element_container))
+            if not isinstanceorsubclass(element_container[0], Player):
+                description = description + "\n" + element_container[0].description
+            if isinstanceorsubclass(element_container[0], Door):
+                description = description + " " +\
+                    door_leads_to(self.get_door_directions(element_container))
         return description
 
     def get_door_directions(self, door_container: Tuple[Door, Element]):
         """Get the directions a door leads to"""
         directions = []
-        for direction_location in door_container[1].exits:
+        for direction_location in door_container[1].exits.items():
             if direction_location[1] in door_container[0].connects:
                 directions.append(direction_location[0])
         return directions
