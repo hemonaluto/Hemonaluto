@@ -145,11 +145,12 @@ class DungeonController:
                     element_in_container(element_container[0].name,
                         element_container[1].preposition,
                         element_container[1].name)
-            if not isinstanceorsubclass(element_container[0], Player):
-                description = description + "\n" + element_container[0].description
-            if isinstanceorsubclass(element_container[0], Door):
-                description = description + " " +\
-                    door_leads_to(self.get_door_directions(element_container))
+                if isinstanceorsubclass(element_container[0], Door):
+                    description = description + " " +\
+                        door_leads_to(self.get_door_directions(element_container))
+            else:
+                if not isinstanceorsubclass(element_container[0], Player):
+                    description = description + "\n" + element_container[0].description
         return description
 
     def get_door_directions(self, door_container: Tuple[Door, Element]):
@@ -178,8 +179,7 @@ class DungeonController:
             return vague_matches[0]
         return None
 
-    def get_all_elements_container(self, container: Element,\
-       \
+    def get_all_elements_container(self, container: Element,
         only_visible: bool = False, only_takeable: bool = False):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""

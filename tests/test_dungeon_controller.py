@@ -364,3 +364,37 @@ class TestDungeonController(unittest.TestCase):
         expected_response = ["west"]
         actual_response = self.dungeon_master.get_door_directions((mock_door, mock_location))
         self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["envelope", "box"],
+        ["letter", "envelope"]
+    ])
+    def test_get_element_container(self, element_name, expected_container_name):
+        """test get_element_container method"""
+        mock_location = Mock()
+        mock_box = Mock()
+        mock_envelope = Mock()
+        mock_letter = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "contents": [mock_box]
+        }
+        box_attrs = {
+            "name": "box",
+            "contents": [mock_envelope]
+        }
+        envelope_attrs = {
+            "name": "envelope",
+            "contents": [mock_letter]
+        }
+        letter_attrs = {
+            "name": "letter",
+            "contents": [],
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_box.configure_mock(**box_attrs)
+        mock_envelope.configure_mock(**envelope_attrs)
+        mock_letter.configure_mock(**letter_attrs)
+        actual_element_container = self.dungeon_master.get_element_container(element_name, mock_location)
+        self.assertEqual(actual_element_container[0].name, element_name)
+        self.assertEqual(actual_element_container[1].name, expected_container_name)
