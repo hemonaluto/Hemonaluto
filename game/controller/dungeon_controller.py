@@ -196,7 +196,7 @@ class DungeonController:
                 if element.visible:
                     elements_container.append((element, container))
                 if isinstanceorsubclass(element, Chest) and not element.peekable or\
-                isinstanceorsubclass(element, Chest) and not element.open:
+                    isinstanceorsubclass(element, Chest) and not element.open:
                     pass
                 else:
                     elements_container = elements_container +\

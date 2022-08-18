@@ -9,7 +9,9 @@ from game.controller.dungeon_controller import DungeonController
 from game.data.texts import DOWN, INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR,\
     NO_TIED_ROPE, WEST, door_not_locked, door_unlocked
 from game.model.door import Door
+from game.model.location import Location
 from game.model.player import Player
+from game.model.thing import Thing
 
 class TestDungeonController(unittest.TestCase):
     """Test DungeonController class"""
@@ -398,3 +400,59 @@ class TestDungeonController(unittest.TestCase):
         actual_element_container = self.dungeon_master.get_element_container(element_name, mock_location)
         self.assertEqual(actual_element_container[0].name, element_name)
         self.assertEqual(actual_element_container[1].name, expected_container_name)
+
+    @parameterized.expand([
+        [False, False],
+        [False, True],
+        [True, False]
+    ])
+    def test_get_all_elements_container(self, only_takeable, only_visible):
+        """test get_all_elements_container method"""
+        mock_location = Mock(spec=Location)
+        mock_box = Mock(spec=Thing)
+        mock_envelope = Mock(spec=Thing)
+        mock_letter = Mock(spec=Thing)
+        location_attrs = {
+            "name": "Test location",
+            "contents": [mock_box],
+            "fixed": True,
+            "visible": True
+        }
+        box_attrs = {
+            "name": "box",
+            "contents": [mock_envelope],
+            "fixed": True,
+            "visible": True
+        }
+        envelope_attrs = {
+            "name": "envelope",
+            "contents": [mock_letter],
+            "fixed": True,
+            "visible": False
+        }
+        letter_attrs = {
+            "name": "letter",
+            "contents": [],
+            "fixed": False,
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_box.configure_mock(**box_attrs)
+        mock_envelope.configure_mock(**envelope_attrs)
+        mock_letter.configure_mock(**letter_attrs)
+        actual_elements_container = self.dungeon_master.get_all_elements_container(
+            mock_location,
+            only_visible,
+            only_takeable
+        )
+        if only_takeable:
+            self.assertEqual(len(actual_elements_container), 1)
+        elif only_visible:
+            self.assertEqual(len(actual_elements_container), 2)
+        else:
+            # actual_elements_container..
+            #   [0]<-the element_container tuple to test
+            #   [1]<-the index of the tuple, in this case container
+            self.assertEqual(actual_elements_container[0][1].name, mock_location.name)
+            self.assertEqual(actual_elements_container[1][1].name, mock_box.name)
+            self.assertEqual(actual_elements_container[2][1].name, mock_envelope.name)
