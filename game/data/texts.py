@@ -236,3 +236,7 @@ NOT_HIDING = "You're not hiding in the first place."
 
 # done generic action
 DONE = "Done."
+
+# take errors
+ELEMENT_IS_FIXED = "That element is attached to something and can't be picked up."
+CANT_PICK_UP_SELF = "You can't take yourself."

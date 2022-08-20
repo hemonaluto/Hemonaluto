@@ -6,12 +6,14 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import DOWN, INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR,\
-    NO_TIED_ROPE, WEST, door_not_locked, door_unlocked
+from game.data.texts import CANT_PICK_UP_SELF, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, WEST, door_not_locked, door_unlocked,\
+    element_not_found, picked_up_element
 from game.model.door import Door
 from game.model.location import Location
 from game.model.player import Player
 from game.model.thing import Thing
+from game.model.food import Food
 
 class TestDungeonController(unittest.TestCase):
     """Test DungeonController class"""
@@ -456,3 +458,79 @@ class TestDungeonController(unittest.TestCase):
             self.assertEqual(actual_elements_container[0][1].name, mock_location.name)
             self.assertEqual(actual_elements_container[1][1].name, mock_box.name)
             self.assertEqual(actual_elements_container[2][1].name, mock_envelope.name)
+
+    @parameterized.expand([
+        ["table", ELEMENT_IS_FIXED],
+        ["knife", picked_up_element("knife")],
+        ["spoon", element_not_found("spoon")],
+        ["player", CANT_PICK_UP_SELF]
+    ])
+    def test_take(self, element_to_take, expected_response):
+        """test take method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_table = Mock(spec=Thing)
+        mock_knife = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_player, mock_table],
+            "name": "Test location",
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "hiding": False,
+            "visible": True,
+            "fixed": False
+        }
+        table_attrs = {
+            "contents": [mock_knife],
+            "name": "table",
+            "fixed": True,
+            "visible": True
+        }
+        knife_attrs = {
+            "contents": [],
+            "name": "knife",
+            "fixed": False,
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_table.configure_mock(**table_attrs)
+        mock_knife.configure_mock(**knife_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.take(element_to_take)
+        self.assertEqual(expected_response, actual_response)
+
+    def test_get_player_inventory(self):
+        """test get_player_inventory method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_apple = Mock(spec=Food)
+        mock_orange = Mock(spec=Food)
+        location_attrs = {
+            "contents": [mock_player]
+        }
+        player_attrs = {
+            "contents": [mock_apple, mock_orange],
+            "name": "Player",
+            "visible": True
+        }
+        apple_attrs = {
+            "contents": [],
+            "name": "apple",
+            "visible": True
+        }
+        orange_attrs = {
+            "contents": [],
+            "name": "orange",
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_apple.configure_mock(**apple_attrs)
+        mock_orange.configure_mock(**orange_attrs)
+        self.dungeon_master.player_location = mock_location
+        expected_response = mock_apple.name + "\n" + mock_orange.name + "\n"
+        actual_response = self.dungeon_master.get_player_inventory()
+        self.assertEqual(expected_response, actual_response)

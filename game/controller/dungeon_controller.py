@@ -20,8 +20,8 @@ from game.helper_methods import isinstanceorsubclass
 from game.controller.activator_controller import ActivatorController
 from game.controller.save_controller import SaveController
 from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
-    ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING,\
-    CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN,\
+    ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_PICK_UP_SELF, CANT_SEE_LOCATION_FROM_HIDING,\
+    CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
     LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE,\
     NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE,\
@@ -217,7 +217,6 @@ class DungeonController:
             response = ""
             for element_container in all_takeable:
                 if not isinstanceorsubclass(element_container[0], Player) and\
-                   \
                     not element_container[0].fixed:
                     element_container[1].contents.remove(element_container[0])
                     self.get_player().contents.append(element_container[0])
@@ -226,6 +225,10 @@ class DungeonController:
         element_container = self.get_element_container(element_name, self.player_location)
         if not element_container:
             return element_not_found(element_name)
+        if element_container[0].fixed:
+            return ELEMENT_IS_FIXED
+        if isinstanceorsubclass(element_container[0], Player):
+            return CANT_PICK_UP_SELF
         element_container[1].contents.remove(element_container[0])
         self.get_player().contents.append(element_container[0])
         return picked_up_element(element_container[0].name)
