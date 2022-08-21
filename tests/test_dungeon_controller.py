@@ -90,8 +90,6 @@ class TestDungeonController(unittest.TestCase):
         ["west", "west location"],
         ["east", LOCKED_DOOR],
         ["down", NO_TIED_ROPE],
-        ["down", NO_TIED_ROPE],
-        ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]
     ])
     def test_move_player(self, direction, expected_response):

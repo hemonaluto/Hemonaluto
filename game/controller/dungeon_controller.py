@@ -46,9 +46,7 @@ class DungeonController:
         """Debrief the player if they arrive at a location they've never been"""
         for name_location in self.all_name_locations:
             if name_location[0] == room_name and\
-               \
                 not name_location[1].visited and\
-               \
                 name_location[1].brief:
                 name_location[1].visited = True
                 return name_location[1].brief + "\n\n"
@@ -79,7 +77,6 @@ class DungeonController:
                         return LOCKED_DOOR
                     element.open = True
                 if isinstanceorsubclass(element, Rope) and\
-                   \
                     direction == DOWN and next_room.needs_rope:
                     if not element.tied_to:
                         return NO_TIED_ROPE
