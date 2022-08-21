@@ -6,8 +6,8 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import CANT_PICK_UP_SELF, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
+from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
     element_not_found, hit_target, picked_up_element
 from game.model.animate import Animate
 from game.model.door import Door
@@ -16,6 +16,7 @@ from game.model.player import Player
 from game.model.thing import Thing
 from game.model.food import Food
 from game.model.tool import Tool
+from game.model.chest import Chest
 
 class TestDungeonController(unittest.TestCase):
     """Test DungeonController class"""
@@ -577,3 +578,44 @@ class TestDungeonController(unittest.TestCase):
         if instructions == "hammer at enemy":
             # 7 because throwing damage is x1.5, so 10-2*1.5
             self.assertEqual(mock_enemy.health, 7)
+
+    @parameterized.expand([
+        ["chest", CLOSED],
+        ["door", CLOSED],
+        ["bed", NOT_OPENABLE],
+        ["picture", element_not_found("picture")]
+    ])
+    def test_close(self, element_to_close, expected_response):
+        """test close method"""
+        mock_location = Mock(spec=Location)
+        mock_chest = Mock(spec=Chest)
+        mock_door = Mock(spec=Door)
+        mock_bed = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_chest, mock_door, mock_bed]
+        }
+        chest_attrs = {
+            "contents": [],
+            "name": "chest",
+            "visible": True,
+            "open": True,
+            "peekable": True
+        }
+        door_attrs = {
+            "contents": [],
+            "name": "door",
+            "visible": True,
+            "open": True
+        }
+        bed_attrs = {
+            "contents": [],
+            "name": "bed",
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_chest.configure_mock(**chest_attrs)
+        mock_door.configure_mock(**door_attrs)
+        mock_bed.configure_mock(**bed_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.close(element_to_close)
+        self.assertEqual(expected_response, actual_response)

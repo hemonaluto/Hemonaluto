@@ -275,6 +275,8 @@ class DungeonController:
     def close(self, element_name: str):
         """Closes a door or chest element"""
         element_container = self.get_element_container(element_name, self.player_location)
+        if element_container is None:
+            return element_not_found(element_name)
         if isinstanceorsubclass(element_container[0], (Chest, Door)):
             element_container[0].open = False
             return CLOSED
