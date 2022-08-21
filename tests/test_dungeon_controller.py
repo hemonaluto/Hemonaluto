@@ -6,10 +6,16 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import INVALID_DIRECTION, KEY_MISSING, LOCKED_DOOR,\
-    NO_TIED_ROPE, door_not_locked, door_unlocked
+from game.data.texts import CANT_PICK_UP_SELF, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
+    element_not_found, hit_target, picked_up_element
+from game.model.animate import Animate
 from game.model.door import Door
+from game.model.location import Location
 from game.model.player import Player
+from game.model.thing import Thing
+from game.model.food import Food
+from game.model.tool import Tool
 
 class TestDungeonController(unittest.TestCase):
     """Test DungeonController class"""
@@ -84,7 +90,6 @@ class TestDungeonController(unittest.TestCase):
         ["west", "west location"],
         ["east", LOCKED_DOOR],
         ["down", NO_TIED_ROPE],
-        ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]
     ])
     def test_move_player(self, direction, expected_response):
@@ -127,6 +132,11 @@ class TestDungeonController(unittest.TestCase):
             "needs_rope": True,
             "name": "down location"
         }
+        mock_location_down_attrs = {
+            "contents": [],
+            "needs_rope": True,
+            "name": "down location"
+        }
         mock_location_start_attrs = {
             "name": "start location",
             "contents": [mock_player, mock_door],
@@ -140,6 +150,7 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**mock_door_attrs)
         mock_location_west.configure_mock(**mock_location_west_attrs)
         mock_location_east.configure_mock(**mock_location_east_attrs)
+        mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_start.configure_mock(**mock_location_start_attrs)
@@ -226,7 +237,7 @@ class TestDungeonController(unittest.TestCase):
         ["table", "A quirky test table."],
         ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
-    def test_describe(self, user_input, expected_response):
+    def test_describe(self, user_user_input, expected_response):
         """test describe method"""
         mock_location = Mock()
         mock_player = Mock()
@@ -252,7 +263,7 @@ class TestDungeonController(unittest.TestCase):
         mock_table.configure_mock(**table_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
-        actual_response = self.dungeon_master.describe(user_input)
+        actual_response = self.dungeon_master.describe(user_user_input)
         self.assertEqual(expected_response, actual_response)
 
     def test_describe_location(self):
@@ -305,3 +316,264 @@ class TestDungeonController(unittest.TestCase):
         expected_response = "A quirky test table."
         actual_response = self.dungeon_master.describe_element("table")
         self.assertEqual(expected_response, actual_response)
+
+    def test_describe_container(self):
+        """test describe_container method"""
+        mock_box = Mock()
+        mock_envelope = Mock()
+        mock_letter = Mock()
+        box_attrs = {
+            "name": "box",
+            "contents": [mock_envelope],
+            "description": "A quirky test box.",
+            "preposition": "in"
+        }
+        envelope_attrs = {
+            "name": "envelope",
+            "contents": [mock_letter],
+            "description": "A quirky test envelope.",
+            "preposition": "in"
+        }
+        letter_attrs = {
+            "name": "letter",
+            "contents": [],
+            "description": "A quirky test letter.",
+            "preposition": "in"
+        }
+        mock_box.configure_mock(**box_attrs)
+        mock_envelope.configure_mock(**envelope_attrs)
+        mock_letter.configure_mock(**letter_attrs)
+        expected_response = "A quirky test box.\n    There is a envelope in the box.\n    There is a letter in the envelope."
+        actual_response = self.dungeon_master.describe_container(mock_box)
+        self.assertEqual(expected_response, actual_response)
+
+    def test_get_door_directions(self):
+        """test get_door_directions"""
+        mock_location = Mock()
+        mock_door = Mock()
+        location_attrs = {
+            "contents": [mock_door],
+            "exits": {
+                WEST: "quirky location",
+                DOWN: "special location"
+            },
+        }
+        door_attrs = {
+            "connects": ["quirky location"]
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_door.configure_mock(**door_attrs)
+        self.dungeon_master.all_name_locations.append(("test", mock_location))
+        self.dungeon_master.player_location = mock_location
+        expected_response = ["west"]
+        actual_response = self.dungeon_master.get_door_directions((mock_door, mock_location))
+        self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["envelope", "box"],
+        ["letter", "envelope"]
+    ])
+    def test_get_element_container(self, element_name, expected_container_name):
+        """test get_element_container method"""
+        mock_location = Mock()
+        mock_box = Mock()
+        mock_envelope = Mock()
+        mock_letter = Mock()
+        location_attrs = {
+            "name": "Test location",
+            "contents": [mock_box]
+        }
+        box_attrs = {
+            "name": "box",
+            "contents": [mock_envelope]
+        }
+        envelope_attrs = {
+            "name": "envelope",
+            "contents": [mock_letter]
+        }
+        letter_attrs = {
+            "name": "letter",
+            "contents": [],
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_box.configure_mock(**box_attrs)
+        mock_envelope.configure_mock(**envelope_attrs)
+        mock_letter.configure_mock(**letter_attrs)
+        actual_element_container = self.dungeon_master.get_element_container(element_name, mock_location)
+        self.assertEqual(actual_element_container[0].name, element_name)
+        self.assertEqual(actual_element_container[1].name, expected_container_name)
+
+    @parameterized.expand([
+        [False, False],
+        [False, True],
+        [True, False]
+    ])
+    def test_get_all_elements_container(self, only_takeable, only_visible):
+        """test get_all_elements_container method"""
+        mock_location = Mock(spec=Location)
+        mock_box = Mock(spec=Thing)
+        mock_envelope = Mock(spec=Thing)
+        mock_letter = Mock(spec=Thing)
+        location_attrs = {
+            "name": "Test location",
+            "contents": [mock_box],
+            "fixed": True,
+            "visible": True
+        }
+        box_attrs = {
+            "name": "box",
+            "contents": [mock_envelope],
+            "fixed": True,
+            "visible": True
+        }
+        envelope_attrs = {
+            "name": "envelope",
+            "contents": [mock_letter],
+            "fixed": True,
+            "visible": False
+        }
+        letter_attrs = {
+            "name": "letter",
+            "contents": [],
+            "fixed": False,
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_box.configure_mock(**box_attrs)
+        mock_envelope.configure_mock(**envelope_attrs)
+        mock_letter.configure_mock(**letter_attrs)
+        actual_elements_container = self.dungeon_master.get_all_elements_container(
+            mock_location,
+            only_visible,
+            only_takeable
+        )
+        if only_takeable:
+            self.assertEqual(len(actual_elements_container), 1)
+        elif only_visible:
+            self.assertEqual(len(actual_elements_container), 2)
+        else:
+            # actual_elements_container..
+            #   [0]<-the element_container tuple to test
+            #   [1]<-the index of the tuple, in this case container
+            self.assertEqual(actual_elements_container[0][1].name, mock_location.name)
+            self.assertEqual(actual_elements_container[1][1].name, mock_box.name)
+            self.assertEqual(actual_elements_container[2][1].name, mock_envelope.name)
+
+    @parameterized.expand([
+        ["table", ELEMENT_IS_FIXED],
+        ["knife", picked_up_element("knife")],
+        ["spoon", element_not_found("spoon")],
+        ["player", CANT_PICK_UP_SELF]
+    ])
+    def test_take(self, element_to_take, expected_response):
+        """test take method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_table = Mock(spec=Thing)
+        mock_knife = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_player, mock_table],
+            "name": "Test location",
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "hiding": False,
+            "visible": True,
+            "fixed": False
+        }
+        table_attrs = {
+            "contents": [mock_knife],
+            "name": "table",
+            "fixed": True,
+            "visible": True
+        }
+        knife_attrs = {
+            "contents": [],
+            "name": "knife",
+            "fixed": False,
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_table.configure_mock(**table_attrs)
+        mock_knife.configure_mock(**knife_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.take(element_to_take)
+        self.assertEqual(expected_response, actual_response)
+
+    def test_get_player_inventory(self):
+        """test get_player_inventory method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_apple = Mock(spec=Food)
+        mock_orange = Mock(spec=Food)
+        location_attrs = {
+            "contents": [mock_player]
+        }
+        player_attrs = {
+            "contents": [mock_apple, mock_orange],
+            "name": "Player",
+            "visible": True
+        }
+        apple_attrs = {
+            "contents": [],
+            "name": "apple",
+            "visible": True
+        }
+        orange_attrs = {
+            "contents": [],
+            "name": "orange",
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_apple.configure_mock(**apple_attrs)
+        mock_orange.configure_mock(**orange_attrs)
+        self.dungeon_master.player_location = mock_location
+        expected_response = mock_apple.name + "\n" + mock_orange.name + "\n"
+        actual_response = self.dungeon_master.get_player_inventory()
+        self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["sickle at enemy", element_not_found("sickle")],
+        ["hammer at gandalf", element_not_found("gandalf")],
+        ["hammer at enemy", hit_target("enemy")],
+        ["hammer", THREW_AT_NOTHING]
+    ])
+    def test_throw(self, instructions, expected_response):
+        """test throw method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_hammer = Mock(spec=Tool)
+        mock_enemy = Mock(spec=Animate)
+        location_attrs = {
+            "contents": [mock_player, mock_enemy]
+        }
+        player_attrs = {
+            "contents": [mock_hammer],
+            "name": "Player",
+            "visible": True
+        }
+        hammer_attrs = {
+            "contents": [],
+            "name": "hammer",
+            "visible": True,
+            "damage": 2
+        }
+        enemy_attrs = {
+            "contents": [],
+            "name": "enemy",
+            "visible": True,
+            "health": 10
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_hammer.configure_mock(**hammer_attrs)
+        mock_enemy.configure_mock(**enemy_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.throw(instructions)
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "hammer at enemy":
+            # 7 because throwing damage is x1.5, so 10-2*1.5
+            self.assertEqual(mock_enemy.health, 7)

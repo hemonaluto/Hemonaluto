@@ -20,8 +20,8 @@ from game.helper_methods import isinstanceorsubclass
 from game.controller.activator_controller import ActivatorController
 from game.controller.save_controller import SaveController
 from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALREADY_ON,\
-    ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_SEE_LOCATION_FROM_HIDING,\
-    CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN,\
+    ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_PICK_UP_SELF, CANT_SEE_LOCATION_FROM_HIDING,\
+    CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
     LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE,\
     NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE,\
@@ -137,18 +137,17 @@ class DungeonController:
             description = top_container.description
         visible_elements = self.get_all_elements_container(top_container, only_visible=True)
         for element_container in visible_elements:
-            if element_container[1] is not self.get_player():
-                if element_container[1] is not self.player_location:
-                    description = description + "\n" +\
-                        element_in_container(element_container[0].name,
+            if element_container[1] is not self.player_location:
+                description = description + "\n" +\
+                    element_in_container(element_container[0].name,
                         element_container[1].preposition,
                         element_container[1].name)
-                else:
-                    if not isinstanceorsubclass(element_container[0], Player):
-                        description = description + "\n" + element_container[0].description
-                    if isinstanceorsubclass(element_container[0], Door):
-                        description = description + " " +\
-                            door_leads_to(self.get_door_directions(element_container))
+                if isinstanceorsubclass(element_container[0], Door):
+                    description = description + " " +\
+                        door_leads_to(self.get_door_directions(element_container))
+            else:
+                if not isinstanceorsubclass(element_container[0], Player):
+                    description = description + "\n" + element_container[0].description
         return description
 
     def get_door_directions(self, door_container: Tuple[Door, Element]):
@@ -177,7 +176,7 @@ class DungeonController:
             return vague_matches[0]
         return None
 
-    def get_all_elements_container(self, container: Element,\
+    def get_all_elements_container(self, container: Element,
         only_visible: bool = False, only_takeable: bool = False):
         """Recursive method to get all elements in the container
         and their corresponding container. If there is nothing it returns None"""
@@ -194,7 +193,7 @@ class DungeonController:
                 if element.visible:
                     elements_container.append((element, container))
                 if isinstanceorsubclass(element, Chest) and not element.peekable or\
-                isinstanceorsubclass(element, Chest) and not element.open:
+                    isinstanceorsubclass(element, Chest) and not element.open:
                     pass
                 else:
                     elements_container = elements_container +\
@@ -223,6 +222,10 @@ class DungeonController:
         element_container = self.get_element_container(element_name, self.player_location)
         if not element_container:
             return element_not_found(element_name)
+        if element_container[0].fixed:
+            return ELEMENT_IS_FIXED
+        if isinstanceorsubclass(element_container[0], Player):
+            return CANT_PICK_UP_SELF
         element_container[1].contents.remove(element_container[0])
         self.get_player().contents.append(element_container[0])
         return picked_up_element(element_container[0].name)
@@ -252,17 +255,18 @@ class DungeonController:
         """Throws an item"""
         if "at" in instructions:
             thing_target = instructions.split(" at ")
-            thing_container = self.get_element_container(thing_target[0], self.get_player())[0]
+            thing_container = self.get_element_container(thing_target[0], self.get_player())
             if thing_container is None:
-                return element_not_found(thing_container.name)
-            target_container = self.get_element_container(thing_target[1], self.player_location)[0]
+                return element_not_found(thing_target[0])
+            target_container = self.get_element_container(thing_target[1], self.player_location)
             if target_container is None:
-                return element_not_found(target_container.name)
-            if isinstanceorsubclass(target_container, Animate):
-                self.get_player().contents.remove(thing_container)
-                target_container.health = target_container.health - thing_container.damage * 1.5
-                self.player_location.contents.append(thing_container)
-                return hit_target(target_container.name)
+                return element_not_found(thing_target[1])
+            if isinstanceorsubclass(target_container[0], Animate):
+                self.get_player().contents.remove(thing_container[0])
+                target_container[0].health =\
+                    target_container[0].health - thing_container[0].damage * 1.5
+                self.player_location.contents.append(thing_container[0])
+                return hit_target(target_container[0].name)
         thing_container = self.get_element_container(instructions, self.player_location)
         self.get_player().contents.remove(thing_container[0])
         self.player_location.contents.append(thing_container[0])
