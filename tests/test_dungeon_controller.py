@@ -7,13 +7,15 @@ from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, WEST, door_not_locked, door_unlocked,\
-    element_not_found, picked_up_element
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
+    element_not_found, hit_target, picked_up_element
+from game.model.animate import Animate
 from game.model.door import Door
 from game.model.location import Location
 from game.model.player import Player
 from game.model.thing import Thing
 from game.model.food import Food
+from game.model.tool import Tool
 
 class TestDungeonController(unittest.TestCase):
     """Test DungeonController class"""
@@ -534,3 +536,46 @@ class TestDungeonController(unittest.TestCase):
         expected_response = mock_apple.name + "\n" + mock_orange.name + "\n"
         actual_response = self.dungeon_master.get_player_inventory()
         self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["sickle at enemy", element_not_found("sickle")],
+        ["hammer at gandalf", element_not_found("gandalf")],
+        ["hammer at enemy", hit_target("enemy")],
+        ["hammer", THREW_AT_NOTHING]
+    ])
+    def test_throw(self, instructions, expected_response):
+        """test throw method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_hammer = Mock(spec=Tool)
+        mock_enemy = Mock(spec=Animate)
+        location_attrs = {
+            "contents": [mock_player, mock_enemy]
+        }
+        player_attrs = {
+            "contents": [mock_hammer],
+            "name": "Player",
+            "visible": True
+        }
+        hammer_attrs = {
+            "contents": [],
+            "name": "hammer",
+            "visible": True,
+            "damage": 2
+        }
+        enemy_attrs = {
+            "contents": [],
+            "name": "enemy",
+            "visible": True,
+            "health": 10
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_hammer.configure_mock(**hammer_attrs)
+        mock_enemy.configure_mock(**enemy_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.throw(instructions)
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "hammer at enemy":
+            # 7 because throwing damage is x1.5, so 10-2*1.5
+            self.assertEqual(mock_enemy.health, 7)

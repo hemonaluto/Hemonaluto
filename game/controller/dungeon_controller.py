@@ -258,17 +258,18 @@ class DungeonController:
         """Throws an item"""
         if "at" in instructions:
             thing_target = instructions.split(" at ")
-            thing_container = self.get_element_container(thing_target[0], self.get_player())[0]
+            thing_container = self.get_element_container(thing_target[0], self.get_player())
             if thing_container is None:
-                return element_not_found(thing_container.name)
-            target_container = self.get_element_container(thing_target[1], self.player_location)[0]
+                return element_not_found(thing_target[0])
+            target_container = self.get_element_container(thing_target[1], self.player_location)
             if target_container is None:
-                return element_not_found(target_container.name)
-            if isinstanceorsubclass(target_container, Animate):
-                self.get_player().contents.remove(thing_container)
-                target_container.health = target_container.health - thing_container.damage * 1.5
-                self.player_location.contents.append(thing_container)
-                return hit_target(target_container.name)
+                return element_not_found(thing_target[1])
+            if isinstanceorsubclass(target_container[0], Animate):
+                self.get_player().contents.remove(thing_container[0])
+                target_container[0].health =\
+                    target_container[0].health - thing_container[0].damage * 1.5
+                self.player_location.contents.append(thing_container[0])
+                return hit_target(target_container[0].name)
         thing_container = self.get_element_container(instructions, self.player_location)
         self.get_player().contents.remove(thing_container[0])
         self.player_location.contents.append(thing_container[0])
