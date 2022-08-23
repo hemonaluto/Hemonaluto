@@ -285,6 +285,8 @@ class DungeonController:
     def read(self, element_name: str):
         """Read an elements text"""
         element_container = self.get_element_container(element_name, self.player_location)
+        if element_container is None:
+            return element_not_found(element_name)
         if isinstanceorsubclass(element_container[0], Thing) and element_container[0].text:
             return element_container[0].text
         return NOT_READABLE

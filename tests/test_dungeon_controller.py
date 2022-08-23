@@ -7,7 +7,7 @@ from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
     element_not_found, hit_target, picked_up_element
 from game.model.animate import Animate
 from game.model.door import Door
@@ -618,4 +618,36 @@ class TestDungeonController(unittest.TestCase):
         mock_bed.configure_mock(**bed_attrs)
         self.dungeon_master.player_location = mock_location
         actual_response = self.dungeon_master.close(element_to_close)
+        self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["scroll", "quirky test text"],
+        ["table", NOT_READABLE],
+        ["E", element_not_found("E")]
+    ])
+    def test_read(self, element_name, expected_response):
+        """test read method"""
+        mock_location = Mock(spec=Location)
+        mock_scroll = Mock(spec=Thing)
+        mock_table = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_scroll, mock_table]
+        }
+        scroll_attrs = {
+            "contents": [],
+            "name": "scroll",
+            "visible": True,
+            "text": "quirky test text"
+        }
+        table_attrs = {
+            "contents": [],
+            "name": "table",
+            "visible": True,
+            "text": None
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_scroll.configure_mock(**scroll_attrs)
+        mock_table.configure_mock(**table_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.read(element_name)
         self.assertEqual(expected_response, actual_response)
