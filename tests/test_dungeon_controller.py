@@ -6,8 +6,8 @@ import unittest
 from unittest.mock import Mock
 from parameterized import parameterized
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
+from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
     element_not_found, hit_target, picked_up_element
 from game.model.animate import Animate
 from game.model.door import Door
@@ -651,3 +651,43 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.player_location = mock_location
         actual_response = self.dungeon_master.read(element_name)
         self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["spoon in mug", DONE],
+        ["sword in mug", element_not_found("sword")],
+        ["spoon in bowl", element_not_found("bowl")],
+        ["get spooned", TARGET_NOT_SPECIFIED]
+    ])
+    def test_put(self, instructions, expected_response):
+        """test put method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_mug = Mock(spec=Thing)
+        mock_spoon = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_player, mock_mug]
+        }
+        player_attrs = {
+            "contents": [mock_spoon],
+            "name": "Player",
+            "visible": True
+        }
+        mug_attrs = {
+            "contents": [],
+            "name": "mug",
+            "visible": True
+        }
+        spoon_attrs = {
+            "contents": [],
+            "name": "spoon",
+            "visible": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_mug.configure_mock(**mug_attrs)
+        mock_spoon.configure_mock(**spoon_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.put(instructions)
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "spoon in mug":
+            self.assertEqual(mock_mug.contents[0].name, "spoon")
