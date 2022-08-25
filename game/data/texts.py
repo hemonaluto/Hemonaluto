@@ -126,12 +126,6 @@ ALREADY_ON = "That's already turned on."
 # tries to turn off something that is already off
 ALREADY_OFF = "That's already turned off."
 
-# turned on an activator
-TURNED_ON = "Turned on."
-
-# turned off an activator
-TURNED_OFF = "Turned off."
-
 # tries to do an impossible action
 ACTION_NOT_POSSIBLE = "You can't do that."
 

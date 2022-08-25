@@ -26,7 +26,7 @@ from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALR
     LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE,\
     NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE,\
     SILENCE, SPECIFIY_HIDING_PLACE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD,\
-    THREW_AT_NOTHING, TURNED_OFF, TURNED_ON, UNTIE, WEAPON_NOT_SPECIFIED,\
+    THREW_AT_NOTHING, UNTIE, WEAPON_NOT_SPECIFIED,\
     door_leads_to, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory,\
     entering_thing, hit_target, noises_description, picked_up_element,\
@@ -311,25 +311,27 @@ class DungeonController:
         split_input = instructions.split()
         if "on" in instructions.split():
             split_input.remove("on")
-            activator = self.get_element_container(split_input[0], self.player_location)[0]
-            if not self.turn_on(activator, self.activator_handler):
-                return ALREADY_ON
-            return TURNED_ON
+            activator_container = self.get_element_container(split_input[0], self.player_location)
+            if activator_container is None:
+                return element_not_found(split_input[0])
+            return self.turn_on(activator_container[0], self.activator_handler)
         if "off" in instructions.split():
             split_input.remove("off")
-            activator = self.get_element_container(split_input[0], self.player_location)[0]
-            if not self.turn_off(activator, self.activator_handler):
-                return ALREADY_OFF
-            return TURNED_OFF
-        activator = self.get_element_container(instructions, self.player_location)[0]
-        if not activator:
+            activator_container = self.get_element_container(
+                split_input[0],
+                self.player_location)
+            if activator_container is None:
+                return element_not_found(split_input[0])
+            return self.turn_off(activator_container[0], self.activator_handler)
+        activator_container = self.get_element_container(instructions, self.player_location)
+        if not activator_container:
             return element_not_found(instructions)
-        if not expected_activator_type is activator.type:
+        if not expected_activator_type is activator_container[0].type:
             return ACTION_NOT_POSSIBLE
-        if activator.is_on is True:
-            return self.turn_off(activator, self.activator_handler)
-        if activator.is_on is False:
-            return self.turn_on(activator, self.activator_handler)
+        if activator_container[0].is_on is True:
+            return self.turn_off(activator_container[0], self.activator_handler)
+        if activator_container[0].is_on is False:
+            return self.turn_on(activator_container[0], self.activator_handler)
         return ACTION_FAILED
 
     def turn_on(self, activator: Activator, activator_handler: ActivatorController):

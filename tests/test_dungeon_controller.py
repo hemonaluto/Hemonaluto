@@ -3,20 +3,23 @@
 # pylint: disable=too-many-locals
 # pylint: disable=line-too-long
 import unittest
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock
 from parameterized import parameterized
+from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
     KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
     element_not_found, hit_target, picked_up_element
 from game.model.animate import Animate
 from game.model.door import Door
+from game.model.enums.activator_type import ActivatorType
 from game.model.location import Location
 from game.model.player import Player
 from game.model.thing import Thing
 from game.model.food import Food
 from game.model.tool import Tool
 from game.model.chest import Chest
+from game.model.activator import Activator
 
 class TestDungeonController(unittest.TestCase):
     """Test DungeonController class"""
@@ -691,3 +694,38 @@ class TestDungeonController(unittest.TestCase):
         self.assertEqual(expected_response, actual_response)
         if instructions == "spoon in mug":
             self.assertEqual(mock_mug.contents[0].name, "spoon")
+
+    @parameterized.expand([
+        ["lever on", "It makes a quirky bootup noise."],
+        ["lever off", "That's already turned off."],
+        ["button on", element_not_found("button")]
+    ])
+    def test_activate(self, instructions, expected_response):
+        """test activate method"""
+        mock_activator_controller = Mock(spec=ActivatorController)
+        mock_activator_controller.lever_on = MagicMock(return_value="It makes a quirky bootup noise.")
+        self.dungeon_master.activator_handler = mock_activator_controller
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_lever = Mock(spec=Activator)
+        location_attrs = {
+            "contents": [mock_player, mock_lever]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "visible": True
+        }
+        lever_attrs = {
+            "contents": [],
+            "name": "lever",
+            "visible": True,
+            "is_on": False,
+            "turn_on_method_name": "lever_on"
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_lever.configure_mock(**lever_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.activate(instructions, ActivatorType.PRESS)
+        self.assertEqual(expected_response, actual_response)
