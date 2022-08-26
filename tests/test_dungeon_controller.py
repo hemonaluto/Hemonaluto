@@ -9,7 +9,7 @@ from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
     KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
-    element_not_found, hit_target, picked_up_element
+    element_not_found, hit_target, picked_up_element, reveal_element
 from game.model.animate import Animate
 from game.model.door import Door
 from game.model.enums.activator_type import ActivatorType
@@ -729,3 +729,36 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.player_location = mock_location
         actual_response = self.dungeon_master.activate(instructions, ActivatorType.PRESS)
         self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["rug", reveal_element("rug", "A quirky diamond.")],
+        ["diamond", element_not_found("diamond")]
+    ])
+    def test_move_element(self, instructions, expected_response):
+        """test move_element method"""
+        mock_location = Mock(spec=Location)
+        mock_rug = Mock(spec=Thing)
+        mock_diamond = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_rug, mock_diamond]
+        }
+        rug_attrs = {
+            "contents": [],
+            "name": "rug",
+            "visible": True,
+            "reveals": "diamond"
+        }
+        diamond_attrs = {
+            "contents": [],
+            "name": "diamond",
+            "visible": False,
+            "description": "A quirky diamond."
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_rug.configure_mock(**rug_attrs)
+        mock_diamond.configure_mock(**diamond_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.move_element(instructions)
+        self.assertEqual(actual_response, expected_response)
+        if instructions == "rug":
+            self.assertEqual(mock_diamond.visible, True)

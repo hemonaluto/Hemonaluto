@@ -34,32 +34,32 @@ INVALID_DIRECTION = "You can't go there."
 
 # door
 LOCKED_DOOR = "There is a locked door blocking the path."
-def door_unlocked(door_name):
+def door_unlocked(door_name: str):
     """Returns the message for when the player unlocks a specific door."""
     return f"You have unlocked the {door_name}."
-def door_not_locked(door_name):
+def door_not_locked(door_name: str):
     """Returns the message for when the player tries to unlock a\
     specific door that already is unlocked."""
     return f"{door_name.capitalize()} is already unlocked."
 KEY_MISSING = "You don't have the required key for that."
 
 # thing in container
-def element_in_container(things_as_string, preposition, container):
+def element_in_container(things_as_string: str, preposition: str, container: str):
     """Returns a description for a thing within a container"""
     return f"    There is a {things_as_string} {preposition} the {container}."
 
 # element not found
-def element_not_found(element_name):
+def element_not_found(element_name: str):
     """Returns element not found message"""
     return f"You couldn't find the {element_name}."
 
 # element not in inventory
-def element_not_in_inventory(element_name):
+def element_not_in_inventory(element_name: str):
     """Returns element not in inventory message"""
     return f"You don't have the {element_name} in your inventory."
 
 # picked up element
-def picked_up_element(element_name):
+def picked_up_element(element_name: str):
     """Returns the information that the player picked up a specific element"""
     return f"You picked up the {element_name}."
 
@@ -101,7 +101,7 @@ NOTHING_RESPONSES = ["What do sea monsters eat for dinner?\n\nFish and ships.",
     "Why do dwarven bards sound better by candlelight?\n\nYou can shove the wax in your ears."]
 
 # hit target response
-def hit_target(target_name):
+def hit_target(target_name: str):
     """Returns hit target message"""
     return f"Your weapon hit the {target_name}."
 
@@ -136,15 +136,15 @@ ACTION_FAILED = "Action failed."
 NOTHING_HAPPENS = "Nothing happens."
 
 # reveal element
-def reveal_element(moved_item, revealed_item):
+def reveal_element(moved_item: str, revealed_item: str):
     """Revealing element message"""
-    return f"You move the {moved_item} and reveal {revealed_item}"
+    return f"You move the {moved_item} and reveal {revealed_item.lower()}"
 
 # attacks without specifying weapon
 WEAPON_NOT_SPECIFIED = "You didn't specify a weapon."
 
 # eating food message
-def eat_food(food_name, taste):
+def eat_food(food_name: str, taste: str):
     """Eating food message"""
     return f"You eat the {food_name}. It tastes {taste}."
 
@@ -157,7 +157,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 # tied element to target
-def tie_rope_to_target(target):
+def tie_rope_to_target(target: str):
     """Tying rope to something message"""
     return f"You tie the rope to the {target}."
 
@@ -189,7 +189,7 @@ CANT_BREAK = "Breaking that would be pointless."
 NEEDS_TO_BE_TOOL = "Try using a tool or weapon instead."
 
 # door leads to message
-def door_leads_to(directions):
+def door_leads_to(directions: str):
     """describes where a door leads to"""
     description = ""
     for direction in directions:
@@ -203,7 +203,7 @@ SILENCE = "You hear nothing specific."
 NO_SMELLS = "You smell nothing specific."
 
 # noises description
-def noises_description(noises):
+def noises_description(noises: str):
     """Describes noises"""
     description = "You hear:"
     for noise in noises:
@@ -211,7 +211,7 @@ def noises_description(noises):
     return description
 
 # smell description
-def smell_description(smells):
+def smell_description(smells: str):
     """Describes smells"""
     description = "You smell:"
     for smell in smells:
@@ -219,7 +219,7 @@ def smell_description(smells):
     return description
 
 # hiding
-def entering_thing(thing):
+def entering_thing(thing: str):
     """Entering thing message"""
     return f"Hiding in {thing}"
 NOT_ENTERABLE = "You can't enter that."
