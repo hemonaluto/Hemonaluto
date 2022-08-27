@@ -9,7 +9,7 @@ from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
     KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
-    element_not_found, hit_target, picked_up_element, reveal_element
+    element_not_found, element_not_in_inventory, hit_target, picked_up_element, reveal_element
 from game.model.animate import Animate
 from game.model.door import Door
 from game.model.enums.activator_type import ActivatorType
@@ -762,3 +762,58 @@ class TestDungeonController(unittest.TestCase):
         self.assertEqual(actual_response, expected_response)
         if instructions == "rug":
             self.assertEqual(mock_diamond.visible, True)
+
+    @parameterized.expand([
+        ["enemy with knife", hit_target("enemy")],
+        ["glas with knife", "The glas shatters."],
+        ["laptop with knife", element_not_found("laptop")],
+        ["enemy with nintendo", element_not_in_inventory("nintendo")]
+    ])
+    def test_attack(self, instructions, expected_response):
+        """test attack method"""
+        mock_activator_controller = Mock(spec=ActivatorController)
+        mock_activator_controller.glas_break = MagicMock(return_value="The glas shatters.")
+        self.dungeon_master.activator_handler = mock_activator_controller
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_enemy = Mock(spec=Animate)
+        mock_knife = Mock(spec=Tool)
+        mock_glas = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_player, mock_enemy, mock_glas]
+        }
+        player_attrs = {
+            "contents": [mock_knife],
+            "name": "player",
+            "visible": True
+        }
+        enemy_attrs = {
+            "contents": [],
+            "name": "enemy",
+            "visible": True,
+            "health": 10
+        }
+        knife_attrs = {
+            "contents": [],
+            "name": "knife",
+            "visible": True,
+            "damage": 5
+        }
+        glas_attrs = {
+            "contents": [],
+            "name": "glas",
+            "visible": True,
+            "description": "A quirky test glas.",
+            "breakable": True,
+            "when_broken_do": "glas_break"
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_enemy.configure_mock(**enemy_attrs)
+        mock_knife.configure_mock(**knife_attrs)
+        mock_glas.configure_mock(**glas_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.attack(instructions)
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "enemy with knife":
+            self.assertEqual(mock_enemy.health, 5)
