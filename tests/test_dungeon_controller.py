@@ -35,6 +35,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_brief(self, brief, expected):
         """Test brief method"""
+        # Arrange
         mock_location = Mock()
         attrs = {
             "brief": brief,
@@ -42,10 +43,14 @@ class TestDungeonController(unittest.TestCase):
         }
         mock_location.configure_mock(**attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
-        self.assertEqual(self.dungeon_master.brief("test"), expected)
+        # Act
+        actual = self.dungeon_master.brief("test")
+        # Assert
+        self.assertEqual(actual, expected)
 
     def test_get_player(self):
         """Test get_player method"""
+        # Arrange
         mock_player = Mock(spec=Player)
         mock_location = Mock()
         location_attrs = {
@@ -60,18 +65,24 @@ class TestDungeonController(unittest.TestCase):
         mock_player.configure_mock(**player_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
+        # Act
         result_player = self.dungeon_master.get_player()
+        # Assert
         self.assertEqual(mock_player, result_player)
 
     def test_get_score(self):
         """Test get_score method"""
+        # Arrange
         expected_score = 23452
         self.dungeon_master.player_score = expected_score
+        # Act
         actual_score = self.dungeon_master.get_score()
+        # Assert
         self.assertEqual(expected_score, actual_score)
 
     def test_get_health(self):
         """Test get_health method"""
+        # Arrange
         expected_health = 35262
         mock_player = Mock(spec=Player)
         mock_location = Mock()
@@ -88,7 +99,9 @@ class TestDungeonController(unittest.TestCase):
         mock_player.configure_mock(**player_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_health = self.dungeon_master.get_health()
+        # Assert
         self.assertEqual(expected_health, actual_health)
 
     @parameterized.expand([
@@ -99,6 +112,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_move_player(self, direction, expected_response):
         """Test move_player method"""
+        # Arrange
         mock_player = Mock(spec=Player)
         mock_door = Mock(spec=Door)
         mock_location_start = Mock()
@@ -166,7 +180,9 @@ class TestDungeonController(unittest.TestCase):
             ("down location", mock_location_down),
         ])
         self.dungeon_master.player_location = mock_location_start
+        # Act
         actual_response = self.dungeon_master.move_player(direction)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     @parameterized.expand([
@@ -176,6 +192,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_unlock(self, player_has_key: bool, locked: bool):
         """Test unlock method"""
+        # Arrange
         mock_door = Mock(spec=Door)
         door_name = "test door"
         mock_location = Mock()
@@ -211,7 +228,9 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**door_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.unlock(door_name)
+        # Assert
         if player_has_key and locked:
             self.assertEqual(door_unlocked(door_name), actual_response)
         elif not player_has_key and locked:
@@ -221,6 +240,7 @@ class TestDungeonController(unittest.TestCase):
 
     def test_set_player_location(self):
         """Test set player method"""
+        # Arrange
         mock_location = Mock()
         mock_player = Mock()
         location_attrs = {
@@ -235,7 +255,9 @@ class TestDungeonController(unittest.TestCase):
         mock_player.configure_mock(**player_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
+        # Act
         self.dungeon_master.set_player_location(mock_player, mock_location)
+        # Assert
         self.assertIn(mock_player, mock_location.contents)
 
     @parameterized.expand([
@@ -244,6 +266,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_describe(self, user_user_input, expected_response):
         """test describe method"""
+        # Arrange
         mock_location = Mock()
         mock_player = Mock()
         mock_table = Mock()
@@ -268,11 +291,14 @@ class TestDungeonController(unittest.TestCase):
         mock_table.configure_mock(**table_attrs)
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.describe(user_user_input)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     def test_describe_location(self):
         """test describe_location method"""
+        # Arrange
         mock_location = Mock()
         mock_player = Mock()
         mock_table = Mock()
@@ -298,11 +324,14 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
         expected_response = "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."
+        # Act
         actual_response = self.dungeon_master.describe_location()
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     def test_describe_element(self):
         """test describe_element method"""
+        # Arrange
         mock_location = Mock()
         mock_table = Mock()
         location_attrs = {
@@ -319,11 +348,14 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
         expected_response = "A quirky test table."
+        # Act
         actual_response = self.dungeon_master.describe_element("table")
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     def test_describe_container(self):
         """test describe_container method"""
+        # Arrange
         mock_box = Mock()
         mock_envelope = Mock()
         mock_letter = Mock()
@@ -349,11 +381,14 @@ class TestDungeonController(unittest.TestCase):
         mock_envelope.configure_mock(**envelope_attrs)
         mock_letter.configure_mock(**letter_attrs)
         expected_response = "A quirky test box.\n    There is a envelope in the box.\n    There is a letter in the envelope."
+        # Act
         actual_response = self.dungeon_master.describe_container(mock_box)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     def test_get_door_directions(self):
         """test get_door_directions"""
+        # Arrange
         mock_location = Mock()
         mock_door = Mock()
         location_attrs = {
@@ -371,7 +406,9 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
         expected_response = ["west"]
+        # Act
         actual_response = self.dungeon_master.get_door_directions((mock_door, mock_location))
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     @parameterized.expand([
@@ -380,6 +417,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_get_element_container(self, element_name, expected_container_name):
         """test get_element_container method"""
+        # Arrange
         mock_location = Mock()
         mock_box = Mock()
         mock_envelope = Mock()
@@ -404,7 +442,9 @@ class TestDungeonController(unittest.TestCase):
         mock_box.configure_mock(**box_attrs)
         mock_envelope.configure_mock(**envelope_attrs)
         mock_letter.configure_mock(**letter_attrs)
+        # Act
         actual_element_container = self.dungeon_master.get_element_container(element_name, mock_location)
+        # Assert
         self.assertEqual(actual_element_container[0].name, element_name)
         self.assertEqual(actual_element_container[1].name, expected_container_name)
 
@@ -415,6 +455,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_get_all_elements_container(self, only_takeable, only_visible):
         """test get_all_elements_container method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_box = Mock(spec=Thing)
         mock_envelope = Mock(spec=Thing)
@@ -447,11 +488,13 @@ class TestDungeonController(unittest.TestCase):
         mock_box.configure_mock(**box_attrs)
         mock_envelope.configure_mock(**envelope_attrs)
         mock_letter.configure_mock(**letter_attrs)
+        # Act
         actual_elements_container = self.dungeon_master.get_all_elements_container(
             mock_location,
             only_visible,
             only_takeable
         )
+        # Assert
         if only_takeable:
             self.assertEqual(len(actual_elements_container), 1)
         elif only_visible:
@@ -472,6 +515,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_take(self, element_to_take, expected_response):
         """test take method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_table = Mock(spec=Thing)
@@ -504,11 +548,14 @@ class TestDungeonController(unittest.TestCase):
         mock_table.configure_mock(**table_attrs)
         mock_knife.configure_mock(**knife_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.take(element_to_take)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     def test_get_player_inventory(self):
         """test get_player_inventory method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_apple = Mock(spec=Food)
@@ -537,7 +584,9 @@ class TestDungeonController(unittest.TestCase):
         mock_orange.configure_mock(**orange_attrs)
         self.dungeon_master.player_location = mock_location
         expected_response = mock_apple.name + "\n" + mock_orange.name + "\n"
+        # Act
         actual_response = self.dungeon_master.get_player_inventory()
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     @parameterized.expand([
@@ -548,6 +597,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_throw(self, instructions, expected_response):
         """test throw method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_hammer = Mock(spec=Tool)
@@ -577,7 +627,9 @@ class TestDungeonController(unittest.TestCase):
         mock_hammer.configure_mock(**hammer_attrs)
         mock_enemy.configure_mock(**enemy_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.throw(instructions)
+        # Assert
         self.assertEqual(expected_response, actual_response)
         if instructions == "hammer at enemy":
             # 7 because throwing damage is x1.5, so 10-2*1.5
@@ -591,6 +643,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_close(self, element_to_close, expected_response):
         """test close method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_chest = Mock(spec=Chest)
         mock_door = Mock(spec=Door)
@@ -621,7 +674,9 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**door_attrs)
         mock_bed.configure_mock(**bed_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.close(element_to_close)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     @parameterized.expand([
@@ -631,6 +686,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_read(self, element_name, expected_response):
         """test read method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_scroll = Mock(spec=Thing)
         mock_table = Mock(spec=Thing)
@@ -653,7 +709,9 @@ class TestDungeonController(unittest.TestCase):
         mock_scroll.configure_mock(**scroll_attrs)
         mock_table.configure_mock(**table_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.read(element_name)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     @parameterized.expand([
@@ -664,6 +722,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_put(self, instructions, expected_response):
         """test put method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_mug = Mock(spec=Thing)
@@ -691,7 +750,9 @@ class TestDungeonController(unittest.TestCase):
         mock_mug.configure_mock(**mug_attrs)
         mock_spoon.configure_mock(**spoon_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.put(instructions)
+        # Assert
         self.assertEqual(expected_response, actual_response)
         if instructions == "spoon in mug":
             self.assertEqual(mock_mug.contents[0].name, "spoon")
@@ -703,6 +764,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_activate(self, instructions, expected_response):
         """test activate method"""
+        # Arrange
         mock_activator_controller = Mock(spec=ActivatorController)
         mock_activator_controller.lever_on = MagicMock(return_value="It makes a quirky bootup noise.")
         self.dungeon_master.activator_handler = mock_activator_controller
@@ -728,7 +790,9 @@ class TestDungeonController(unittest.TestCase):
         mock_player.configure_mock(**player_attrs)
         mock_lever.configure_mock(**lever_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.activate(instructions, ActivatorType.PRESS)
+        # Assert
         self.assertEqual(expected_response, actual_response)
 
     @parameterized.expand([
@@ -737,6 +801,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_move_element(self, instructions, expected_response):
         """test move_element method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_rug = Mock(spec=Thing)
         mock_diamond = Mock(spec=Thing)
@@ -759,7 +824,9 @@ class TestDungeonController(unittest.TestCase):
         mock_rug.configure_mock(**rug_attrs)
         mock_diamond.configure_mock(**diamond_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.move_element(instructions)
+        # Assert
         self.assertEqual(actual_response, expected_response)
         if instructions == "rug":
             self.assertEqual(mock_diamond.visible, True)
@@ -772,6 +839,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_attack(self, instructions, expected_response):
         """test attack method"""
+        # Arrange
         mock_activator_controller = Mock(spec=ActivatorController)
         mock_activator_controller.glas_break = MagicMock(return_value="The glas shatters.")
         self.dungeon_master.activator_handler = mock_activator_controller
@@ -814,7 +882,9 @@ class TestDungeonController(unittest.TestCase):
         mock_knife.configure_mock(**knife_attrs)
         mock_glas.configure_mock(**glas_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.attack(instructions)
+        # Assert
         self.assertEqual(expected_response, actual_response)
         if instructions == "enemy with knife":
             self.assertEqual(mock_enemy.health, 5)
@@ -826,6 +896,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_eat(self, instructions, expected_response):
         """test eat method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_apple = Mock(spec=Food)
@@ -849,7 +920,9 @@ class TestDungeonController(unittest.TestCase):
         mock_player.configure_mock(**player_attrs)
         mock_apple.configure_mock(**apple_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.eat(instructions)
+        # Assert
         self.assertEqual(expected_response, actual_response)
         if instructions == "apple":
             self.assertEqual(mock_player.health, 15)
@@ -864,6 +937,7 @@ class TestDungeonController(unittest.TestCase):
     ])
     def test_tie(self, instructions, expected_response):
         """test tie method"""
+        # Arrange
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_rope = Mock(spec=Rope)
@@ -880,7 +954,7 @@ class TestDungeonController(unittest.TestCase):
         rope_attrs = {
             "contents": [],
             "name": "rope",
-            "visible": True 
+            "visible": True
         }
         chair_attrs = {
             "contents": [],
@@ -900,7 +974,9 @@ class TestDungeonController(unittest.TestCase):
         mock_chair.configure_mock(**chair_attrs)
         mock_pole.configure_mock(**pole_attrs)
         self.dungeon_master.player_location = mock_location
+        # Act
         actual_response = self.dungeon_master.tie(instructions)
+        # Assert
         self.assertEqual(expected_response, actual_response)
         if instructions == "rope to pole":
             self.assertEqual(mock_rope.tied_to, "pole")
