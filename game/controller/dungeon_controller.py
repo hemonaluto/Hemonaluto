@@ -23,7 +23,7 @@ from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALR
     ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_PICK_UP_SELF, CANT_SEE_LOCATION_FROM_HIDING,\
     CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
-    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE,\
+    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_A_ROPE, NOT_ENTERABLE,\
     NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE,\
     SILENCE, SPECIFIY_HIDING_PLACE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD,\
     THREW_AT_NOTHING, UNTIE, WEAPON_NOT_SPECIFIED,\
@@ -418,6 +418,8 @@ class DungeonController:
                 target_container[1].contents.append(thing_container[0])
                 thing_container[0].tied_to = target_container[0].name
                 return tie_rope_to_target(target_container[0].name.lower())
+            else:
+                return NOT_A_ROPE
         return TARGET_NOT_SPECIFIED
 
     def untie(self, rope_name: str):

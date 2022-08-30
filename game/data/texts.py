@@ -161,6 +161,9 @@ def tie_rope_to_target(target: str):
     """Tying rope to something message"""
     return f"You tie the rope to the {target}."
 
+# tries to tie something that isn't a rope
+NOT_A_ROPE = "That's not a rope."
+
 # that won't hold
 THAT_WONT_HOLD = "That won't hold your weight."
 

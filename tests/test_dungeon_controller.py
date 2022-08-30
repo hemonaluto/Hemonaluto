@@ -8,13 +8,14 @@ from parameterized import parameterized
 from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked, eat_food,\
-    element_not_found, element_not_in_inventory, hit_target, picked_up_element, reveal_element
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_A_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked, eat_food,\
+    element_not_found, element_not_in_inventory, hit_target, picked_up_element, reveal_element, tie_rope_to_target
 from game.model.animate import Animate
 from game.model.door import Door
 from game.model.enums.activator_type import ActivatorType
 from game.model.location import Location
 from game.model.player import Player
+from game.model.rope import Rope
 from game.model.thing import Thing
 from game.model.food import Food
 from game.model.tool import Tool
@@ -852,3 +853,54 @@ class TestDungeonController(unittest.TestCase):
         self.assertEqual(expected_response, actual_response)
         if instructions == "apple":
             self.assertEqual(mock_player.health, 15)
+
+    @parameterized.expand([
+        ["string to chair", element_not_in_inventory("string")],
+        ["rope to table", element_not_found("table")],
+        ["chair to pole", NOT_A_ROPE],
+        ["rope", TARGET_NOT_SPECIFIED],
+        ["rope to chair", THAT_WONT_HOLD],
+        ["rope to pole", tie_rope_to_target("pole")]
+    ])
+    def test_tie(self, instructions, expected_response):
+        """test tie method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_rope = Mock(spec=Rope)
+        mock_chair = Mock(spec=Thing)
+        mock_pole = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_player, mock_pole]
+        }
+        player_attrs = {
+            "contents": [mock_rope, mock_chair],
+            "name": "player",
+            "visible": True
+        }
+        rope_attrs = {
+            "contents": [],
+            "name": "rope",
+            "visible": True 
+        }
+        chair_attrs = {
+            "contents": [],
+            "name": "chair",
+            "visible": True,
+            "fixed": False
+        }
+        pole_attrs = {
+            "contents": [],
+            "name": "pole",
+            "visible": True,
+            "fixed": True
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_rope.configure_mock(**rope_attrs)
+        mock_chair.configure_mock(**chair_attrs)
+        mock_pole.configure_mock(**pole_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.tie(instructions)
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "rope to pole":
+            self.assertEqual(mock_rope.tied_to, "pole")
