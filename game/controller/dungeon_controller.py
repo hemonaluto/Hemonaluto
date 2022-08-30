@@ -393,11 +393,11 @@ class DungeonController:
 
     def eat(self, element_name: str):
         """Feeds the player"""
-        food = self.get_element_container(element_name, self.player_location)[0]
-        if not food:
-            return element_not_found(food)
-        self.get_player().health += food.regen
-        return eat_food(food.name, food.taste)
+        food_container = self.get_element_container(element_name, self.player_location)
+        if food_container is None:
+            return element_not_found(element_name)
+        self.get_player().health += food_container[0].regen
+        return eat_food(food_container[0].name, food_container[0].taste)
 
     def tie(self, instructions: str):
         """Ties a rope to something"""

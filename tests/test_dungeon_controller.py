@@ -8,7 +8,7 @@ from parameterized import parameterized
 from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked, eat_food,\
     element_not_found, element_not_in_inventory, hit_target, picked_up_element, reveal_element
 from game.model.animate import Animate
 from game.model.door import Door
@@ -817,3 +817,38 @@ class TestDungeonController(unittest.TestCase):
         self.assertEqual(expected_response, actual_response)
         if instructions == "enemy with knife":
             self.assertEqual(mock_enemy.health, 5)
+
+
+    @parameterized.expand([
+        ["pear", element_not_found("pear")],
+        ["apple", eat_food("apple", "It tastes quirky.")]
+    ])
+    def test_eat(self, instructions, expected_response):
+        """test eat method"""
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_apple = Mock(spec=Food)
+        location_attrs = {
+            "contents": [mock_player, mock_apple]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "player",
+            "visible": True,
+            "health": 10
+        }
+        apple_attrs = {
+            "contents": [],
+            "name": "apple",
+            "visible": True,
+            "taste": "It tastes quirky.",
+            "regen": 5
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_apple.configure_mock(**apple_attrs)
+        self.dungeon_master.player_location = mock_location
+        actual_response = self.dungeon_master.eat(instructions)
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "apple":
+            self.assertEqual(mock_player.health, 15)
