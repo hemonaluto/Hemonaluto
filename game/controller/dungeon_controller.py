@@ -455,8 +455,10 @@ class DungeonController:
     def hide(self, instructions: str):
         """Hides player in thing"""
         if "in" in instructions or "under" in instructions:
-            target = re.split("in|under", instructions)[1]
+            target = re.split(" in | under ", instructions)[1]
             element_container = self.get_element_container(target, self.player_location)
+            if element_container is None:
+                return element_not_found(target)
             if isinstanceorsubclass(element_container[0], Thing) and element_container[0].enterable:
                 self.get_player().hiding = True
                 return entering_thing(element_container[0].name)

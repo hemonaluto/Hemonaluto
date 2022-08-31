@@ -8,8 +8,8 @@ from parameterized import parameterized
 from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import ALREADY_UNTIED, CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_A_ROPE, NOT_OPENABLE, NOT_READABLE, SILENCE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING, UNTIE, WEST, door_not_locked, door_unlocked, eat_food,\
-    element_not_found, element_not_in_inventory, hit_target, noises_description, picked_up_element, reveal_element, tie_rope_to_target
+    KEY_MISSING, LOCKED_DOOR, NO_SMELLS, NO_TIED_ROPE, NOT_A_ROPE, NOT_ENTERABLE, NOT_OPENABLE, NOT_READABLE, SILENCE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING, UNTIE, WEST, door_not_locked, door_unlocked, eat_food,\
+    element_not_found, element_not_in_inventory, entering_thing, hit_target, noises_description, picked_up_element, reveal_element, smell_description, tie_rope_to_target
 from game.model.animate import Animate
 from game.model.door import Door
 from game.model.enums.activator_type import ActivatorType
@@ -1051,3 +1051,74 @@ class TestDungeonController(unittest.TestCase):
         actual_response = self.dungeon_master.listen()
         # Assert
         self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        ["A quirky smell.", smell_description(["A quirky smell."])],
+        [None, NO_SMELLS]
+    ])
+    def test_smell(self, kebab_smell, expected_response):
+        """test smell method"""
+        # Arrange
+        mock_location = Mock(spec=Location)
+        mock_kebab = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_kebab]
+        }
+        kebab_attrs = {
+            "contents": [],
+            "name": "piano",
+            "visible": True,
+            "smell": kebab_smell
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_kebab.configure_mock(**kebab_attrs)
+        self.dungeon_master.player_location = mock_location
+        # Act
+        actual_response = self.dungeon_master.smell()
+        # Assert
+        self.assertEqual(expected_response, actual_response)
+
+    @parameterized.expand([
+        [" in wardrobe", entering_thing("wardrobe")],
+        [" in cup", NOT_ENTERABLE],
+        [" in bed", element_not_found("bed")]
+    ])
+    def test_hide(self, instructions, expected_response):
+        """test smell method"""
+        # Arrange
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_wardrobe = Mock(spec=Thing)
+        mock_cup = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_player, mock_wardrobe, mock_cup]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "Player",
+            "visible": True,
+            "hidden": False
+        }
+        wardrobe_attrs = {
+            "contents": [],
+            "name": "wardrobe",
+            "visible": True,
+            "enterable": True
+        }
+        cup_attrs = {
+            "contents": [],
+            "name": "cup",
+            "visible": True,
+            "enterable": False
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_wardrobe.configure_mock(**wardrobe_attrs)
+        mock_cup.configure_mock(**cup_attrs)
+        self.dungeon_master.player_location = mock_location
+        # Act
+        actual_response = self.dungeon_master.hide(instructions)
+        # Assert
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "in wardrobe":
+            self.assertTrue(mock_player.hidden)
