@@ -424,11 +424,11 @@ class DungeonController:
 
     def untie(self, rope_name: str):
         """Unties a rope"""
-        rope = self.get_element_container(rope_name, self.player_location)
-        if rope is None:
+        rope_container = self.get_element_container(rope_name, self.player_location)
+        if rope_container is None:
             return element_not_found(rope_name)
-        if self.get_element_container(rope.tied_to, self.player_location):
-            rope.tied_to = None
+        if rope_container[0].tied_to:
+            rope_container[0].tied_to = None
             return UNTIE
         return ALREADY_UNTIED
 

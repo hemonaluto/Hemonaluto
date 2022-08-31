@@ -23,13 +23,16 @@ class TestSaveController(unittest.TestCase):
 
     def setUp(self):
         """Set up environment required for tests"""
+        # Arrange
         self.save_handler = SaveController()
         self.names_locations, self.player_location = self.save_handler.load("tests/test_world.json")
 
     def test_load_names_locations(self):
         """Test if it loads names_locations correctly"""
+        # Act
         name = self.names_locations[0][0]
         location: Location = self.names_locations[0][1]
+        # Assert
         self.assertEqual("test", name)
         self.assertEqual("test", location.name)
         self.assertEqual("test", location.description)
@@ -42,7 +45,9 @@ class TestSaveController(unittest.TestCase):
 
     def test_load_contents(self):
         """Test if all elements get loaded correctly"""
+        # Act
         location: Location = self.names_locations[0][1]
+        # Assert
         for element in location.contents:
             if isinstance(element, Activator) or issubclass(element.__class__, Activator):
                 self.assertEqual(element.type, ActivatorType.PRESS)
@@ -91,7 +96,9 @@ class TestSaveController(unittest.TestCase):
 
     def test_save_json_validity(self):
         """Test if everything gets saved as a valid json"""
+        # Arrange
         self.save_handler.save(self.names_locations, "tests/saving_test.json")
+        # Act
         is_valid: bool = None
         try:
             with open("tests/saving_test.json", "r", encoding="utf-8") as save_file:
@@ -100,4 +107,5 @@ class TestSaveController(unittest.TestCase):
         except ValueError:
             is_valid = False
         os.remove("tests/saving_test.json")
+        # Assert
         self.assertTrue(is_valid)

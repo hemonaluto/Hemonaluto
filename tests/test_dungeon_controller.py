@@ -7,9 +7,9 @@ from unittest.mock import MagicMock, Mock
 from parameterized import parameterized
 from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
-from game.data.texts import CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
-    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_A_ROPE, NOT_OPENABLE, NOT_READABLE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING, WEST, door_not_locked, door_unlocked, eat_food,\
-    element_not_found, element_not_in_inventory, hit_target, picked_up_element, reveal_element, tie_rope_to_target
+from game.data.texts import ALREADY_UNTIED, CANT_PICK_UP_SELF, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED, INVALID_DIRECTION,\
+    KEY_MISSING, LOCKED_DOOR, NO_TIED_ROPE, NOT_A_ROPE, NOT_OPENABLE, NOT_READABLE, SILENCE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD, THREW_AT_NOTHING, UNTIE, WEST, door_not_locked, door_unlocked, eat_food,\
+    element_not_found, element_not_in_inventory, hit_target, noises_description, picked_up_element, reveal_element, tie_rope_to_target
 from game.model.animate import Animate
 from game.model.door import Door
 from game.model.enums.activator_type import ActivatorType
@@ -980,3 +980,74 @@ class TestDungeonController(unittest.TestCase):
         self.assertEqual(expected_response, actual_response)
         if instructions == "rope to pole":
             self.assertEqual(mock_rope.tied_to, "pole")
+
+
+    @parameterized.expand([
+        ["yarn", element_not_found("yarn")],
+        ["rope", UNTIE],
+        ["string", ALREADY_UNTIED]
+    ])
+    def test_untie(self, instructions, expected_response):
+        """test untie method"""
+        # Arrange
+        mock_location = Mock(spec=Location)
+        mock_player = Mock(spec=Player)
+        mock_rope = Mock(spec=Rope)
+        mock_string = Mock(spec=Rope)
+        location_attrs = {
+            "contents": [mock_player, mock_rope, mock_string]
+        }
+        player_attrs = {
+            "contents": [],
+            "name": "player",
+            "visible": True
+        }
+        rope_attrs = {
+            "contents": [],
+            "name": "rope",
+            "visible": True,
+            "tied_to": "pole"
+        }
+        string_attrs = {
+            "contents": [],
+            "name": "string",
+            "visible": True,
+            "tied_to": None
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_player.configure_mock(**player_attrs)
+        mock_rope.configure_mock(**rope_attrs)
+        mock_string.configure_mock(**string_attrs)
+        self.dungeon_master.player_location = mock_location
+        # Act
+        actual_response = self.dungeon_master.untie(instructions)
+        # Assert
+        self.assertEqual(expected_response, actual_response)
+        if instructions == "rope":
+            self.assertIsNone(mock_rope.tied_to)
+
+    @parameterized.expand([
+        ["A quirky melody.", noises_description(["A quirky melody."])],
+        [None, SILENCE]
+    ])
+    def test_listen(self, piano_noise, expected_response):
+        """test listen method"""
+        # Arrange
+        mock_location = Mock(spec=Location)
+        mock_piano = Mock(spec=Thing)
+        location_attrs = {
+            "contents": [mock_piano]
+        }
+        piano_attrs = {
+            "contents": [],
+            "name": "piano",
+            "visible": True,
+            "sound": piano_noise
+        }
+        mock_location.configure_mock(**location_attrs)
+        mock_piano.configure_mock(**piano_attrs)
+        self.dungeon_master.player_location = mock_location
+        # Act
+        actual_response = self.dungeon_master.listen()
+        # Assert
+        self.assertEqual(expected_response, actual_response)
