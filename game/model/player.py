@@ -1,15 +1,14 @@
 """data structure to store information about the in-game player"""
 # pylint: disable=too-few-public-methods
+from dataclasses import dataclass
 from game.model.animate import Animate
 from game.model.element import Element
 
 
+@dataclass
 class Player(Animate, Element):
     """Class to initialize the player with their own name and description"""
-    def __init__(self, name, description, **kwargs):
-        self.name: str = name
-        self.description: str = description
-        self.visible: bool = kwargs.get("visible", True)
-        self.hiding: bool = kwargs.get("hiding", False)
-        Animate.__init__(self, name, description, **kwargs)
-        Element.__init__(self, name, description, **kwargs)
+    name: str
+    description: str
+    visible: bool = True
+    hiding: bool = False
