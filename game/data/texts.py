@@ -4,7 +4,7 @@ INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and
 PLEASE_TYPE = "Type any command to start exploring your new environment."
 
 # quit message
-QUIT_MESSAGE = "They will miss you."
+QUIT_MESSAGE = "Okay, bye."
 
 # indicator for the user to recognize it's their turn to type something
 INPUT_INDICATOR = "\n>"

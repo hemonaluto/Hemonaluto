@@ -162,6 +162,11 @@ class TestDungeonController(unittest.TestCase):
             "needs_rope": True,
             "name": "down location"
         }
+        mock_location_down_attrs = {
+            "contents": [],
+            "needs_rope": True,
+            "name": "down location"
+        }
         mock_location_start_attrs = {
             "name": "start location",
             "contents": [mock_player, mock_door],
@@ -175,6 +180,7 @@ class TestDungeonController(unittest.TestCase):
         mock_door.configure_mock(**mock_door_attrs)
         mock_location_west.configure_mock(**mock_location_west_attrs)
         mock_location_east.configure_mock(**mock_location_east_attrs)
+        mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
         mock_location_down.configure_mock(**mock_location_down_attrs)
@@ -270,7 +276,7 @@ class TestDungeonController(unittest.TestCase):
         ["table", "A quirky test table."],
         ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
-    def test_describe(self, user_user_input, expected_response):
+    def test_describe(self, user_user_user_input, expected_response):
         """test describe method"""
         # Arrange
         mock_location = Mock()
