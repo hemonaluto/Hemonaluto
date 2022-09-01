@@ -1,4 +1,5 @@
 """activator types module"""
+# pylint: disable=too-few-public-methods
 
 
 class ActivatorType():
