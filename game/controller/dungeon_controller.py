@@ -23,10 +23,10 @@ from game.data.texts import ACTION_FAILED, ACTION_NOT_POSSIBLE, ALREADY_OFF, ALR
     ALREADY_UNTIED, APPEARING, CANT_BREAK, CANT_PICK_UP_SELF, CANT_SEE_LOCATION_FROM_HIDING,\
     CANT_TIE_TO_ELEMENT, CLIMBING_DOWN, CLOSED, DONE, DOWN, ELEMENT_IS_FIXED,\
     FAILED_SAVE_MESSAGE, KEY_MISSING, LOADED_SAVE_MESSAGE, LOCATION_PREFIX,\
-    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_ENTERABLE,\
+    LOCATION_SUFFIX, NEEDS_TO_BE_TOOL, NO_SMELLS, NO_TIED_ROPE, NOT_A_ROPE, NOT_ENTERABLE,\
     NOT_HIDING, NOT_OPENABLE, NOT_READABLE, NOTHING_HAPPENS, SAVED_GAME_MESSAGE,\
     SILENCE, SPECIFIY_HIDING_PLACE, TARGET_NOT_SPECIFIED, THAT_WONT_HOLD,\
-    THREW_AT_NOTHING, TURNED_OFF, TURNED_ON, UNTIE, WEAPON_NOT_SPECIFIED,\
+    THREW_AT_NOTHING, UNTIE, WEAPON_NOT_SPECIFIED,\
     door_leads_to, door_not_locked, door_unlocked, GENERIC_LOCATAION_NAME,\
     INVALID_DIRECTION, LOCKED_DOOR, eat_food, element_not_found, element_not_in_inventory,\
     entering_thing, hit_target, noises_description, picked_up_element,\
@@ -275,6 +275,8 @@ class DungeonController:
     def close(self, element_name: str):
         """Closes a door or chest element"""
         element_container = self.get_element_container(element_name, self.player_location)
+        if element_container is None:
+            return element_not_found(element_name)
         if isinstanceorsubclass(element_container[0], (Chest, Door)):
             element_container[0].open = False
             return CLOSED
@@ -283,6 +285,8 @@ class DungeonController:
     def read(self, element_name: str):
         """Read an elements text"""
         element_container = self.get_element_container(element_name, self.player_location)
+        if element_container is None:
+            return element_not_found(element_name)
         if isinstanceorsubclass(element_container[0], Thing) and element_container[0].text:
             return element_container[0].text
         return NOT_READABLE
@@ -307,25 +311,27 @@ class DungeonController:
         split_input = instructions.split()
         if "on" in instructions.split():
             split_input.remove("on")
-            activator = self.get_element_container(split_input[0], self.player_location)[0]
-            if not self.turn_on(activator, self.activator_handler):
-                return ALREADY_ON
-            return TURNED_ON
+            activator_container = self.get_element_container(split_input[0], self.player_location)
+            if activator_container is None:
+                return element_not_found(split_input[0])
+            return self.turn_on(activator_container[0], self.activator_handler)
         if "off" in instructions.split():
             split_input.remove("off")
-            activator = self.get_element_container(split_input[0], self.player_location)[0]
-            if not self.turn_off(activator, self.activator_handler):
-                return ALREADY_OFF
-            return TURNED_OFF
-        activator = self.get_element_container(instructions, self.player_location)[0]
-        if not activator:
+            activator_container = self.get_element_container(
+                split_input[0],
+                self.player_location)
+            if activator_container is None:
+                return element_not_found(split_input[0])
+            return self.turn_off(activator_container[0], self.activator_handler)
+        activator_container = self.get_element_container(instructions, self.player_location)
+        if not activator_container:
             return element_not_found(instructions)
-        if not expected_activator_type is activator.type:
+        if not expected_activator_type is activator_container[0].type:
             return ACTION_NOT_POSSIBLE
-        if activator.is_on is True:
-            return self.turn_off(activator, self.activator_handler)
-        if activator.is_on is False:
-            return self.turn_on(activator, self.activator_handler)
+        if activator_container[0].is_on is True:
+            return self.turn_off(activator_container[0], self.activator_handler)
+        if activator_container[0].is_on is False:
+            return self.turn_on(activator_container[0], self.activator_handler)
         return ACTION_FAILED
 
     def turn_on(self, activator: Activator, activator_handler: ActivatorController):
@@ -387,11 +393,11 @@ class DungeonController:
 
     def eat(self, element_name: str):
         """Feeds the player"""
-        food = self.get_element_container(element_name, self.player_location)[0]
-        if not food:
-            return element_not_found(food)
-        self.get_player().health += food.regen
-        return eat_food(food.name, food.taste)
+        food_container = self.get_element_container(element_name, self.player_location)
+        if food_container is None:
+            return element_not_found(element_name)
+        self.get_player().health += food_container[0].regen
+        return eat_food(food_container[0].name, food_container[0].taste)
 
     def tie(self, instructions: str):
         """Ties a rope to something"""
@@ -412,15 +418,17 @@ class DungeonController:
                 target_container[1].contents.append(thing_container[0])
                 thing_container[0].tied_to = target_container[0].name
                 return tie_rope_to_target(target_container[0].name.lower())
+            else:
+                return NOT_A_ROPE
         return TARGET_NOT_SPECIFIED
 
     def untie(self, rope_name: str):
         """Unties a rope"""
-        rope = self.get_element_container(rope_name, self.player_location)
-        if rope is None:
+        rope_container = self.get_element_container(rope_name, self.player_location)
+        if rope_container is None:
             return element_not_found(rope_name)
-        if self.get_element_container(rope.tied_to, self.player_location):
-            rope.tied_to = None
+        if rope_container[0].tied_to:
+            rope_container[0].tied_to = None
             return UNTIE
         return ALREADY_UNTIED
 
@@ -447,8 +455,10 @@ class DungeonController:
     def hide(self, instructions: str):
         """Hides player in thing"""
         if "in" in instructions or "under" in instructions:
-            target = re.split("in|under", instructions)[1]
+            target = re.split(" in | under ", instructions)[1]
             element_container = self.get_element_container(target, self.player_location)
+            if element_container is None:
+                return element_not_found(target)
             if isinstanceorsubclass(element_container[0], Thing) and element_container[0].enterable:
                 self.get_player().hiding = True
                 return entering_thing(element_container[0].name)
