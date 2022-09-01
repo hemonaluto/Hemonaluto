@@ -276,7 +276,7 @@ class TestDungeonController(unittest.TestCase):
         ["table", "A quirky test table."],
         ["", "Test location\nYou are in a quirky test location.\nYou look around you and you see:\nA quirky test player.\nA quirky test table."]
     ])
-    def test_describe(self, user_user_user_input, expected_response):
+    def test_describe(self, user_input, expected_response):
         """test describe method"""
         # Arrange
         mock_location = Mock()
@@ -304,7 +304,7 @@ class TestDungeonController(unittest.TestCase):
         self.dungeon_master.all_name_locations.append(("test", mock_location))
         self.dungeon_master.player_location = mock_location
         # Act
-        actual_response = self.dungeon_master.describe(user_user_input)
+        actual_response = self.dungeon_master.describe(user_input)
         # Assert
         self.assertEqual(expected_response, actual_response)
 
