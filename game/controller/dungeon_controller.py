@@ -38,9 +38,9 @@ class DungeonController:
     def __init__(self):
         self.player_location = None
         self.all_name_locations = []
-        self.save_handler = SaveController()
+        self.save_controller = SaveController()
         self.player_score = 0
-        self.activator_handler = ActivatorController()
+        self.activator_controller = ActivatorController()
 
     def brief(self, room_name: str):
         """Debrief the player if they arrive at a location they've never been"""
@@ -239,14 +239,14 @@ class DungeonController:
 
     def save(self):
         """Saves the game state to file"""
-        if self.save_handler.save(self.all_name_locations,
+        if self.save_controller.save(self.all_name_locations,
             pkg_resources.resource_filename("game.data", "save.json")):
             return SAVED_GAME_MESSAGE
         return FAILED_SAVE_MESSAGE
 
     def load(self, filename: str):
         """Loads the game state from file"""
-        load_data = self.save_handler.load(filename)
+        load_data = self.save_controller.load(filename)
         self.all_name_locations = load_data[0]
         self.player_location = load_data[1]
         return LOADED_SAVE_MESSAGE
@@ -314,7 +314,7 @@ class DungeonController:
             activator_container = self.get_element_container(split_input[0], self.player_location)
             if activator_container is None:
                 return element_not_found(split_input[0])
-            return self.turn_on(activator_container[0], self.activator_handler)
+            return self.turn_on(activator_container[0], self.activator_controller)
         if "off" in instructions.split():
             split_input.remove("off")
             activator_container = self.get_element_container(
@@ -322,16 +322,16 @@ class DungeonController:
                 self.player_location)
             if activator_container is None:
                 return element_not_found(split_input[0])
-            return self.turn_off(activator_container[0], self.activator_handler)
+            return self.turn_off(activator_container[0], self.activator_controller)
         activator_container = self.get_element_container(instructions, self.player_location)
         if not activator_container:
             return element_not_found(instructions)
         if not expected_activator_type is activator_container[0].type:
             return ACTION_NOT_POSSIBLE
         if activator_container[0].is_on is True:
-            return self.turn_off(activator_container[0], self.activator_handler)
+            return self.turn_off(activator_container[0], self.activator_controller)
         if activator_container[0].is_on is False:
-            return self.turn_on(activator_container[0], self.activator_handler)
+            return self.turn_on(activator_container[0], self.activator_controller)
         return ACTION_FAILED
 
     def turn_on(self, activator: Activator, activator_handler: ActivatorController):
@@ -383,7 +383,7 @@ class DungeonController:
             if isinstanceorsubclass(target_container[0], Thing):
                 if not target_container[0].when_broken_do:
                     return CANT_BREAK
-                break_method = getattr(self.activator_handler, target_container[0].when_broken_do)
+                break_method = getattr(self.activator_controller, target_container[0].when_broken_do)
                 target_container[1].contents.remove(target_container[0])
                 target_container[1].contents.append(
                     Thing("broken " + target_container[0].name,

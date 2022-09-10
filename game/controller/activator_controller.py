@@ -2,7 +2,7 @@
 from game.data.scenario_texts import BUTTON_GOES_DARK, BUTTON_LIGHTS_UP, PLATE_BREAKS
 
 
-class ActivatorController():
+class ActivatorController:
     """Class containing the methods corresponding to button presses,
     valve turns or thing breaking"""
 
