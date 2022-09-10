@@ -17,7 +17,7 @@ from game.model.food import Food
 from game.model.element import Element
 
 
-class SaveController():
+class SaveController:
     """Class to save and load the game state"""
 
     class ElementEncoder(json.JSONEncoder):

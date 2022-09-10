@@ -779,7 +779,7 @@ class TestDungeonController(unittest.TestCase):
         # Arrange
         mock_activator_controller = Mock(spec=ActivatorController)
         mock_activator_controller.lever_on = MagicMock(return_value="It makes a quirky bootup noise.")
-        self.dungeon_master.activator_handler = mock_activator_controller
+        self.dungeon_master.activator_controller = mock_activator_controller
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_lever = Mock(spec=Activator)
@@ -854,7 +854,7 @@ class TestDungeonController(unittest.TestCase):
         # Arrange
         mock_activator_controller = Mock(spec=ActivatorController)
         mock_activator_controller.glas_break = MagicMock(return_value="The glas shatters.")
-        self.dungeon_master.activator_handler = mock_activator_controller
+        self.dungeon_master.activator_controller = mock_activator_controller
         mock_location = Mock(spec=Location)
         mock_player = Mock(spec=Player)
         mock_enemy = Mock(spec=Animate)

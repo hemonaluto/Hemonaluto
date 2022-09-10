@@ -10,14 +10,16 @@ from game.data.texts import ACTION_NOT_POSSIBLE, DOWN, EAST, GREETINGS,\
     NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES, PLEASE_TYPE,\
     QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST,\
     SOUTHWEST, SWEAR_RESPONSE, UP, WEST
+from game.view.logger import LoggerController
 
 
 class ConsoleView:
     """Class to initialize a view for the console"""
 
-    def __init__(self, dungeon_master):
+    def __init__(self, dungeon_master, logger):
         self.quit = False
         self.dungeon_master = dungeon_master
+        self.logger = logger
 
     def toggle_quit(self):
         """Quits the game"""
@@ -53,6 +55,8 @@ class ConsoleView:
         smell = self.dungeon_master.smell
         hide = self.dungeon_master.hide
         appear = self.dungeon_master.appear
+        log = self.logger.get_log
+        clear = self.logger.clear
         move_dictionary = {
             "examine": partial(describe, rest_input_joined),
             "look": partial(describe, rest_input_joined),
@@ -131,14 +135,27 @@ class ConsoleView:
             "smell": smell,
             "hide": partial(hide, rest_input_joined),
             "leave": appear,
-            "appear": appear
+            "appear": appear,
+            "log": log,
+            "clear": clear
         }
+        response = None
         move_action = move_dictionary.get(split_user_input[0], None)
-        if move_action is not None:
-            return move_action()
         general_action = general_dictionary.get(split_user_input[0], None)
-        if general_action is not None:
-            return general_action()
+        if move_action:
+            if isinstance(move_action, str):
+                response = move_action
+            else:
+                response = move_action()
+        elif general_action:
+            if isinstance(general_action, str):
+                response = general_action
+            else:
+                response = general_action()
+        if response:
+            if not user_input in {"clear", "log"}:
+                self.logger.log(user_input, response)
+            return response
         return ACTION_NOT_POSSIBLE
 
     def start_view(self):

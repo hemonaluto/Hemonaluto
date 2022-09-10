@@ -237,3 +237,6 @@ DONE = "Done."
 # take errors
 ELEMENT_IS_FIXED = "That element is attached to something and can't be picked up."
 CANT_PICK_UP_SELF = "You can't take yourself."
+
+# clear log response
+CLEAR = "Cleared log."
