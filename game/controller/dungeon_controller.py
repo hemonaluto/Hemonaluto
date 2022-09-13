@@ -5,6 +5,7 @@
 import re
 from typing import Tuple
 import pkg_resources
+from colorama import Fore, Style
 from game.model.element import Element
 from game.model.location import Location
 from game.model.activator import Activator
@@ -89,7 +90,8 @@ class DungeonController:
             self.set_player_location(player, next_room)
             brief_text = ""
             brief_text = self.brief(next_room.name)
-            return f"{travel_text}{brief_text}{self.player_location.name}"
+            return f"{travel_text}{brief_text}{Fore.MAGENTA}"\
+                f"{self.player_location.name}{Style.RESET_ALL}"
         return INVALID_DIRECTION
 
     def unlock(self, door_name: str):

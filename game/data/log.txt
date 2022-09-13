@@ -1,0 +1,124 @@
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+q: Okay, bye.
+w: [31mThere is a locked door blocking the path.[0m
+q: Okay, bye.
+take key: You picked up the crude key.
+open door: [32mYou have unlocked the door.[0m
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+Dining Room
+q: Okay, bye.
+take key: [32mYou picked up the crude key.[0m
+open door: [32mYou have unlocked the door.[0m
+e: You can't go there.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+e: [31mYou can't go there.[0m
+w: [31mThere is a locked door blocking the path.[0m
+open door: You don't have the required key for that.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: [32mYou picked up the crude key.[0m
+open door: [32mYou have unlocked the door.[0m
+e: [31mYou can't go there.[0m
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+Dining Room
+take breakfast: [32mYou picked up the breakfast.[0m
+take e: [31mYou couldn't find the e.[0m
+s: [31mYou can't go there.[0m
+d: There is a steep way down but you'll need something to lower yourself.
+take rope: [32mYou picked up the rope.[0m
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: [32mYou picked up the crude key.[0m
+open door: [32mYou have unlocked the door.[0m
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+Dining Room
+take rope: [32mYou picked up the rope.[0m
+attach rope to crate: You tie the rope to the crate.
+down: You climb down the rope.
+
+You find yourself in a repurposed cellar. There are dustparticals dancing rhythmically around you; there is magic in the air.
+
+Cellar
+l: Cellar
+You are in a dusty abandoned cellar with an unusable broken staircase leading up.
+
+You look around you and you see:
+A large round object covered in a tarp.
+A skeleton.
+    There is a crude key in the Player.
+	: What do sea monsters eat for dinner?
+
+Fish and ships.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+save: [32mSaved the game![0m
+load: [32mLoaded last save![0m
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+open door: You have unlocked the door.
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+    There is a crude key in the Player.
