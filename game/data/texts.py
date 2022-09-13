@@ -1,6 +1,9 @@
 """responses to the players inputs, excluding descriptions of the in-game world"""
+from colorama import Fore, Style
+
 # introduction
-INTRODUCTION = "\nWelcome to Hemonaluto! A curious magical world with a dark and powerful secret."
+INTRODUCTION = f"\nWelcome to {Fore.CYAN}Hemonaluto{Style.RESET_ALL}!"\
+    f" A curious magical world with a dark and powerful {Fore.MAGENTA}secret{Style.RESET_ALL}."
 PLEASE_TYPE = "Type any command to start exploring your new environment."
 
 # quit message
@@ -30,10 +33,10 @@ SOUTHEAST = "southeast"
 SOUTHWEST = "southwest"
 UP = "up"
 DOWN = "down"
-INVALID_DIRECTION = "You can't go there."
+INVALID_DIRECTION = f"{Fore.RED}You can't go there.{Style.RESET_ALL}"
 
 # door
-LOCKED_DOOR = "There is a locked door blocking the path."
+LOCKED_DOOR = f"{Fore.RED}There is a locked door blocking the path.{Style.RESET_ALL}"
 def door_unlocked(door_name: str):
     """Returns the message for when the player unlocks a specific door."""
     return f"You have unlocked the {door_name}."
@@ -41,7 +44,7 @@ def door_not_locked(door_name: str):
     """Returns the message for when the player tries to unlock a\
     specific door that already is unlocked."""
     return f"{door_name.capitalize()} is already unlocked."
-KEY_MISSING = "You don't have the required key for that."
+KEY_MISSING = f"{Fore.RED}You don't have the required key for that.{Style.RESET_ALL}"
 
 # thing in container
 def element_in_container(things_as_string: str, preposition: str, container: str):
@@ -51,12 +54,12 @@ def element_in_container(things_as_string: str, preposition: str, container: str
 # element not found
 def element_not_found(element_name: str):
     """Returns element not found message"""
-    return f"You couldn't find the {element_name}."
+    return f"{Fore.RED}You couldn't find the {element_name}.{Style.RESET_ALL}"
 
 # element not in inventory
 def element_not_in_inventory(element_name: str):
     """Returns element not in inventory message"""
-    return f"You don't have the {element_name} in your inventory."
+    return f"{Fore.RED}You don't have the {element_name} in your inventory.{Style.RESET_ALL}"
 
 # picked up element
 def picked_up_element(element_name: str):
@@ -84,16 +87,16 @@ inappropriate, it is really violent. I better warn my school about that."
 JUMP_RESPONSE = "You jump up and down."
 
 # saved game message
-SAVED_GAME_MESSAGE = "Saved the game!"
+SAVED_GAME_MESSAGE = f"{Fore.GREEN}Saved the game!{Style.RESET_ALL}"
 
 # loaded save message
-LOADED_SAVE_MESSAGE = "Loaded last save!"
+LOADED_SAVE_MESSAGE = f"{Fore.GREEN}Loaded last save!{Style.RESET_ALL}"
 
 # failed save message
-FAILED_SAVE_MESSAGE = "Failed to load last save."
+FAILED_SAVE_MESSAGE = f"{Fore.RED}Failed to load last save.{Style.RESET_ALL}"
 
 # scenario loaded message
-SCENARIO_LOADED = "Loaded scenario."
+SCENARIO_LOADED = f"{Fore.GREEN}Loaded scenario.{Style.RESET_ALL}"
 
 # nothing response
 NOTHING_RESPONSES = ["What do sea monsters eat for dinner?\n\nFish and ships.",
@@ -112,13 +115,13 @@ THREW_AT_NOTHING = "You threw it on the ground."
 CLOSED = "Closed it."
 
 # tries to close something unopenable response
-NOT_OPENABLE = "You can't close that."
+NOT_OPENABLE = f"{Fore.RED}You can't close that.{Style.RESET_ALL}"
 
 # tries to read something unreadable response
-NOT_READABLE = "You can't read that."
+NOT_READABLE = f"{Fore.RED}You can't read that.{Style.RESET_ALL}"
 
 # tries to throw something unthrowable
-NOT_THROWABLE = "You can't throw that."
+NOT_THROWABLE = f"{Fore.RED}You can't throw that.{Style.RESET_ALL}"
 
 # tries to turn on something that is already on
 ALREADY_ON = "That's already turned on."
@@ -127,10 +130,10 @@ ALREADY_ON = "That's already turned on."
 ALREADY_OFF = "That's already turned off."
 
 # tries to do an impossible action
-ACTION_NOT_POSSIBLE = "You can't do that."
+ACTION_NOT_POSSIBLE = f"{Fore.RED}You can't do that.{Style.RESET_ALL}"
 
 # action failed
-ACTION_FAILED = "Action failed."
+ACTION_FAILED = f"{Fore.RED}Action failed.{Style.RESET_ALL}"
 
 # tries activator that does nothing
 NOTHING_HAPPENS = "Nothing happens."
@@ -141,7 +144,7 @@ def reveal_element(moved_item: str, revealed_item: str):
     return f"You move the {moved_item} and reveal {revealed_item.lower()}"
 
 # attacks without specifying weapon
-WEAPON_NOT_SPECIFIED = "You didn't specify a weapon."
+WEAPON_NOT_SPECIFIED = f"{Fore.RED}You didn't specify a weapon.{Style.RESET_ALL}"
 
 # eating food message
 def eat_food(food_name: str, taste: str):
@@ -162,13 +165,13 @@ def tie_rope_to_target(target: str):
     return f"You tie the rope to the {target}."
 
 # tries to tie something that isn't a rope
-NOT_A_ROPE = "That's not a rope."
+NOT_A_ROPE = f"{Fore.RED}That's not a rope.{Style.RESET_ALL}"
 
 # that won't hold
-THAT_WONT_HOLD = "That won't hold your weight."
+THAT_WONT_HOLD = f"{Fore.RED}That won't hold your weight.{Style.RESET_ALL}"
 
 # target not specified
-TARGET_NOT_SPECIFIED = "Target not specified."
+TARGET_NOT_SPECIFIED = f"{Fore.RED}Target not specified.{Style.RESET_ALL}"
 
 # untie
 UNTIE = "You untie it."
@@ -180,7 +183,7 @@ CLIMBING_DOWN = "You climb down the rope.\n"
 NO_TIED_ROPE = "There is a steep way down but you'll need something to lower yourself."
 
 # tries to tie rope to something you can't tie ropes to
-CANT_TIE_TO_ELEMENT = "You can't tie the rope to that."
+CANT_TIE_TO_ELEMENT = f"{Fore.RED}You can't tie the rope to that.{Style.RESET_ALL}"
 
 # tries to untie an already untied rope
 ALREADY_UNTIED = "No need for that, it's already untied."
@@ -235,7 +238,8 @@ NOT_HIDING = "You're not hiding in the first place."
 DONE = "Done."
 
 # take errors
-ELEMENT_IS_FIXED = "That element is attached to something and can't be picked up."
+ELEMENT_IS_FIXED = f"{Fore.RED}That element is attached to something and"\
+    "can't be picked up.{Style.RESET_ALL}"
 CANT_PICK_UP_SELF = "You can't take yourself."
 
 # clear log response

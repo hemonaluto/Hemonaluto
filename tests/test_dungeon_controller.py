@@ -5,6 +5,7 @@
 import unittest
 from unittest.mock import MagicMock, Mock
 from parameterized import parameterized
+from colorama import Fore, Style
 from game.controller.activator_controller import ActivatorController
 from game.controller.dungeon_controller import DungeonController
 from game.data.texts import ALREADY_UNTIED, APPEARING, CANT_PICK_UP_SELF,\
@@ -111,7 +112,7 @@ class TestDungeonController(unittest.TestCase):
         self.assertEqual(expected_health, actual_health)
 
     @parameterized.expand([
-        ["west", "west location"],
+        ["west", f"{Fore.MAGENTA}west location{Style.RESET_ALL}"],
         ["east", LOCKED_DOOR],
         ["down", NO_TIED_ROPE],
         ["", INVALID_DIRECTION]

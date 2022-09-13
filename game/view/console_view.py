@@ -3,6 +3,8 @@
 from functools import partial
 import random
 import pkg_resources
+import colorama
+from colorama import Fore, Style
 from game.model.enums.activator_type import ActivatorType
 from game.data.scenario_texts import BEDROOM_NAME
 from game.data.texts import ACTION_NOT_POSSIBLE, DOWN, EAST, GREETINGS,\
@@ -10,7 +12,6 @@ from game.data.texts import ACTION_NOT_POSSIBLE, DOWN, EAST, GREETINGS,\
     NORTH, NORTHEAST, NORTHWEST, NOTHING_RESPONSES, PLEASE_TYPE,\
     QUIT_MESSAGE, SHOUT_RESPONSE, SOUTH, SOUTHEAST,\
     SOUTHWEST, SWEAR_RESPONSE, UP, WEST
-from game.view.logger import LoggerController
 
 
 class ConsoleView:
@@ -160,9 +161,10 @@ class ConsoleView:
 
     def start_view(self):
         """Start the process of displaying messages to the cosole"""
+        colorama.init(autoreset=True)
         with open(pkg_resources.resource_filename("game.data", "logo.txt"),
             "r", encoding="UTF-8") as logo_file:
-            print(logo_file.read())
+            print(Fore.BLUE + logo_file.read() + Style.RESET_ALL)
         print(INTRODUCTION + "\n")
         print(self.dungeon_master.brief(BEDROOM_NAME))
         print(PLEASE_TYPE)
