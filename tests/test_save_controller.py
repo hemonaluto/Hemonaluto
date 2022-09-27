@@ -25,7 +25,7 @@ class TestSaveController(unittest.TestCase):
         """Set up environment required for tests"""
         # Arrange
         self.save_handler = SaveController()
-        self.names_locations, self.player_location = self.save_handler.load("tests/test_world.json")
+        self.names_locations, self.animates_location["player"] = self.save_handler.load("tests/test_world.json")
 
     def test_load_names_locations(self):
         """Test if it loads names_locations correctly"""

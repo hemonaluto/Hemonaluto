@@ -12,3 +12,5 @@ class Animate(Element):
     clothes: list = field(default_factory=list)
     """Values in list must be names of clothes as strings"""
     health: int = 10
+    move_function: str = None
+    """Value must be function name existing within animates_controller"""

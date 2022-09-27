@@ -37,7 +37,7 @@ class SaveController:
     def load(self, filename: str):
         """Loads the save file"""
         all_name_locations = []
-        player_location = None
+        animates_location = {}
         with open(filename, "r", encoding="UTF-8") as savefile:
             location_dictionaries = json.load(savefile)
             for location_dictionary in location_dictionaries:
@@ -46,9 +46,9 @@ class SaveController:
                 location.contents = self.dictionary_to_elements(contents_dictionary)
                 all_name_locations.append((location.name, location))
                 for element in location.contents:
-                    if isinstanceorsubclass(element, Player):
-                        player_location = location
-            return (all_name_locations, player_location)
+                    if isinstanceorsubclass(element, Animate):
+                        animates_location[element.name] = location
+            return (all_name_locations, animates_location)
 
     def dictionary_to_elements(self, contents_dictionary_list: Dict):
         """Converts dictionary to elements"""
