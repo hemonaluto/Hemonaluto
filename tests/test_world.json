@@ -185,7 +185,7 @@
                     "test"
                 ],
                 "health": 50,
-                "class_name": "Player",
+                "class_name": "player",
                 "preposition": "test",
                 "sound": "test",
                 "smell": "test",

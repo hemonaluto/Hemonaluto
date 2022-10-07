@@ -65,7 +65,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         mock_location.configure_mock(**location_attrs)
@@ -98,7 +98,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True,
             "health": expected_health
         }
@@ -128,7 +128,7 @@ class TestDungeonController(unittest.TestCase):
         mock_location_down = Mock()
         mock_player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         mock_door_attrs = {
@@ -220,7 +220,7 @@ class TestDungeonController(unittest.TestCase):
             player_contents = []
         player_attrs = {
             "contents": player_contents,
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         key_attrs = {
@@ -261,7 +261,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         mock_location.configure_mock(**location_attrs)
@@ -290,7 +290,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "description": "A quirky test player.",
             "hiding": False
         }
@@ -322,7 +322,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "description": "A quirky test player.",
             "hiding": False
         }
@@ -539,7 +539,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "hiding": False,
             "visible": True,
             "fixed": False
@@ -578,7 +578,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [mock_apple, mock_orange],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         apple_attrs = {
@@ -620,7 +620,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [mock_hammer],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         hammer_attrs = {
@@ -745,7 +745,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [mock_spoon],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         mug_attrs = {
@@ -789,7 +789,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True
         }
         lever_attrs = {
@@ -1108,7 +1108,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True,
             "hiding": False
         }
@@ -1150,7 +1150,7 @@ class TestDungeonController(unittest.TestCase):
         }
         player_attrs = {
             "contents": [],
-            "name": "Player",
+            "name": "player",
             "visible": True,
             "hiding": ishidden
         }

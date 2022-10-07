@@ -1,0 +1,636 @@
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+open door: You have unlocked the door.
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+    There is a crude key in the player.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A key with a cursive letter B inscribed on it.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+open door: You have unlocked the door.
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+A key with a cursive letter B inscribed on it.
+inventory: crude key
+
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+open door: You have unlocked the door.
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+open door: You have unlocked the door.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+w: As you enter the room you get greeted by the warmth of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+open door: You have unlocked the door.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+w: As you enter the room you get greeted by the warmth    of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows    illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+open door: You have unlocked the door.
+w: As you enter the room you get greeted by the warmth    of a crackling fireplace in the corner and the smell of a fresh breakfast.
+
+[35mDining Room[0m
+l: Dining Room
+You are in a large l shaped room with two closed windows    illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+l: Dining Room
+You are in a large l shaped room with two closed windows    illuminating a homey interior.
+You look around you and you see:
+A round wooden table.
+    There is a plate on the table.
+    There is a breakfast on the plate.
+    There is a knife on the table.
+A wooden trapdoor.
+A long rope.
+A heavy crate filled to the brim with dirt.
+A lit fireplace.
+e: [35mBedroom[0m
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+ l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+q: Okay, bye.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+l: Bedroom
+You are in a room designed for humans to rest.
+You look around you and you see:
+A grinning jester staring at you.
+A comfy wooden red bed.
+A mundane wooden door.
+A blunt wooden hook attached to the wall.
+    There is a crude key in the hook.
+A large soft red rug.
+A big decorated wooden button attached to the wall next to the bed.
+take key: You picked up the crude key.

@@ -1,7 +1,11 @@
 """texts that are used specifically to describe things within the in-game world"""
 # player
-PLAYER_NAME = "Player"
+PLAYER_NAME = "player"
 PLAYER_DESCRIPTION = "A slim person with fiery blue eyes and pitch-black hair."
+
+# jester
+JESTER_NAME = "jester"
+JESTER_DESCRIPTION = "A grinning jester staring at you."
 
 #########################################################################
 

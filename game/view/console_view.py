@@ -171,4 +171,5 @@ class ConsoleView:
         while self.quit is False:
             user_input = input(INPUT_INDICATOR)
             print(self.parse(user_input))
+            self.dungeon_master.background_actions()
             

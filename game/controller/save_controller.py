@@ -25,18 +25,18 @@ class SaveController:
         def default(self, o):
             return o.__dict__
 
-    def save(self, all_name_locations: List[Tuple[str, Location]], filename):
+    def save(self, all_name_locations: Dict[str, Location], filename):
         """Saves the game"""
         locations = []
-        for location in all_name_locations:
-            locations.append(location[1])
+        for location in all_name_locations.values():
+            locations.append(location)
         with open(filename, "w", encoding="UTF-8") as savefile:
             json.dump(locations, savefile, indent=4, cls=self.ElementEncoder)
         return True
 
     def load(self, filename: str):
         """Loads the save file"""
-        all_name_locations = []
+        all_name_locations = {}
         animates_location = {}
         with open(filename, "r", encoding="UTF-8") as savefile:
             location_dictionaries = json.load(savefile)
@@ -44,7 +44,7 @@ class SaveController:
                 contents_dictionary = location_dictionary["contents"]
                 location = Location(**location_dictionary)
                 location.contents = self.dictionary_to_elements(contents_dictionary)
-                all_name_locations.append((location.name, location))
+                all_name_locations[location.name] = location
                 for element in location.contents:
                     if isinstanceorsubclass(element, Animate):
                         animates_location[element.name] = location

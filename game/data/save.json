@@ -9,7 +9,7 @@
         "smell": null,
         "contents": [
             {
-                "name": "Player",
+                "name": "player",
                 "description": "A slim person with fiery blue eyes and pitch-black hair.",
                 "visible": true,
                 "class_name": "Player",
